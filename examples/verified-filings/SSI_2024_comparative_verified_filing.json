@@ -1,0 +1,98 @@
+{
+  "ticker": "SSI",
+  "fiscal_year": 2024,
+  "period_start": "2024-01-01",
+  "period_end": "2024-12-31",
+  "period_type": "annual",
+  "published_at": null,
+  "published_on": "2026-03-27",
+  "publication_precision": "day",
+  "consolidation": "consolidated",
+  "report_url": "https://www.ssi.com.vn/upload/files/IR/20260327_SSI_Bao_cao_tai_chinh_hop_nhat_nam_2025_da_kiem_toan.pdf",
+  "original_sha256": "406da3dfc1130da4c47b4e08c81c7ab1fd82a8e0bbe225af08b6fcb62cb91625",
+  "verification_status": "verified",
+  "verification_note": "Only the four listed 2024 comparative facts were visually checked in the original audited 2025 consolidated issuer statements. This is a comparative extract published in 2026, not an independently obtained original 2024 filing, and publication must not be backdated. Income-statement comparatives are explicitly marked Năm trước (trình bày lại). Balance-sheet comparatives are labelled Số đầu năm without an explicit restatement label on the inspected pages; no restatement claim is added to those balances.",
+  "publication_evidence": {
+    "page": 2,
+    "cover_page": 1,
+    "type": "issuer_explicit_website_publication_statement",
+    "snippet": "Thông tin này đã được công bố trên trang thông tin điện tử của Công ty vào ngày 27/3/2026 tại đường dẫn www.ssi.com.vn.",
+    "date_only": true,
+    "note": "Disclosure letter explicitly states website publication on 27/3/2026 and covers audited 2025 separate and consolidated statements. No publication time of day is claimed."
+  },
+  "facts": [
+    {
+      "key": "total_assets",
+      "value": 73507302559722,
+      "unit": "VND",
+      "page": 11,
+      "label": "TỔNG CỘNG TÀI SẢN - Số đầu năm",
+      "raw_value": "73.507.302.559.722",
+      "scale": 1,
+      "sign_convention": "canonical",
+      "item_code": "270"
+    },
+    {
+      "key": "equity",
+      "value": 26826650611768,
+      "unit": "VND",
+      "page": 12,
+      "label": "VỐN CHỦ SỞ HỮU - Số đầu năm",
+      "raw_value": "26.826.650.611.768",
+      "scale": 1,
+      "sign_convention": "canonical",
+      "item_code": "400"
+    },
+    {
+      "key": "revenue",
+      "value": 8529279575474,
+      "unit": "VND",
+      "page": 16,
+      "label": "Cộng doanh thu hoạt động - Năm trước (trình bày lại)",
+      "raw_value": "8.529.279.575.474",
+      "scale": 1,
+      "sign_convention": "canonical",
+      "item_code": "20"
+    },
+    {
+      "key": "net_income",
+      "value": 2845109032672,
+      "unit": "VND",
+      "page": 17,
+      "label": "LỢI NHUẬN KẾ TOÁN SAU THUẾ TNDN - Năm trước (trình bày lại)",
+      "raw_value": "2.845.109.032.672",
+      "scale": 1,
+      "sign_convention": "canonical",
+      "item_code": "200"
+    }
+  ],
+  "verification_context": {
+    "original_local_path": "SSI_2025_audited_consolidated.pdf",
+    "page_count": 102,
+    "document_format": "scanned_pdf_no_text_layer",
+    "extraction_method": "manual_visual_transcription_of_rendered_original_pages",
+    "is_ocr_output": false,
+    "statement_scope_proof_pages": [
+      11,
+      12,
+      16,
+      17
+    ],
+    "printed_statement_pages": {
+      "11": 7,
+      "12": 8,
+      "16": 12,
+      "17": 13
+    },
+    "column_used": "Prior-year comparative column (2024), not current-year 2025",
+    "unit_proof": "Each relevant statement page labels Đơn vị tính: VND; EPS lines separately label VND/1 cổ phiếu."
+  },
+  "reconciliation": [
+    {
+      "finding": "Comparative values are available only from the 2025 audited filing published on 2026-03-27; they are not point-in-time evidence for an earlier date."
+    }
+  ],
+  "comparative": true,
+  "comparison_source_fiscal_year": 2025,
+  "restatement_status": "Income-statement comparatives are explicitly marked Năm trước (trình bày lại). Balance-sheet comparatives are labelled Số đầu năm without an explicit restatement label on the inspected pages; no restatement claim is added to those balances."
+}

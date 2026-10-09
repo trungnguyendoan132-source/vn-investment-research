@@ -1,4 +1,5 @@
 from vnresearch.domain.models import FinancialYear, Metric, finite
+from vnresearch.analysis.quality import comparable_facts
 
 
 def divide(numerator, denominator):
@@ -13,11 +14,14 @@ def financial_analysis(rows: list[dict], is_bank: bool = False) -> list[Financia
         metrics = []
 
         def ratio(key, label, numerator, denominator, formula):
+            source_ids = row["source_ids"]
+            if key in {"roa", "roe"} and previous:
+                source_ids = sorted(set(source_ids + previous["source_ids"]))
             metrics.append(Metric(key=key, label=label, value=divide(numerator, denominator),
-                                  formula=formula, source_ids=row["source_ids"]))
+                                  formula=formula, source_ids=source_ids))
 
         def avg(key):
-            old = previous["facts"].get(key) if previous else None
+            old = previous["facts"].get(key) if previous and comparable_facts(row, previous, key) else None
             current = facts.get(key)
             return (old + current) / 2 if old is not None and current is not None else None
 
@@ -34,11 +38,13 @@ def financial_analysis(rows: list[dict], is_bank: bool = False) -> list[Financia
                                   value=cfo - capex if cfo is not None and capex is not None else None,
                                   formula="CFO - CAPEX; thiếu CAPEX thì thiếu FCF", source_ids=row["source_ids"]))
         for key, label in [("revenue", "Tăng trưởng doanh thu YoY"), ("net_income", "Tăng trưởng LNST YoY")]:
-            current, old = facts.get(key), previous["facts"].get(key) if previous else None
+            current = facts.get(key)
+            old = previous["facts"].get(key) if previous and comparable_facts(row, previous, key) else None
             value = divide(current - old, abs(old)) if current is not None and old is not None else None
             metrics.append(Metric(key=key + "_growth_yoy", label=label, value=value,
                                   formula=f"({key} T - {key} T-1) / |{key} T-1|; T-1 phải liền kề",
                                   source_ids=sorted(set(row["source_ids"] + (previous["source_ids"] if previous else []))),
                                   note="Không tính khi thiếu năm trước" if previous is None else ""))
-        result.append(FinancialYear(year=row["year"], facts=facts, metrics=metrics, source_ids=row["source_ids"]))
+        result.append(FinancialYear(year=row["year"], facts=facts, metrics=metrics, source_ids=row["source_ids"],
+                                   fact_metadata=row.get("fact_metadata", {}), quality_issues=row.get("quality_issues", [])))
     return result

@@ -103,7 +103,7 @@ def render_pdf(report: Report, output: Path):
                 story.append(chart)
         if section.rows:
             rows = section.rows[:14] if key == "sector" else section.rows
-            widths = [165, 120, 50, 176] if key == "financial" else None
+            widths = [160, 120, 70, 161] if key == "financial" else None
             story.append(table(rows, widths))
             if key == "sector" and len(section.rows) > 14:
                 story.append(paragraph(f"Hiển thị 14/{len(section.rows)} dòng; bảng đầy đủ nằm trong report.json.", SMALL))
@@ -127,6 +127,9 @@ def render_pdf(report: Report, output: Path):
         lines = [paragraph(f"[{source.id}] {source.title}", SMALL),
                  paragraph(f"Loại: {source.kind} | Kỳ: {source.period or 'xem tài liệu'} | Đọc/tải: {source.retrieved_at.isoformat()}", SMALL),
                  paragraph(source.url, SMALL)]
+        lines.append(paragraph(f"Kiểm chứng: {source.verification_status} | Phạm vi: {source.report_basis} | Kỳ: {source.period_type}", SMALL))
+        if source.published_on or source.published_at:
+            lines.append(paragraph(f"Công bố: {source.published_at.isoformat() if source.published_at else source.published_on} | Độ chính xác: {source.publication_precision}", SMALL))
         if source.note:
             lines.append(paragraph(source.note, SMALL))
         if source.sha256:

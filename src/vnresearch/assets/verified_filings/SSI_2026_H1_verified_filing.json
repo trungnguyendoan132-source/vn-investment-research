@@ -1,0 +1,144 @@
+{
+  "ticker": "SSI",
+  "fiscal_year": 2026,
+  "period_start": "2026-01-01",
+  "period_end": "2026-06-30",
+  "period_type": "half_year",
+  "published_at": null,
+  "published_on": "2026-08-14",
+  "publication_precision": "day",
+  "consolidation": "consolidated",
+  "report_url": "https://www.ssi.com.vn/upload/files/IR/20260814_SSI_Bao_cao_tai_chinh_hop_nhat_soat_xet_ban_nien_2026.pdf",
+  "original_sha256": "9b9e03bf94162dd46dcc9ad5ede2e7ce3fc4f541e9a4b895f5fe7f3ef7990dee",
+  "verification_status": "verified",
+  "assurance_type": "reviewed",
+  "verification_note": "Only the six listed current-period facts were manually read and visually checked against rendered original issuer PDF pages. This is a reviewed consolidated interim filing for the six-month period ending 30/06/2026, not an annual filing or a full-year estimate. Balance facts are dated 30/06/2026; revenue, net income and EPS are for the six months ending that date. Publication on 14/08/2026 is explicitly stated in the disclosure cover at PDF page 2 and also displayed on the issuer disclosure webpage. No time of day is asserted. Values are not annualized. PDF pages are 1-based, including the disclosure cover. The current-year statement columns were used, not balance comparatives dated 31/12/2025 or income comparatives for H1 2025. This does not certify unlisted facts or the entire filing.",
+  "publication_evidence": {
+    "page": 2,
+    "cover_page": 1,
+    "type": "issuer_explicit_website_publication_statement",
+    "snippet": "Thông tin này đã được công bố trên trang thông tin điện tử của Công ty vào ngày 14/8/2026 tại đường dẫn www.ssi.com.vn.",
+    "date_only": true,
+    "issuer_disclosure_url": "https://www.ssi.com.vn/quan-he-nha-dau-tu/cong-bo-thong-tin/chi-tiet/cong-bo-bctc-rieng-bctc-hop-nhat-va-bao-cao-ty-le-attc-soat-xet-ban-nien-2026",
+    "note": "Disclosure number 1388/2026/CV-SSI.CTHĐQT identifies reviewed 2026 interim separate and consolidated statements and the financial safety ratio report. The explicit website-publication sentence is in the same original PDF as the selected facts."
+  },
+  "facts": [
+    {
+      "key": "total_assets",
+      "value": 96460587873471,
+      "unit": "VND",
+      "page": 11,
+      "label": "TỔNG CỘNG TÀI SẢN",
+      "raw_value": "96.460.587.873.471",
+      "scale": 1,
+      "sign_convention": "canonical",
+      "item_code": "270"
+    },
+    {
+      "key": "total_liabilities",
+      "value": 55736629161957,
+      "unit": "VND",
+      "page": 12,
+      "label": "NỢ PHẢI TRẢ",
+      "raw_value": "55.736.629.161.957",
+      "scale": 1,
+      "sign_convention": "canonical",
+      "item_code": "300"
+    },
+    {
+      "key": "equity",
+      "value": 40723958711514,
+      "unit": "VND",
+      "page": 12,
+      "label": "VỐN CHỦ SỞ HỮU",
+      "raw_value": "40.723.958.711.514",
+      "scale": 1,
+      "sign_convention": "canonical",
+      "item_code": "400"
+    },
+    {
+      "key": "revenue",
+      "value": 6496752922734,
+      "unit": "VND",
+      "page": 16,
+      "label": "Cộng doanh thu hoạt động",
+      "raw_value": "6.496.752.922.734",
+      "scale": 1,
+      "sign_convention": "canonical",
+      "item_code": "20"
+    },
+    {
+      "key": "net_income",
+      "value": 2509479672227,
+      "unit": "VND",
+      "page": 17,
+      "label": "LỢI NHUẬN KẾ TOÁN SAU THUẾ TNDN",
+      "raw_value": "2.509.479.672.227",
+      "scale": 1,
+      "sign_convention": "canonical",
+      "item_code": "200"
+    },
+    {
+      "key": "eps",
+      "value": 1033,
+      "unit": "VND/share",
+      "page": 18,
+      "label": "Lãi cơ bản trên mỗi cổ phiếu (VND/1 cổ phiếu)",
+      "raw_value": "1.033",
+      "scale": 1,
+      "sign_convention": "canonical",
+      "item_code": "501"
+    }
+  ],
+  "verification_context": {
+    "original_local_path": "SSI_2026_H1_reviewed_consolidated.pdf",
+    "page_count": 98,
+    "document_format": "mixed_pdf_searchable_disclosure_cover_scanned_statements",
+    "extraction_method": "manual_visual_transcription_of_rendered_original_statement_pages",
+    "is_ocr_output": false,
+    "statement_scope_proof_pages": [
+      11,
+      12,
+      16,
+      17,
+      18
+    ],
+    "printed_statement_pages": {
+      "11": 7,
+      "12": 8,
+      "16": 12,
+      "17": 13,
+      "18": 14
+    },
+    "column_used": "Ngày 30 tháng 6 năm 2026 for balances; Cho giai đoạn tài chính sáu tháng kết thúc ngày 30 tháng 6 năm 2026 for flows",
+    "unit_proof": "Every selected statement page explicitly labels Đơn vị tính: VND. EPS separately labels VND/1 cổ phiếu.",
+    "download_method": "Supported Chrome locator.downloadMedia from the observed issuer link, then copied into this work folder unchanged.",
+    "downloaded_file_size_bytes": 14957394,
+    "browser_download_path": "20260814_SSI_Bao_cao_tai_chinh_hop_nhat_soat_xet_ban_nien_2026.pdf"
+  },
+  "review_context": {
+    "reviewer": "Ernst & Young Vietnam Limited",
+    "proof_pages": [
+      8,
+      9
+    ],
+    "review_report_date": "2026-08-14",
+    "note": "Page 9 contains the review conclusion for the consolidated interim position at 30/06/2026 and the six-month financial period. Review assurance is preserved as reviewed, rather than relabelled audited."
+  },
+  "reconciliation": [
+    {
+      "finding": "The selected assets equal total liabilities plus equity exactly.",
+      "pages": [
+        11,
+        12
+      ]
+    },
+    {
+      "finding": "Basic EPS is 1033 VND/share. The original also displays a separate diluted-EPS row of 855 VND/share; it is not substituted for basic EPS or included as a verified fact here.",
+      "page": 18
+    },
+    {
+      "finding": "This half-year filing must remain a distinct period and must not overwrite 2025 annual facts, be treated as 2026 annual facts, or be multiplied by two without a separately stated analysis assumption."
+    }
+  ]
+}
