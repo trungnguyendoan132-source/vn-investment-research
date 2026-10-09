@@ -1,0 +1,10 @@
+indicator,label,period,frequency,value,unit,source_url,retrieved_at,published_at
+FP.CPI.TOTL.ZG,Lạm phát CPI theo tháng,2024-01,monthly,3.37,%,https://gso.gov.vn/cpi-2024-01,2026-01-10T08:00:00Z,2024-01-29T00:00:00Z
+FP.CPI.TOTL.ZG,Lạm phát CPI theo tháng,2024-02,monthly,3.98,%,https://gso.gov.vn/cpi-2024-02,2026-01-10T08:00:00Z,2024-02-28T00:00:00Z
+FP.CPI.TOTL.ZG,Lạm phát CPI theo tháng,2024-03,monthly,3.97,%,https://gso.gov.vn/cpi-2024-03,2026-01-10T08:00:00Z,2024-03-29T00:00:00Z
+FR.INR.LEND,Lãi suất cho vay bình quân quý,2024Q1,quarterly,8.5,%/năm,https://sbv.gov.vn/lai-suat-2024q1,2026-01-10T08:00:00Z,2024-04-05T00:00:00Z
+FR.INR.LEND,Lãi suất cho vay bình quân quý,2024Q2,quarterly,8.1,%/năm,https://sbv.gov.vn/lai-suat-2024q2,2026-01-10T08:00:00Z,2024-07-05T00:00:00Z
+FS.AST.PRVT.GD.ZS,Tăng trưởng tín dụng so với đầu năm,2024-03,monthly,1.42,%,https://sbv.gov.vn/tin-dung-2024-03,2026-01-10T08:00:00Z,2024-04-10T00:00:00Z
+FS.AST.PRVT.GD.ZS,Tăng trưởng tín dụng so với đầu năm,2024-06,monthly,6.00,%,https://sbv.gov.vn/tin-dung-2024-06,2026-01-10T08:00:00Z,2024-07-10T00:00:00Z
+NY.GDP.MKTP.KD.ZG,Tăng trưởng GDP theo quý,2024Q1,quarterly,5.66,%,https://gso.gov.vn/gdp-2024q1,2026-01-10T08:00:00Z,2024-03-29T00:00:00Z
+NY.GDP.MKTP.KD.ZG,Tăng trưởng GDP theo quý,2024Q2,quarterly,6.93,%,https://gso.gov.vn/gdp-2024q2,2026-01-10T08:00:00Z,2024-06-29T00:00:00Z

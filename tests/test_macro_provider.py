@@ -73,6 +73,37 @@ def test_snapshot_loads_existing_world_bank_year_csv_and_flags_missing_indicator
     assert "vintage công bố" in sources[0].note
 
 
+def test_snapshot_falls_back_to_packaged_monthly_quarterly_macro(monkeypatch, tmp_path):
+    macro_dir = tmp_path / "macro"
+    macro_dir.mkdir()
+    vietnam_snapshot = macro_dir / "vietnam_macro.csv"
+    pd.DataFrame([{
+        "indicator": "NY.GDP.MKTP.KD.ZG",
+        "label": "Tăng trưởng GDP theo quý",
+        "period": "2024Q1",
+        "frequency": "quarterly",
+        "value": 5.66,
+        "unit": "%",
+        "source_url": "https://data.example.test/gdp/2024q1",
+        "retrieved_at": "2026-01-10T08:00:00Z",
+        "published_at": "2024-03-29T00:00:00Z",
+    }]).to_csv(vietnam_snapshot, index=False)
+    monkeypatch.setattr(provider, "WORLD_BANK_CSV", macro_dir / "world_bank.csv")
+    monkeypatch.setattr(provider, "VIETNAM_MACRO_CSV", vietnam_snapshot)
+    monkeypatch.setattr(provider, "POLICY_EVENTS_CSV", macro_dir / "policy_events.csv")
+    monkeypatch.setattr(provider, "ASSETS", tmp_path)
+
+    sources, section = provider.load_macro(date(2024, 6, 30), Mode.SNAPSHOT)
+
+    observation = next(row for row in section.rows if row["Loại dòng"] == "Quan sát vĩ mô")
+    assert observation["Kỳ gần nhất"] == "2024Q1"
+    assert observation["Tần suất"] == "quarterly"
+    assert observation["Giá trị"] == pytest.approx(5.66)
+    assert sources[0].kind == "snapshot"
+    assert sources[0].verification_status == "unverified"
+    assert section.status == "partial"
+
+
 def test_invalid_missing_and_future_observations_are_reported_and_excluded(monkeypatch, tmp_path):
     macro_dir = tmp_path / "macro"
     macro_dir.mkdir()

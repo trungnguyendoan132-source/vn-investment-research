@@ -24,6 +24,8 @@ WORLD_BANK_INDICATORS = {
     "FS.AST.PRVT.GD.ZS": ("Tín dụng khu vực tư nhân / GDP", "% GDP", "annual"),
 }
 WORLD_BANK_CSV = ASSETS / "macro" / "world_bank.csv"
+VIETNAM_MACRO_CSV = ASSETS / "macro" / "vietnam_macro.csv"
+POLICY_EVENTS_CSV = ASSETS / "macro" / "policy_events.csv"
 FETCH_COLUMNS = ["indicator", "label", "year", "value", "unit", "source_url", "retrieved_at"]
 REQUIRED_COLUMNS = {"indicator", "value", "unit", "source_url", "retrieved_at"}
 MAX_QUALITY_ROWS = 40
@@ -331,9 +333,17 @@ def load_macro(as_of: date, mode: Mode, input_path: Path | None = None):
             raise ValueError(f"Không tìm thấy file CSV vĩ mô: {path}")
         frame, kind = pd.read_csv(path, dtype={"indicator": str, "year": str, "period": str}), "user_supplied"
         file_hash = hashlib.sha256(path.read_bytes()).hexdigest()
-    elif mode == Mode.SNAPSHOT and path.exists() and path.stat().st_size:
-        frame, kind = pd.read_csv(path, dtype={"indicator": str, "year": str, "period": str}), "snapshot"
-        file_hash = hashlib.sha256(path.read_bytes()).hexdigest()
+    elif mode == Mode.SNAPSHOT:
+        snapshot_path = path if path.exists() and path.stat().st_size else VIETNAM_MACRO_CSV
+        if not snapshot_path.exists() or not snapshot_path.stat().st_size:
+            return [], Section(
+                title="Tổng quan vĩ mô",
+                status="unavailable",
+                summary="Chưa có snapshot vĩ mô. Cung cấp CSV có nguồn hoặc bật World Bank live.",
+            )
+        frame = pd.read_csv(snapshot_path, dtype={"indicator": str, "year": str, "period": str})
+        kind = "snapshot"
+        file_hash = hashlib.sha256(snapshot_path.read_bytes()).hexdigest()
     elif mode in {Mode.LIVE, Mode.DEMO}:
         if mode == Mode.DEMO:
             frame = pd.DataFrame(
@@ -424,8 +434,8 @@ def load_macro(as_of: date, mode: Mode, input_path: Path | None = None):
             )
 
     rows.extend(quality_rows)
-    policy_path = ASSETS / "macro" / "policy_events.csv"
-    if policy_path.exists() and policy_path.stat().st_size:
+    policy_path = POLICY_EVENTS_CSV
+    if mode != Mode.DEMO and policy_path.exists() and policy_path.stat().st_size:
         policy = pd.read_csv(policy_path, dtype=str).fillna("")
         required = {"event_date", "title", "authority", "summary", "affected_sectors", "source_url", "retrieved_at"}
         if not required.issubset(policy.columns):
