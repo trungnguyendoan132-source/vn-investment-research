@@ -4,7 +4,7 @@ Nhánh: `member03-macro-sector`. Sở hữu `macro/`, `sector/`, `assets/macro/`
 
 ## Có sẵn
 
-Adapter World Bank theo năm đọc/ghi đúng `assets/macro/world_bank.csv` và mẫu CSV `indicator,label,year,value,unit,source_url,retrieved_at`. Dữ liệu World Bank là chuỗi sửa đổi hiện tại; API không cung cấp vintage công bố lịch sử, nên báo cáo đánh dấu `partial` và không coi các giá trị đó là point-in-time đã xác minh. Chỉ tiêu thiếu, giá trị không hợp lệ, kỳ chưa kết thúc và mã ngoài danh mục được liệt kê trong bảng chất lượng. Peer group theo ICB cấp 2, cùng năm, các tỷ số thống nhất, trung vị chỉ trên số có dữ liệu.
+Live World Bank đọc/ghi `assets/macro/world_bank.csv` theo mẫu `indicator,label,year,value,unit,source_url,retrieved_at`; API cung cấp chuỗi sửa đổi mới nhất, không có vintage lịch sử nên report luôn đánh dấu giới hạn point-in-time. Snapshot còn có CSV tháng/quý 2024 và policy events trong `assets/macro/`; các giá trị/citation này là `unverified` cho tới khi đối chiếu văn bản nguồn. Chỉ tiêu thiếu, giá trị sai, kỳ tương lai và mã ngoài danh mục được liệt kê trong bảng chất lượng. Peer group theo ICB cấp 2, cùng năm, trung vị chỉ trên số có dữ liệu.
 
 ## Công việc cần hoàn thiện
 

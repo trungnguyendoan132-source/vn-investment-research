@@ -57,7 +57,7 @@ Linux/macOS dùng `.venv/bin/python`.
 - BCTC sẵn có: **6 tệp Parquet / 1.921.197 dòng upstream**, kỳ lớn nhất 2025; danh mục doanh nghiệp và phân ngành ICB. Số dòng không chứng minh độ phủ hay độ chính xác từng doanh nghiệp.
 - Bộ tính tài chính thống nhất cho Web và CLI: ROA/ROE bình quân, thanh toán hiện hành, tỷ lệ nợ, biên lợi nhuận, CFO, FCF và YoY đúng năm liền kề. Ngân hàng không nhận tỷ số thanh khoản của doanh nghiệp sản xuất.
 - Giá và giao dịch: nhập CSV với đơn vị rõ, kiểm tra OHLCV, loại dữ liệu sau ngày chốt, SMA20, lợi suất, biến động và drawdown. Live dùng adapter KBS trực tiếp theo contract đã ghim từ mã nguồn vnstock; `vnstock` không phải dependency runtime. Cơ sở điều chỉnh giá vẫn unknown.
-- Vĩ mô: adapter World Bank theo năm và CSV có nguồn. Ngành: so sánh doanh nghiệp cùng phân ngành, cùng kỳ, dùng trung vị và số lượng dữ liệu thực.
+- Vĩ mô: Live dùng sáu chỉ tiêu World Bank theo năm; snapshot có thêm mẫu CPI/GDP/tín dụng/lãi suất tháng-quý 2024 và sự kiện chính sách. Các dòng nhập mẫu đều `unverified`, có thể làm báo cáo `partial`, không phải chuỗi live đã đối chiếu. Ngành dùng peer cùng phân ngành/kỳ và trung vị trên số có dữ liệu.
 - Tin và tài liệu: kế thừa bộ thu thập tin, xác nhận doanh nghiệp, khai phá từ khóa và trích đoạn; chỉ nhận bài có ngày hợp lệ. CLI `inspect-pdf` trích bằng chứng theo trang và đánh dấu trang scan cần OCR.
 - Định giá: P/E theo EPS năm, P/B khi có số cổ phiếu lưu hành kèm nguồn; giá kịch bản từ bội số người dùng nhập. Không tự suy số cổ phiếu từ vốn điều lệ.
 - AI: LLM dùng Chat Completions; Jev / TypeSafe AI dùng API quyết định có kiểu SystemOne. Có thể nhập URL, model và key riêng cho từng dịch vụ ngay trong giao diện; key theo phiên local.
