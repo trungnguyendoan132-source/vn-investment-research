@@ -4,11 +4,11 @@ Nhánh: `member02-market-financial-data`. Sở hữu `data/`, `assets/bctc/`, `a
 
 ## Kế thừa / có sẵn
 
-Sáu Parquet BCTC, danh mục doanh nghiệp/phân ngành; adapter mới exact item-code mapping, kiểm tra giá trị xung đột. CSV OHLCV có chuẩn đơn vị và adapter `vnstock` tùy chọn.
+Sáu Parquet BCTC, danh mục doanh nghiệp/phân ngành; adapter mới exact item-code mapping, kiểm tra giá trị xung đột. CSV OHLCV có chuẩn đơn vị; live gọi KBS trực tiếp theo contract ghim từ mã nguồn vnstock. Package `vnstock` không phải dependency runtime.
 
 ## Công việc cần hoàn thiện
 
-1. Xác nhận nguồn giá thật, điều kiện truy cập và đơn vị. Kiểm tra adapter vnstock với phiên bản/tài khoản thật trước khi đánh dấu live đạt.
+1. Xác nhận nguồn KBS, điều kiện truy cập, đơn vị và độ ổn định. Đối chiếu adapter trực tiếp với contract nguồn đã ghim trước khi đánh dấu live đạt.
 2. Cập nhật BCTC vượt snapshot 2025, lưu nguồn báo cáo gốc, kỳ, ngày công bố, hợp nhất/riêng lẻ và tình trạng điều chỉnh.
 3. Đối chiếu doanh thu, LNST, tài sản, nợ, vốn chủ, CFO, CAPEX, EPS và số cổ phiếu với tài liệu gốc ở nhiều ngành.
 4. Xử lý corporate actions/giá điều chỉnh; kiểm tra phiên giao dịch thiếu, trùng, ngoại lệ và mã chuyển sàn.

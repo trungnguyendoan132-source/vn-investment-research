@@ -1,21 +1,114 @@
 name: "Bằng chứng phân tích đầu tư"
-description: "Từ khóa để trích đoạn; không phải bộ phân loại khuyến nghị đầu tư"
+description: "Từ khóa để trích đoạn theo các chủ đề: catalyst, rủi ro, chiến lược, sự kiện vốn, tăng trưởng; hỗ trợ cả có dấu và không dấu."
 categories:
   growth:
-    description: "Kế hoạch, năng lực và tăng trưởng"
+    description: "Kế hoạch, năng lực và tăng trưởng doanh thu lợi nhuận"
     keywords:
       - keyword: "tăng trưởng"
         language: vi
+      - keyword: "tang truong"
+        language: vi
       - keyword: "chuyển đổi số"
         language: vi
+      - keyword: "chuyen doi so"
+        language: vi
       - keyword: "mở rộng công suất"
+        language: vi
+      - keyword: "doanh thu kỷ lục"
+        language: vi
+  catalyst:
+    description: "Yếu tố xúc tác, dự án mới và động lực ngắn hạn"
+    keywords:
+      - keyword: "dự án mới"
+        language: vi
+      - keyword: "du an moi"
+        language: vi
+      - keyword: "trúng thầu"
+        language: vi
+      - keyword: "trung thau"
+        language: vi
+      - keyword: "nhà máy mới"
+        language: vi
+      - keyword: "đối tác chiến lược"
+        language: vi
+      - keyword: "hợp đồng lớn"
+        language: vi
+      - keyword: "m&a"
+        language: vi
+      - keyword: "sáp nhập"
         language: vi
   risks:
     description: "Bằng chứng rủi ro cần đọc trong ngữ cảnh"
     keywords:
       - keyword: "rủi ro"
         language: vi
+      - keyword: "rui ro"
+        language: vi
       - keyword: "nợ quá hạn"
         language: vi
+      - keyword: "no qua han"
+        language: vi
+      - keyword: "nợ xấu"
+        language: vi
       - keyword: "kiểm toán"
+        language: vi
+      - keyword: "kiem toan"
+        language: vi
+      - keyword: "ý kiến ngoại trừ"
+        language: vi
+      - keyword: "kiện tụng"
+        language: vi
+      - keyword: "xử phạt"
+        language: vi
+      - keyword: "đình chỉ"
+        language: vi
+      - keyword: "suy giảm lợi nhuận"
+        language: vi
+      - keyword: "biến động tỷ giá"
+        language: vi
+  strategy:
+    description: "Chiến lược, kế hoạch kinh doanh dài hạn và quản trị"
+    keywords:
+      - keyword: "chiến lược"
+        language: vi
+      - keyword: "chien luoc"
+        language: vi
+      - keyword: "kế hoạch kinh doanh"
+        language: vi
+      - keyword: "ke hoach kinh doanh"
+        language: vi
+      - keyword: "định hướng phát triển"
+        language: vi
+      - keyword: "thị phần"
+        language: vi
+      - keyword: "thi phan"
+        language: vi
+      - keyword: "tái cơ cấu"
+        language: vi
+      - keyword: "tai co cau"
+        language: vi
+      - keyword: "nghiên cứu và phát triển"
+        language: vi
+  capital_events:
+    description: "Sự kiện vốn, phát hành, cổ tức và cổ đông"
+    keywords:
+      - keyword: "cổ tức"
+        language: vi
+      - keyword: "co tuc"
+        language: vi
+      - keyword: "phát hành thêm"
+        language: vi
+      - keyword: "phat hanh them"
+        language: vi
+      - keyword: "tăng vốn điều lệ"
+        language: vi
+      - keyword: "tang von dieu le"
+        language: vi
+      - keyword: "mua cổ phiếu quỹ"
+        language: vi
+      - keyword: "esop"
+        language: vi
+      - keyword: "thoái vốn"
+        language: vi
+      - keyword: "phát hành trái phiếu"
         language: vi

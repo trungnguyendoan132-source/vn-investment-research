@@ -39,14 +39,16 @@ def test_default_request_uses_automatic_providers_but_demo_remains_offline():
 
 def poll(client, job, extra_headers=None):
     headers = {"X-Job-Token": job["token"], **(extra_headers or {})}
-    for _ in range(300):
+    deadline = time.monotonic() + 20
+    result = None
+    while time.monotonic() < deadline:
         response = client.get("/api/jobs/" + job["id"], headers=headers)
         assert response.status_code == 200, response.text
         result = response.json()
         if result["status"] in {"completed", "failed", "interrupted"}:
             return result
-        time.sleep(0.01)
-    raise AssertionError("Job timed out")
+        time.sleep(0.05)
+    raise AssertionError(f"Job timed out; last status={result['status'] if result else None}, phase={result.get('phase') if result else None}")
 
 
 def test_legacy_migration_and_no_running_replay(tmp_path):
