@@ -61,14 +61,13 @@ def synthesize(report: Report) -> dict:
             raise ValueError("Không theo redirect khi gửi khóa LLM")
         parsed = AIOutput.model_validate_json(response.json()["choices"][0]["message"]["content"])
         known = set(evidence["source_ids"])
-        for claim in parsed.claims:
-            if not set(claim.source_ids).issubset(known):
-                raise ValueError("AI trích mã nguồn không có trong bằng chứng")
-            if re.search(r"\d", claim.text):
-                raise ValueError("AI tự đưa số vào phần diễn giải; đầu ra bị loại")
-        return {"status": "ok", "model": model, "claims": [c.model_dump() for c in parsed.claims],
+        valid = [claim for claim in parsed.claims if set(claim.source_ids).issubset(known) and not re.search(r"\d", claim.text)]
+        rejected = len(parsed.claims) - len(valid)
+        if not valid:
+            raise ValueError("AI không có nhận xét đáp ứng kiểm tra nguồn và số liệu")
+        return {"status": "ok", "model": model, "claims": [c.model_dump() for c in valid], "rejected_claims": rejected,
                 "latency_seconds": round(time.monotonic() - started, 3),
-                "note": "Kiểm tra cấu trúc và mã nguồn đã đạt; cần người đọc đối chiếu nội dung nhận xét với nguồn. Không đồng nhất trích dẫn tồn tại với suy luận đúng."}
+                "note": f"{rejected} nhận xét không đạt kiểm tra nguồn/số đã bị loại. Các nhận xét còn lại có cấu trúc và mã nguồn hợp lệ; cần đối chiếu nội dung với nguồn. Không đồng nhất trích dẫn tồn tại với suy luận đúng."}
     except Exception as exc:
         return {"status": "error", "model": model, "claims": [],
                 "note": "AI không tạo được đầu ra hợp lệ: " + type(exc).__name__ + ". Không tự retry để tránh phát sinh chi phí lặp."}

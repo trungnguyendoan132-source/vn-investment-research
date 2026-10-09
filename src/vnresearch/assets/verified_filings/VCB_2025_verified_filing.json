@@ -1,0 +1,200 @@
+{
+  "ticker": "VCB",
+  "fiscal_year": 2025,
+  "period_start": "2025-01-01",
+  "period_end": "2025-12-31",
+  "period_type": "annual",
+  "published_at": null,
+  "published_on": "2026-03-27",
+  "publication_precision": "day",
+  "consolidation": "consolidated",
+  "report_url": "https://www.vietcombank.com.vn/-/media/Project/VCB-Sites/VCB/Nha-Dau-tu/Files/BC-dinh-ky/BCTC/2025/20260327---VCB---BCTC-hop-nhat-kiem-toan-nam-2025.pdf?ts=00010101000000",
+  "original_sha256": "295f397de287f84c26dafbfa06f668604aa696a013e236253149d8547d032d1f",
+  "verification_status": "verified",
+  "verification_note": "Only the listed facts were manually read and visually checked against the original scanned issuer PDF. PDF pages are 1-based; printed statement page is PDF page minus two. Original statements use million VND, except basic EPS explicitly labelled VND/share; canonical VND amounts multiply the original numeric amount by 1000000. The publication date is separately proven by the issuer disclosure document, not inferred from the report filename or signature date. This does not certify unlisted facts or repair/redate legacy upstream rows.",
+  "publication_evidence": {
+    "page": 1,
+    "type": "issuer_explicit_website_publication_statement",
+    "report_url": "https://www.vietcombank.com.vn/-/media/Project/VCB-Sites/VCB/Nha-Dau-tu/Files/Cong-bo-thong-tin/Thong-tin-cong-bo/2026/20260327---VCB---CBTT-BCTC-rieng-le-va-hop-nhat-da-co-kiem-toan-2025.pdf?ts=00010101000000",
+    "original_local_path": "VCB_2025_disclosure.pdf",
+    "original_sha256": "babdc06b13214abb89aab38c5080baa3bf916dd47878c201cdc832eeb889fd61",
+    "snippet": "Thông tin này được đăng tải lên website của Ngân hàng kể từ ngày 27/03/2026 tại đường dẫn:",
+    "date_only": true,
+    "note": "Disclosure number 5007/VCB-CSTCKT identifies audited 2025 separate and consolidated statements. No publication time of day is claimed."
+  },
+  "facts": [
+    {
+      "key": "total_assets",
+      "value": 2442279166000000,
+      "unit": "VND",
+      "page": 8,
+      "label": "TỔNG TÀI SẢN CÓ",
+      "raw_value": "2.442.279.166",
+      "scale": 1000000,
+      "sign_convention": "canonical"
+    },
+    {
+      "key": "total_liabilities",
+      "value": 2217720440000000,
+      "unit": "VND",
+      "page": 9,
+      "label": "TỔNG NỢ PHẢI TRẢ",
+      "raw_value": "2.217.720.440",
+      "scale": 1000000,
+      "sign_convention": "canonical"
+    },
+    {
+      "key": "equity",
+      "value": 224558726000000,
+      "unit": "VND",
+      "page": 9,
+      "label": "TỔNG VỐN CHỦ SỞ HỮU",
+      "raw_value": "224.558.726",
+      "scale": 1000000,
+      "sign_convention": "canonical"
+    },
+    {
+      "key": "noncontrolling_interest",
+      "value": 71521000000,
+      "unit": "VND",
+      "page": 9,
+      "label": "Lợi ích của cổ đông không kiểm soát",
+      "raw_value": "71.521",
+      "scale": 1000000,
+      "sign_convention": "canonical"
+    },
+    {
+      "key": "revenue",
+      "value": 72454622000000,
+      "unit": "VND",
+      "page": 11,
+      "label": "TỔNG THU NHẬP HOẠT ĐỘNG",
+      "raw_value": "72.454.622",
+      "scale": 1000000,
+      "sign_convention": "canonical"
+    },
+    {
+      "key": "ebt",
+      "value": 44019637000000,
+      "unit": "VND",
+      "page": 11,
+      "label": "TỔNG LỢI NHUẬN TRƯỚC THUẾ",
+      "raw_value": "44.019.637",
+      "scale": 1000000,
+      "sign_convention": "canonical",
+      "item_code": "XI"
+    },
+    {
+      "key": "net_income",
+      "value": 35197940000000,
+      "unit": "VND",
+      "page": 12,
+      "label": "LỢI NHUẬN SAU THUẾ",
+      "raw_value": "35.197.940",
+      "scale": 1000000,
+      "sign_convention": "canonical",
+      "item_code": "XIII"
+    },
+    {
+      "key": "net_income_parent",
+      "value": 35177663000000,
+      "unit": "VND",
+      "page": 12,
+      "label": "Lợi nhuận thuần của cổ đông Ngân hàng",
+      "raw_value": "35.177.663",
+      "scale": 1000000,
+      "sign_convention": "canonical",
+      "item_code": "XV"
+    },
+    {
+      "key": "eps",
+      "value": 3854,
+      "unit": "VND/share",
+      "page": 12,
+      "label": "Lãi cơ bản trên cổ phiếu (VND/cổ phiếu)",
+      "raw_value": "3.854",
+      "scale": 1,
+      "sign_convention": "canonical",
+      "item_code": "XVI"
+    },
+    {
+      "key": "cfo",
+      "value": 116230551000000,
+      "unit": "VND",
+      "page": 13,
+      "label": "Lưu chuyển tiền thuần từ hoạt động kinh doanh",
+      "raw_value": "116.230.551",
+      "scale": 1000000,
+      "sign_convention": "canonical",
+      "item_code": "I"
+    },
+    {
+      "key": "capex",
+      "value": 1453488000000,
+      "unit": "VND",
+      "page": 14,
+      "label": "Mua sắm tài sản cố định",
+      "raw_value": "(1.453.488)",
+      "scale": 1000000,
+      "sign_convention": "canonical",
+      "item_code": "01"
+    }
+  ],
+  "verification_context": {
+    "original_local_path": "VCB_2025_audited_consolidated.pdf",
+    "page_count": 84,
+    "document_format": "scanned_pdf_no_text_layer",
+    "extraction_method": "manual_visual_transcription_of_rendered_original_pages",
+    "is_ocr_output": false,
+    "statement_scope_proof_pages": [
+      8,
+      9,
+      11,
+      12,
+      13,
+      14
+    ],
+    "printed_statement_pages": {
+      "8": 6,
+      "9": 7,
+      "11": 9,
+      "12": 10,
+      "13": 11,
+      "14": 12
+    },
+    "column_used": "31/12/2025 for balances; 2025 for annual flows",
+    "unit_proof": "Statement column headers explicitly say Triệu VND. Basic EPS row separately says VND/cổ phiếu and must not receive the million-VND multiplier.",
+    "capex_note": "Canonical CAPEX is positive expenditure; signed raw value is retained. Bank-specific interpretation remains the responsibility of analysis; this is not an instruction to apply non-bank ratios."
+  },
+  "reconciliation": [
+    {
+      "finding": "Bank assets are labelled TỔNG TÀI SẢN CÓ and equity TỔNG VỐN CHỦ SỞ HỮU; producers need exact bank label/code mappings rather than non-bank-only mappings.",
+      "pages": [
+        8,
+        9
+      ]
+    },
+    {
+      "finding": "Original assets equal liabilities plus equity exactly in original million-VND units and canonical VND units.",
+      "pages": [
+        8,
+        9
+      ]
+    },
+    {
+      "finding": "Basic EPS is 3854 VND/share, separately labelled; applying the balance/income million-VND scale to EPS would be incorrect.",
+      "page": 12
+    },
+    {
+      "finding": "Bank revenue canonical fact denotes total operating income, not gross interest income or nonfinancial-company sales.",
+      "page": 11
+    },
+    {
+      "finding": "CFO and CAPEX are observed original values; do not infer their meaning from manufacturing-company cash-flow ratios.",
+      "pages": [
+        13,
+        14
+      ]
+    }
+  ]
+}

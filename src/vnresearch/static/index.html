@@ -7,7 +7,7 @@
 <section class="hero"><div class="eyebrow">KHÔNG GIAN PHÂN TÍCH CỔ PHIẾU VIỆT NAM</div><h1>Nhìn toàn cảnh.<br><em>Đọc sâu từng cổ phiếu.</em></h1><p>Kết nối vĩ mô, ngành, doanh nghiệp và tin tức trong một báo cáo có nguồn. Chọn nội dung, kiểm tra chất lượng và xuất PDF.</p></section>
 <div class="layout"><aside class="panel"><h2>Tạo báo cáo</h2><form id="analysisForm">
 <label>Mã cổ phiếu<input id="ticker" value="FPT" maxlength="10" required list="companies" autocomplete="off"><datalist id="companies"></datalist></label>
-<label>Nguồn dữ liệu<select id="mode"><option value="snapshot">BCTC snapshot + CSV của nhóm</option><option value="demo">Demo minh họa, chạy offline</option><option value="live">Live: cấu hình nguồn bên ngoài</option></select></label>
+<label>Nguồn dữ liệu<select id="mode"><option value="live">Tự động lấy nguồn thật và tạo báo cáo</option><option value="snapshot">Nguồn đã lưu + CSV tùy chọn</option><option value="demo">Demo minh họa, chạy offline</option></select></label>
 <label>Ngày chốt<input id="asOf" type="date" required></label>
 <div class="pair"><label>Từ năm<input id="startYear" type="number" value="2021" min="2000" required></label><label>Đến năm<input id="endYear" type="number" value="2025" min="2000" required></label></div>
 <label>Hồ sơ phân tích<select id="risk"><option value="balanced">Cân bằng</option><option value="conservative">Thận trọng</option><option value="growth">Tăng trưởng</option></select></label>
@@ -21,7 +21,7 @@
 <button id="submit" type="submit">Phân tích & tạo PDF <span>→</span></button><div id="error" class="error" role="alert"></div>
 </form></aside>
 <section id="workspace"><div id="progress" class="panel hidden" aria-live="polite"><div class="progress-top"><strong id="phase">Đang chuẩn bị</strong><span id="percent">0%</span></div><progress id="progressBar" max="100" value="0"></progress></div>
-<div id="welcome" class="panel welcome"><div class="orbit">↗</div><h2>Bắt đầu từ một mã cổ phiếu</h2><p>Dùng chế độ Demo để kiểm tra toàn bộ luồng ngay. Với dữ liệu thật, các mục thiếu nguồn sẽ hiện rõ và báo cáo vẫn lưu bằng chứng.</p><div class="pill-row"><span>BCTC sẵn có</span><span>Phân ngành ICB</span><span>PDF tiếng Việt</span><span>API AI tùy chọn</span></div></div>
+<div id="welcome" class="panel welcome"><div class="orbit">↗</div><h2>Nhập mã. Hệ thống xử lý phần còn lại.</h2><p>Giá, vĩ mô, tin và filing có nguồn được lấy tự động; LLM/Jev dùng cấu hình backend. Nguồn lỗi hoặc chưa kiểm chứng được ghi rõ trong PDF. Không cần upload CSV để bắt đầu.</p><div class="pill-row"><span>Nguồn tự động</span><span>Bằng chứng theo số</span><span>PDF tiếng Việt</span><span>LLM + Jev</span></div></div>
 <div id="result" class="hidden"><div class="panel result-head"><div><div id="resultMeta" class="eyebrow"></div><h2 id="companyName"></h2><p id="decision"></p></div><div class="downloads"><button data-file="report.pdf">Tải PDF</button><button data-file="report.json" class="secondary">JSON</button><button data-file="manifest.json" class="secondary">Bằng chứng</button></div></div><div id="sections"></div><div class="panel"><h2>Chất lượng & giới hạn</h2><ul id="issues"></ul></div><div class="panel"><h2>Tổng hợp AI</h2><div id="aiResult"></div></div></div>
 </section></div></main><footer>VN Equity Lab · Khung sản phẩm nhóm 6 thành viên · Mỗi kết luận cần có bằng chứng.</footer>
 <script src="/static/app.js" defer></script></body></html>

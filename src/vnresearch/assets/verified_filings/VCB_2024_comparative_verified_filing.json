@@ -1,0 +1,97 @@
+{
+  "ticker": "VCB",
+  "fiscal_year": 2024,
+  "period_start": "2024-01-01",
+  "period_end": "2024-12-31",
+  "period_type": "annual",
+  "published_at": null,
+  "published_on": "2026-03-27",
+  "publication_precision": "day",
+  "consolidation": "consolidated",
+  "report_url": "https://www.vietcombank.com.vn/-/media/Project/VCB-Sites/VCB/Nha-Dau-tu/Files/BC-dinh-ky/BCTC/2025/20260327---VCB---BCTC-hop-nhat-kiem-toan-nam-2025.pdf?ts=00010101000000",
+  "original_sha256": "295f397de287f84c26dafbfa06f668604aa696a013e236253149d8547d032d1f",
+  "verification_status": "verified",
+  "verification_note": "Only the four listed 2024 comparative facts were visually checked in the original audited 2025 consolidated issuer statements. This is a comparative extract published in 2026, not an independently obtained original 2024 filing, and publication must not be backdated. The inspected comparative column is labelled 31/12/2024 for balances and 2024 for annual flows. It is not explicitly labelled restated on these statement pages; this extract makes no independent restatement assertion.",
+  "publication_evidence": {
+    "page": 1,
+    "type": "issuer_explicit_website_publication_statement",
+    "report_url": "https://www.vietcombank.com.vn/-/media/Project/VCB-Sites/VCB/Nha-Dau-tu/Files/Cong-bo-thong-tin/Thong-tin-cong-bo/2026/20260327---VCB---CBTT-BCTC-rieng-le-va-hop-nhat-da-co-kiem-toan-2025.pdf?ts=00010101000000",
+    "original_local_path": "VCB_2025_disclosure.pdf",
+    "original_sha256": "babdc06b13214abb89aab38c5080baa3bf916dd47878c201cdc832eeb889fd61",
+    "snippet": "Thông tin này được đăng tải lên website của Ngân hàng kể từ ngày 27/03/2026 tại đường dẫn:",
+    "date_only": true,
+    "note": "Disclosure number 5007/VCB-CSTCKT identifies audited 2025 separate and consolidated statements. No publication time of day is claimed."
+  },
+  "facts": [
+    {
+      "key": "total_assets",
+      "value": 2085873522000000,
+      "unit": "VND",
+      "page": 8,
+      "label": "TỔNG TÀI SẢN CÓ - 31/12/2024",
+      "raw_value": "2.085.873.522",
+      "scale": 1000000,
+      "sign_convention": "canonical"
+    },
+    {
+      "key": "equity",
+      "value": 196209168000000,
+      "unit": "VND",
+      "page": 9,
+      "label": "TỔNG VỐN CHỦ SỞ HỮU - 31/12/2024",
+      "raw_value": "196.209.168",
+      "scale": 1000000,
+      "sign_convention": "canonical"
+    },
+    {
+      "key": "revenue",
+      "value": 68578496000000,
+      "unit": "VND",
+      "page": 11,
+      "label": "TỔNG THU NHẬP HOẠT ĐỘNG - 2024",
+      "raw_value": "68.578.496",
+      "scale": 1000000,
+      "sign_convention": "canonical"
+    },
+    {
+      "key": "net_income",
+      "value": 33853117000000,
+      "unit": "VND",
+      "page": 12,
+      "label": "LỢI NHUẬN SAU THUẾ - 2024",
+      "raw_value": "33.853.117",
+      "scale": 1000000,
+      "sign_convention": "canonical",
+      "item_code": "XIII"
+    }
+  ],
+  "verification_context": {
+    "original_local_path": "VCB_2025_audited_consolidated.pdf",
+    "page_count": 84,
+    "document_format": "scanned_pdf_no_text_layer",
+    "extraction_method": "manual_visual_transcription_of_rendered_original_pages",
+    "is_ocr_output": false,
+    "statement_scope_proof_pages": [
+      8,
+      9,
+      11,
+      12
+    ],
+    "printed_statement_pages": {
+      "8": 6,
+      "9": 7,
+      "11": 9,
+      "12": 10
+    },
+    "column_used": "Prior-year comparative column (2024), not current-year 2025",
+    "unit_proof": "Statement column headers explicitly say Triệu VND. Basic EPS row separately says VND/cổ phiếu and must not receive the million-VND multiplier."
+  },
+  "reconciliation": [
+    {
+      "finding": "Comparative values are available only from the 2025 audited filing published on 2026-03-27; they are not point-in-time evidence for an earlier date."
+    }
+  ],
+  "comparative": true,
+  "comparison_source_fiscal_year": 2025,
+  "restatement_status": "The inspected comparative column is labelled 31/12/2024 for balances and 2024 for annual flows. It is not explicitly labelled restated on these statement pages; this extract makes no independent restatement assertion."
+}

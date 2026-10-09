@@ -1,0 +1,226 @@
+{
+  "checked_on": "2026-10-09",
+  "baseline_commit": "a4a64586282a877af9980eef2f134dcc05596fc4",
+  "source_scope": {
+    "selected_verified_facts": 51,
+    "envelopes": 7,
+    "issuers": [
+      "FPT",
+      "SSI",
+      "VCB"
+    ],
+    "new_interim": "SSI reviewed consolidated H1 2026",
+    "market_wide_accuracy": "not_certified"
+  },
+  "provider_direct_smoke": {
+    "llm": {
+      "models_http_status": 200,
+      "listed_models": 11,
+      "requested_model_found": true,
+      "selected_model": "gpt-6-luna",
+      "discovery_seconds": 2.157,
+      "chat_http_status": 200,
+      "response_model": "gpt-6-luna",
+      "valid_json": true,
+      "usage": {
+        "completion_tokens": 9,
+        "total_tokens": 326,
+        "prompt_tokens": 317,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "cached_creation_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0
+        }
+      },
+      "chat_seconds": 7.015
+    },
+    "jev": {
+      "http_status": 200,
+      "requested_model": "jev-1.13-free",
+      "response_model": "jev-1.13-free",
+      "answer_keys": [
+        "route",
+        "verified"
+      ],
+      "route": {
+        "type": "choice",
+        "choice": "review",
+        "confidence": 1,
+        "probabilities": {
+          "review": 1,
+          "ready": 0
+        }
+      },
+      "verified": {
+        "type": "noul",
+        "noul": 0.03
+      },
+      "usage": {
+        "input_tokens": 348,
+        "output_tokens": 48
+      },
+      "seconds": 2.188
+    },
+    "scope": "One minimal synthetic call per provider, no financial analysis or automated actions"
+  },
+  "full_automatic_live": {
+    "ticker": "SSI",
+    "mode": "live",
+    "sections": {
+      "macro": "unavailable",
+      "sector": "partial",
+      "financial": "ok",
+      "market": "partial",
+      "news": "ok",
+      "valuation": "partial"
+    },
+    "report_status": "partial",
+    "llm_status": "ok",
+    "llm_model": "gpt-6-luna",
+    "jev_status": "ok",
+    "jev_model": "jev-1.13-free",
+    "automatic": true,
+    "manual_uploads": 0,
+    "automatic_provider_flags": [
+      true,
+      true
+    ],
+    "annual_years": [
+      2024,
+      2025
+    ],
+    "latest_basic_eps": 2053.0,
+    "interim_rows": [
+      {
+        "Chỉ tiêu": "half_year kết thúc 2026-06-30 - Doanh thu",
+        "Giá trị": 6496752922734.0,
+        "Đơn vị": "VND",
+        "Công thức": "Quan sát kỳ riêng có nguồn; không nhân đôi, không trộn vào tỷ số/năm/TTM"
+      },
+      {
+        "Chỉ tiêu": "half_year kết thúc 2026-06-30 - LNST",
+        "Giá trị": 2509479672227.0,
+        "Đơn vị": "VND",
+        "Công thức": "Quan sát kỳ riêng có nguồn; không nhân đôi, không trộn vào tỷ số/năm/TTM"
+      },
+      {
+        "Chỉ tiêu": "half_year kết thúc 2026-06-30 - Tổng tài sản",
+        "Giá trị": 96460587873471.0,
+        "Đơn vị": "VND",
+        "Công thức": "Quan sát kỳ riêng có nguồn; không nhân đôi, không trộn vào tỷ số/năm/TTM"
+      },
+      {
+        "Chỉ tiêu": "half_year kết thúc 2026-06-30 - Vốn chủ sở hữu",
+        "Giá trị": 40723958711514.0,
+        "Đơn vị": "VND",
+        "Công thức": "Quan sát kỳ riêng có nguồn; không nhân đôi, không trộn vào tỷ số/năm/TTM"
+      },
+      {
+        "Chỉ tiêu": "half_year kết thúc 2026-06-30 - EPS",
+        "Giá trị": 1033.0,
+        "Đơn vị": "VND/share",
+        "Công thức": "Quan sát kỳ riêng có nguồn; không nhân đôi, không trộn vào tỷ số/năm/TTM"
+      }
+    ],
+    "issues": [
+      {
+        "code": "INSTRUMENT_HISTORY_UNKNOWN",
+        "message": "Danh mục hiện tại chưa có lịch sử mã/sàn và ngày hiệu lực",
+        "severity": "warning",
+        "component": "financial"
+      },
+      {
+        "code": "PRICE_ADJUSTMENT_UNKNOWN",
+        "message": "Chưa xác minh giá raw/điều chỉnh; không tính lợi suất hay drawdown",
+        "severity": "warning",
+        "component": "market"
+      },
+      {
+        "code": "SOURCE_OR_VALIDATION_FAILED",
+        "message": "HTTPSConnectionPool(host='api.worldbank.org', port=443): Read timed out. (read timeout=15)",
+        "severity": "error",
+        "component": "macro"
+      },
+      {
+        "code": "INCOMPLETE_SECTION",
+        "message": "HTTPSConnectionPool(host='api.worldbank.org', port=443): Read timed out. (read timeout=15)",
+        "severity": "warning",
+        "component": "macro"
+      },
+      {
+        "code": "INCOMPLETE_SECTION",
+        "message": "Dịch vụ tài chính: 1 doanh nghiệp có dữ liệu năm 2025; trung vị tính trên các giá trị có dữ liệu, không gán số thiếu bằng 0. Các chỉ số bình quân cần năm 2024. Tỷ số lưu dạng phần số: 0,1 tương đương 10%.",
+        "severity": "warning",
+        "component": "sector"
+      },
+      {
+        "code": "INCOMPLETE_SECTION",
+        "message": "249 phiên đến 2026-10-09; giá VND, volume shares; cơ sở unknown. Price return không gồm cổ tức tiền mặt; lịch nghỉ/suspension chưa xác minh. Chưa xác minh giá raw/điều chỉnh; không tính lợi suất hay drawdown",
+        "severity": "warning",
+        "component": "market"
+      },
+      {
+        "code": "INCOMPLETE_SECTION",
+        "message": "Giá ngày 2026-10-09, BCTC năm 2025. Kịch bản dùng bội số người dùng nhập, không phải giá trị nội tại đã kiểm chứng. Chưa xác minh giá raw cùng cơ sở cổ phiếu với EPS; không dùng giá adjusted/unknown để tính P/E hay chênh lệch kịch bản. Thiếu vốn thuộc cổ đông công ty mẹ hoặc số cổ phiếu có nguồn: không tự dùng vốn toàn tập đoàn để tính BVPS.",
+        "severity": "warning",
+        "component": "valuation"
+      }
+    ],
+    "seconds": 44.453
+  },
+  "clean_wheel": {
+    "status": "passed",
+    "editable_install": false,
+    "provider_flags": [
+      false,
+      false
+    ],
+    "provider_status": {
+      "llm": "disabled",
+      "jev": "disabled"
+    },
+    "assets": {
+      "parquet_count": 6,
+      "verified_filing_seed_count": 7,
+      "font": true,
+      "static": true,
+      "licenses": true
+    },
+    "report": {
+      "ticker": "FPT",
+      "mode": "demo",
+      "status": "complete",
+      "financial_years": 4,
+      "pdf_pages": 5
+    },
+    "files": {
+      "report.pdf": {
+        "sha256": "3ea6e25e12686daccc9557150766d90615b205c4fa483bd01ee26ac364d790cb",
+        "bytes": 39434
+      },
+      "report.json": {
+        "sha256": "b9a611b25780c2197960435cfb617a0aba639a70b39c65c95b7635bfc66b838c",
+        "bytes": 231464
+      },
+      "manifest.json": {
+        "sha256": "e07c2df937216cb57d20054836f52bbfcc5872c85783a0393a1eb00e719f1ee3",
+        "bytes": 10836
+      }
+    },
+    "verified_at": "2026-10-09T08:01:15.113981+00:00",
+    "wheel_sha256": "1697410e6943f008d0b8f329e26dd33b602834b655ed030c39586a7b881b958b",
+    "cli_exit_code": 0,
+    "dependencies_installed_offline": true,
+    "live_provider_calls": false,
+    "ci_actions_run": false,
+    "pdf_visual_review": {
+      "pages_reviewed": 5,
+      "rendered_contact_sheet": "C:\\Users\\AD\\Documents\\Codex\\2026-10-09\\c\\work\\tv1-tv2-audit\\wheel-demo\\pages.png",
+      "result": "no clipped text, overlaps, replacement glyphs, or broken tables observed"
+    }
+  },
+  "actions_ci": "not_active: available GitHub credential lacks workflow write scope"
+}
