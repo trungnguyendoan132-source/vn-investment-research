@@ -18,7 +18,7 @@ def main():
     serve.add_argument("--port", type=int, default=8000)
     report = commands.add_parser("report", help="Tạo báo cáo từ CLI")
     report.add_argument("--ticker", required=True)
-    report.add_argument("--mode", choices=["demo", "snapshot", "live"], default="snapshot")
+    report.add_argument("--mode", choices=["demo", "snapshot", "live"], default="live")
     report.add_argument("--as-of", type=date.fromisoformat, default=today())
     report.add_argument("--start-year", type=int, default=2021)
     report.add_argument("--end-year", type=int, default=2025)
@@ -27,8 +27,10 @@ def main():
     report.add_argument("--macro-csv", type=Path)
     report.add_argument("--news-csv", type=Path)
     report.add_argument("--target-pe", type=float)
-    report.add_argument("--ai", action="store_true", help="Gọi API AI bằng khóa môi trường; có thể phát sinh phí nhà cung cấp")
-    report.add_argument("--jev", action="store_true", help="Dùng Jev TypeSafe AI cho quyết định nghiên cứu có ngưỡng review")
+    report.add_argument("--ai", action=argparse.BooleanOptionalAction, default=None,
+                        help="Mặc định tự gọi LLM trong chế độ thực; --no-ai tắt rõ ràng")
+    report.add_argument("--jev", action=argparse.BooleanOptionalAction, default=None,
+                        help="Mặc định tự gọi Jev trong chế độ thực; --no-jev tắt rõ ràng")
     inspect = commands.add_parser("inspect-pdf", help="Trích bằng chứng theo trang, đánh dấu trang cần OCR")
     inspect.add_argument("path", type=Path)
     inspect.add_argument("--annual-report", action="store_true")
@@ -44,10 +46,10 @@ def main():
             from vnresearch.intelligence.documents import inspect_document
             print(json.dumps(inspect_document(args.path, args.annual_report), ensure_ascii=False, indent=2))
         else:
+            flags = {key: value for key, value in {"use_ai": args.ai, "use_jev": args.jev}.items() if value is not None}
             request = AnalysisRequest(ticker=args.ticker, as_of=args.as_of, mode=args.mode,
                                       start_year=args.start_year, end_year=args.end_year,
-                                      use_ai=args.ai,
-                                      use_jev=args.jev,
+                                      **flags,
                                       valuation=ValuationAssumptions(target_pe=args.target_pe))
             inputs = {kind: path for kind, path in {"prices": args.prices_csv, "macro": args.macro_csv, "news": args.news_csv}.items() if path}
             result = analyze(request, inputs, lambda phase, percent: print(f"{percent:3}% {phase}", file=sys.stderr))

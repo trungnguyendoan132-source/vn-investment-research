@@ -5,6 +5,7 @@ from vnresearch.analysis.ai import synthesize
 
 def fake_response(claims):
     class Response:
+        status_code = 200
         def raise_for_status(self):
             return None
 

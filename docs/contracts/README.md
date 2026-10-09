@@ -1,4 +1,4 @@
-# Contract chung - phiên bản 1.0.0
+# Contract chung - phiên bản 1.1.0
 
 TV1 quản lý `src/vnresearch/domain/models.py`. Thay contract phải cập nhật test, tài liệu và thông báo trong pull request trước khi ghép.
 
@@ -10,6 +10,25 @@ TV1 quản lý `src/vnresearch/domain/models.py`. Thay contract phải cập nh�
 - `GET /api/jobs/{id}`: header `X-Job-Token`; khi hoàn tất có `report`. Phân biệt `job.status=completed` với `report.status=partial`.
 - `GET /api/jobs/{id}/files/{report.pdf|report.json|manifest.json}`: cùng token; chỉ tải khi tác vụ đã hoàn tất.
 - Nếu cấu hình API key, mọi API nghiệp vụ còn cần `X-API-Key`. Không truyền key AI xuống trình duyệt.
+
+## Bổ sung TV1 (1.1.0)
+
+- `X-API-Key` ánh xạ principal theo `VNRESEARCH_USER_TOKENS_JSON={"tv1":"token-riêng",...}`. Chế độ cũ không auth/shared key dùng principal `local`; không tự coi shared key là danh tính 6 người khác nhau.
+- Upload có owner, SHA-256, hạn dùng và `validation_status=header_validated`. Điều này xác nhận cấu trúc CSV; không xác nhận số liệu đúng với nguồn phát hành. Chỉ cùng owner có thể gắn upload vào job.
+- `Idempotency-Key` trên POST jobs: cùng owner/yêu cầu trả cùng job; tái dùng key cho yêu cầu khác trả 409. Queue hữu hạn trả 429 thay vì chấp nhận không giới hạn.
+- `POST /api/jobs/{id}/cancel` dừng queued hoặc yêu cầu running dừng tại ranh giới an toàn. Không tự replay job chạy dở có thể đã gọi AI. `retry` là thao tác rõ ràng, giữ parent_job_id và bằng chứng lần trước.
+- Job status cũ được giữ: queued/running/completed/failed/interrupted. SQLite schema version 2 migrates dữ liệu và token job cũ. `completed` vẫn độc lập `Report.status=partial`.
+- `/api/health/live` là liveness; `/api/health/ready` kiểm tra DB, data directory, assets và dispatcher. Health không gọi API tính phí.
+- Error body có code và request_id; API không lặp lại giá trị key/token trong lỗi validation. File thiếu/hỏng sau completed thành lỗi artifact có mã.
+- Chỉ một process dùng một data directory. Tăng worker qua setting bên trong process; không chạy nhiều Uvicorn process chung thư mục.
+
+## Metadata nguồn và số liệu
+
+`Source` thêm `published_on`, `published_at`, `publication_precision`, `period_start/end/type`, `report_basis`, `unit`, `currency`, `mapping_version`, `dataset_version`, `verification_status`. Default là unknown. Date-only giữ `published_at=null`; retrieved_at không thay ngày công bố.
+
+`FinancialYear` thêm `fact_metadata` và `quality_issues`. Mỗi số cần metadata theo field; output 1.1 không tương thích với reader 1.0 có `extra=forbid`, nên các consumer phải cập nhật cùng bản contract. Reader mới vẫn đọc các report1.0 với defaultunknown. Không mặc định dùng số legacy để ra kết luận thực.
+
+LLM/Jev dùng helper URL chung: HTTPS giữ xác thực TLS; HTTP chỉ localhost được kiểm tra phân giải hoặc IP loopback. Không theo redirect khi gửi key. Explicit model được giữ nguyên; model auto chỉ dùng khi không yêu cầu model cụ thể.
 
 ## CSV giá
 
