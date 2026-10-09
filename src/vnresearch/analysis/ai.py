@@ -1,5 +1,4 @@
 import json
-import os
 import re
 import time
 
@@ -7,6 +6,7 @@ from pydantic import Field
 import requests
 
 from vnresearch.domain.models import Report, StrictModel
+from vnresearch.platform.providers import effective_provider_config
 
 
 class Claim(StrictModel):
@@ -19,15 +19,13 @@ class AIOutput(StrictModel):
 
 
 def synthesize(report: Report) -> dict:
-    from vnresearch.platform.environment import load_environment
-    load_environment()
-    key = os.getenv("LLM_API_KEY") or os.getenv("VNRESEARCH_AI_API_KEY")
-    model = os.getenv("LLM_MODEL") or os.getenv("VNRESEARCH_AI_MODEL")
-    base = (os.getenv("LLM_BASE_URL") or os.getenv("VNRESEARCH_AI_BASE_URL") or "https://api.openai.com/v1").rstrip("/")
+    try:
+        config = effective_provider_config("llm")
+    except ValueError:
+        return {"status": "error", "claims": [], "note": "Cấu hình LLM không hợp lệ; kiểm tra URL và model trong cấu hình backend."}
+    key, model, base = config.api_key, config.model, config.base_url
     if not key:
         return {"status": "unavailable", "claims": [], "note": "Chưa cấu hình LLM_API_KEY; các tính toán vẫn chạy độc lập."}
-    if not base.startswith("https://"):
-        return {"status": "error", "claims": [], "note": "Endpoint AI phải dùng HTTPS."}
     evidence = {"ticker": report.ticker, "mode": report.request.mode.value, "sector": report.sector_name,
                 "financial": [year.model_dump(mode="json") for year in report.financial_years[-2:]],
                 "sections": {k: {"summary": v.summary, "rows": v.rows[:8], "source_ids": v.source_ids} for k, v in report.sections.items()},
@@ -44,8 +42,10 @@ def synthesize(report: Report) -> dict:
     started = time.monotonic()
     try:
         if not model or model == "auto":
-            discovered = requests.get(base + "/models", headers={"Authorization": "Bearer " + key}, timeout=(8, 10))
+            discovered = requests.get(base + "/models", headers={"Authorization": "Bearer " + key}, timeout=(8, 10), allow_redirects=False)
             discovered.raise_for_status()
+            if 300 <= discovered.status_code < 400:
+                raise ValueError("Không theo redirect khi gửi khóa LLM")
             candidates = [str(item["id"]) for item in discovered.json().get("data", [])
                           if not any(token in str(item.get("id", "")).lower() for token in ["embedding", "whisper", "tts", "image", "audio", "rerank", "transcribe"])]
             if not candidates:
@@ -55,8 +55,10 @@ def synthesize(report: Report) -> dict:
                                  json={"model": model, "messages": [{"role": "system", "content": prompt},
                                                                       {"role": "user", "content": json.dumps(evidence, ensure_ascii=False)}],
                                        "response_format": {"type": "json_object"},
-                                       "max_completion_tokens": 1200}, timeout=(8, 45))
+                                       "max_completion_tokens": 1200}, timeout=(8, 45), allow_redirects=False)
         response.raise_for_status()
+        if 300 <= response.status_code < 400:
+            raise ValueError("Không theo redirect khi gửi khóa LLM")
         parsed = AIOutput.model_validate_json(response.json()["choices"][0]["message"]["content"])
         known = set(evidence["source_ids"])
         for claim in parsed.claims:
