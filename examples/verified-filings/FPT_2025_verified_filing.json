@@ -1,0 +1,199 @@
+{
+  "ticker": "FPT",
+  "fiscal_year": 2025,
+  "period_start": "2025-01-01",
+  "period_end": "2025-12-31",
+  "period_type": "annual",
+  "published_at": null,
+  "published_on": "2026-03-19",
+  "publication_precision": "day",
+  "consolidation": "consolidated",
+  "report_url": "https://fpt.com/api/media/20260319_fpt_bctc_hop_nhat_nam_2025_da_kiem_toan_0159f59257.pdf",
+  "original_sha256": "630f61f6ef9f07d5c593c3bf8f65bad1d56ecbb091921296ed5c4e830ea070a4",
+  "verification_status": "verified",
+  "verification_note": "Only the listed facts were manually read and visually checked against rendered pages of the existing original issuer PDF. The saved issuer disclosure listing contains the exact report URL. This is a scanned filing with no usable statement text layer. PDF page numbers are 1-based and include the disclosure cover; printed statement page is PDF page minus three. The original statements use VND. EPS is a per-share row under VND column headings and is recorded as VND/share. Publication is explicitly stated on the disclosure cover as 19/03/2026; neither the digital-signature time nor statement approval date is treated as publication time. This does not certify any unlisted fact or the entire filing, and does not repair or redate legacy upstream rows.",
+  "publication_evidence": {
+    "page": 1,
+    "type": "issuer_explicit_website_publication_statement",
+    "date_only": true,
+    "snippet": "Thông tin này đã được công bố trên trang thông tin điện tử của Công ty vào ngày 19/03/2026 tại đường dẫn https://fpt.com/vi/nha-dau-tu/thong-tin-cong-bo/",
+    "note": "Disclosure number 71/FPT-FCC identifies audited 2025 separate and consolidated statements. No publication time of day is claimed."
+  },
+  "facts": [
+    {
+      "key": "total_assets",
+      "value": 88141991634625,
+      "unit": "VND",
+      "page": 9,
+      "label": "TỔNG TÀI SẢN",
+      "raw_value": "88.141.991.634.625",
+      "scale": 1,
+      "sign_convention": "canonical",
+      "item_code": "270"
+    },
+    {
+      "key": "total_liabilities",
+      "value": 44393950887086,
+      "unit": "VND",
+      "page": 10,
+      "label": "NỢ PHẢI TRẢ",
+      "raw_value": "44.393.950.887.086",
+      "scale": 1,
+      "sign_convention": "canonical",
+      "item_code": "300"
+    },
+    {
+      "key": "equity",
+      "value": 43748040747539,
+      "unit": "VND",
+      "page": 11,
+      "label": "VỐN CHỦ SỞ HỮU",
+      "raw_value": "43.748.040.747.539",
+      "scale": 1,
+      "sign_convention": "canonical",
+      "item_code": "400"
+    },
+    {
+      "key": "noncontrolling_interest",
+      "value": 7265096802767,
+      "unit": "VND",
+      "page": 11,
+      "label": "Lợi ích cổ đông không kiểm soát",
+      "raw_value": "7.265.096.802.767",
+      "scale": 1,
+      "sign_convention": "canonical",
+      "item_code": "429"
+    },
+    {
+      "key": "revenue",
+      "value": 70112825100710,
+      "unit": "VND",
+      "page": 12,
+      "label": "Doanh thu thuần về bán hàng và cung cấp dịch vụ",
+      "raw_value": "70.112.825.100.710",
+      "scale": 1,
+      "sign_convention": "canonical",
+      "item_code": "10"
+    },
+    {
+      "key": "net_income",
+      "value": 11232339450734,
+      "unit": "VND",
+      "page": 12,
+      "label": "Lợi nhuận sau thuế TNDN",
+      "raw_value": "11.232.339.450.734",
+      "scale": 1,
+      "sign_convention": "canonical",
+      "item_code": "60"
+    },
+    {
+      "key": "net_income_parent",
+      "value": 9376127629501,
+      "unit": "VND",
+      "page": 12,
+      "label": "Cổ đông của công ty mẹ",
+      "raw_value": "9.376.127.629.501",
+      "scale": 1,
+      "sign_convention": "canonical",
+      "item_code": "61"
+    },
+    {
+      "key": "eps",
+      "value": 5216,
+      "unit": "VND/share",
+      "page": 12,
+      "label": "Lãi cơ bản trên cổ phiếu",
+      "raw_value": "5.216",
+      "scale": 1,
+      "sign_convention": "canonical",
+      "item_code": "70"
+    },
+    {
+      "key": "diluted_eps",
+      "value": 5216,
+      "unit": "VND/share",
+      "page": 12,
+      "label": "Lãi suy giảm trên cổ phiếu",
+      "raw_value": "5.216",
+      "scale": 1,
+      "sign_convention": "canonical",
+      "item_code": "71"
+    },
+    {
+      "key": "cfo",
+      "value": 10136043915911,
+      "unit": "VND",
+      "page": 13,
+      "label": "Lưu chuyển tiền thuần từ hoạt động kinh doanh",
+      "raw_value": "10.136.043.915.911",
+      "scale": 1,
+      "sign_convention": "canonical",
+      "item_code": "20"
+    },
+    {
+      "key": "capex",
+      "value": 5097919349856,
+      "unit": "VND",
+      "page": 13,
+      "label": "Tiền chi để mua sắm, xây dựng TSCĐ và các tài sản dài hạn khác",
+      "raw_value": "(5.097.919.349.856)",
+      "scale": 1,
+      "sign_convention": "canonical",
+      "item_code": "21"
+    }
+  ],
+  "verification_context": {
+    "original_local_path": "FPT_2025_audited_consolidated.pdf",
+    "page_count": 73,
+    "document_format": "scanned_pdf_with_signature_text_only",
+    "extraction_method": "manual_visual_transcription_of_rendered_original_pages",
+    "is_ocr_output": false,
+    "statement_scope_proof_pages": [
+      9,
+      10,
+      11,
+      12,
+      13
+    ],
+    "printed_statement_pages": {
+      "9": 6,
+      "10": 7,
+      "11": 8,
+      "12": 9,
+      "13": 10
+    },
+    "column_used": "2025 under Tại ngày 31 tháng 12 năm for balances and Năm tài chính kết thúc ngày 31 tháng 12 năm for flows",
+    "unit_proof": "Each inspected statement column explicitly labels VND. EPS rows separately identify per-share earnings.",
+    "capex_note": "Canonical CAPEX is positive expenditure. The original signed outflow is preserved and its label includes fixed assets and other long-term assets.",
+    "issuer_listing_local_path": "fpt_disclosure_listing.html",
+    "repeat_download_note": "A repeat urllib request to the exact official URL returned HTTP 403 and the web tool could not access it; the original already downloaded before continuation was preserved and inspected. No claim of a successful repeat fetch is made."
+  },
+  "audit_context": {
+    "auditor": "PwC (Vietnam)",
+    "proof_pages": [
+      6,
+      7
+    ],
+    "audit_report_number": "HAN 4324",
+    "audit_report_date": "2026-03-19",
+    "note": "The auditor's emphasis paragraph draws attention to Note 1 and the basis for consolidating FPT Telecom through 31/12/2025; it states the opinion is not affected by this matter. This bounded verification makes no conclusion about 2026 scope or every note in the filing."
+  },
+  "reconciliation": [
+    {
+      "finding": "Total assets equal liabilities plus the original code-400 equity total exactly. Code 400 includes 2,750,000,000 VND of Nguồn kinh phí và quỹ khác; code 410 is 43,745,290,747,539 VND and is not silently substituted for code 400.",
+      "pages": [
+        9,
+        10,
+        11
+      ]
+    },
+    {
+      "finding": "Revenue is code-10 net sales/services revenue, not code-01 gross sales/services revenue.",
+      "page": 12
+    },
+    {
+      "finding": "Consolidated net income and net income attributable to parent shareholders are distinct original rows. EPS is per share and is not total parent income.",
+      "page": 12
+    }
+  ]
+}

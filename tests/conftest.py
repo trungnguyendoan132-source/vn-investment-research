@@ -9,6 +9,8 @@ from vnresearch.domain.models import AnalysisRequest
 
 @pytest.fixture(autouse=True)
 def no_external_calls(monkeypatch):
+    from vnresearch.analysis.ai import _AI_CACHE
+    _AI_CACHE.clear()
     def fail(*args, **kwargs):
         raise RuntimeError("External HTTP disabled in tests")
     monkeypatch.setattr(requests.sessions.Session, "request", fail)

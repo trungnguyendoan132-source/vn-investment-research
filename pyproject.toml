@@ -28,7 +28,7 @@ vnresearch = "vnresearch.cli:main"
 where = ["src"]
 
 [tool.setuptools.package-data]
-vnresearch = ["static/*", "assets/*.csv", "assets/*.json", "assets/*.yaml", "assets/bctc/*/*.parquet", "assets/fonts/*.ttf", "assets/demo/*", "assets/macro/*"]
+vnresearch = ["static/*", "assets/*.csv", "assets/*.json", "assets/*.yaml", "assets/bctc/*/*.parquet", "assets/fonts/*.ttf", "assets/demo/*", "assets/macro/*", "assets/verified_filings/*.json"]
 
 [tool.setuptools.data-files]
 "share/vn-investment-research/licenses" = ["LICENSE", "third_party/vn-annual-report-miner-LICENSE", "third_party/DejaVu-LICENSE", "third_party/upstream_manifest.json"]

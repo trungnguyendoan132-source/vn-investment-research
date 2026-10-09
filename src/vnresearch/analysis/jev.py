@@ -8,6 +8,7 @@ import requests
 
 from vnresearch.domain.models import Mode, Report
 from vnresearch.platform.environment import load_environment
+from vnresearch.platform.providers import effective_provider_config, endpoint_url
 
 
 OPTIONS = {
@@ -45,19 +46,19 @@ class NoulAnswer(BaseModel):
 
 
 def endpoint(base: str) -> str:
-    base = base.rstrip("/")
-    if not base.startswith("https://"):
-        raise ValueError("Jev base URL must use HTTPS")
-    return base if base.endswith("/systemone") else base + ("/systemone" if base.endswith("/v1") else "/v1/systemone")
+    return endpoint_url(base, kind="jev")
 
 
 def evaluate(report: Report) -> dict:
     load_environment()
-    key = os.getenv("JEV_API_KEY") or os.getenv("TYPESAFE_API_KEY")
+    try:
+        config = effective_provider_config("jev")
+    except ValueError:
+        return {"status": "error", "note": "Cấu hình Jev không hợp lệ; kiểm tra URL/model backend.", "applied_decision": "needs_review"}
+    key = config.api_key
     if not key:
         return {"status": "unavailable", "note": "Chưa cấu hình JEV_API_KEY.", "applied_decision": "needs_review"}
-    base = os.getenv("JEV_BASE_URL", "https://api.typesafe.ai")
-    model = os.getenv("JEV_MODEL", "jev-latest")
+    base, model = config.base_url, config.model
     state = {
         "purpose": "Prioritize evidence review in stock research. This is not a trade execution request.",
         "ticker": report.ticker, "mode": report.request.mode.value, "report_status": report.status,
@@ -76,8 +77,10 @@ def evaluate(report: Report) -> dict:
         if not 0 <= threshold <= 1:
             raise ValueError("Invalid Jev confidence threshold")
         response = requests.post(endpoint(base), headers={"Authorization": "Bearer " + key},
-                                 json=payload, timeout=(8, 30))
+                                 json=payload, timeout=(8, 30), allow_redirects=False)
         response.raise_for_status()
+        if 300 <= response.status_code < 400:
+            raise ValueError("Không theo redirect khi gửi khóa Jev")
         data = response.json()
         if set(data["answers"]) != {"research_action", "requires_review"}:
             raise ValueError("Jev answers do not match requested questions")

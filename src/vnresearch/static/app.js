@@ -13,3 +13,5 @@ $('ticker').addEventListener('input',async()=>{try{const response=await api('/ap
 try{const saved=sessionStorage.getItem('vnresearch-job');if(saved){activeJob=JSON.parse(saved);$('progress').classList.remove('hidden');poll();}}catch{sessionStorage.removeItem('vnresearch-job');}
 
 api('/api/capabilities').then(r=>r.json()).then(c=>{$('useAi').checked=c.llm_configured;$('useJev').checked=c.jev_configured;}).catch(()=>{});
+
+$('mode').addEventListener('change',()=>{if($('mode').value==='demo'){$('useAi').checked=false;$('useJev').checked=false;}else{api('/api/capabilities').then(r=>r.json()).then(c=>{$('useAi').checked=c.llm_configured;$('useJev').checked=c.jev_configured;}).catch(()=>{});}});

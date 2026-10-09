@@ -2,7 +2,9 @@
 
 **Mục tiêu:** xây hệ thống phân tích tổng quan vĩ mô, ngành và cơ hội đầu tư vào cổ phiếu Việt Nam; tạo báo cáo PDF theo nhu cầu người dùng, có số liệu chính xác và bằng chứng kiểm tra.
 
-**Đây là sườn có mã chạy được để cả nhóm phát triển tiếp.** Repo đã có luồng Web/CLI → dữ liệu → phân tích → PDF/JSON. Các dữ liệu thật cần cập nhật, đối chiếu và nghiệm thu theo [ma trận yêu cầu](docs/REQUIREMENTS.md). Việc tạo được PDF hoặc gọi được AI không tự chứng minh sản phẩm đã đáp ứng yêu cầu về độ chính xác.
+**TV1/TV2 đã nâng cấp luồng tự động có kiểm tra chất lượng.** Người dùng nhập mã; Web/CLI tự lấy các nguồn đã tích hợp, tổng hợp qua LLM/Jev và tạo PDF/JSON. CSV là tùy chọn bổ sung. Nguồn lỗi hoặc số chưa xác minh được đánh dấu và loại khỏi phép tính thực; các phần còn lại chạy đến đầu ra, không chờ thao tác tay để xử lý lỗi. Phạm vi dữ liệu đã đối chiếu và việc của TV3–TV6 nằm trong [ma trận yêu cầu](docs/REQUIREMENTS.md).
+
+**Bản kiểm chứng TV1/TV2:** [nền tảng](docs/TV1_IMPLEMENTATION.md), [dữ liệu](docs/TV2_IMPLEMENTATION.md), [audit và kế hoạch](docs/TV1_TV2_AUDIT_PLAN.md). Dữ liệu đã đối chiếu có 51 quan sát trong 7 envelope: FPT/SSI/VCB năm 2025, các số so sánh 2024, và SSI bán niên 2026. Phạm vi này không phải xác nhận mọi số trên thị trường đều đúng.
 
 ## Bắt đầu ngay
 
@@ -17,7 +19,7 @@ Copy-Item .env.example .env
 .\.venv\Scripts\python.exe -m vnresearch.cli serve
 ```
 
-Mở `http://127.0.0.1:8000`. Chọn **Demo minh họa, chạy offline** để kiểm tra đủ các phần và tải PDF ngay. API tự mô tả ở `/docs`.
+Mở `http://127.0.0.1:8000`. Mặc định **tự động lấy nguồn thật**. Điền cấu hình LLM/Jev trong `.env`, nhập mã và bấm tạo báo cáo. Demo chạy offline để kiểm tra luồng mà không gọi provider. API tự mô tả ở `/docs`.
 
 Tạo báo cáo qua CLI:
 
@@ -103,6 +105,7 @@ JEV_API_KEY=
 Điền URL và key nhóm đang có, khởi động ứng dụng và chạy báo cáo. Web tự bật hai lựa chọn AI khi phát hiện key đã cấu hình; có thể bỏ chọn từng dịch vụ. Khóa nằm ở backend, không đưa xuống trình duyệt hay commit Git.
 
 - **LLM** tổng hợp nội dung từ số liệu/bằng chứng. Base URL theo schema OpenAI-compatible, thường kết thúc `/v1`. `LLM_MODEL=auto` mặc định tìm model qua `/models`; nếu gateway không có endpoint này hoặc cần model cụ thể thì đặt `LLM_MODEL` theo nhà cung cấp.
+- Gateway cục bộ của nhóm: xem [mẫu không chứa khóa](examples/local-gateways.env). Đặt `LLM_MODEL=gpt-6-luna`, `JEV_MODEL=jev-1.13-free`; HTTPS vẫn xác minh TLS, HTTP chỉ cho loopback đã kiểm tra, không theo redirect mang key sang host khác.
 - **Jev / TypeSafe AI** đánh giá hành động nghiên cứu bằng Choice + Noul qua `/v1/systemone`, dùng `JEV_MODEL=jev-latest`. Base có thể là host gốc, `/v1` hoặc full endpoint; client chuẩn hóa đường dẫn.
 - LLM không tự tính tỷ số. Jev không được ghi đè kiểm tra dữ liệu thiếu/demo; quyết định có confidence thấp hoặc cần đối chiếu đi vào review. Không có thao tác đặt lệnh giao dịch.
 - Chạy CLI với cả hai: `vnresearch report --ticker FPT --mode snapshot --ai --jev --output var/FPT`.
@@ -118,11 +121,11 @@ Chi tiết: [API AI và Jev](docs/AI_INTEGRATION.md), [tích hợp Jev native](d
 |---|---|
 | `demo` | BCTC snapshot thật + giá/vĩ mô/tin **giả lập có nhãn**. Dùng kiểm tra đường ống, không dùng làm phân tích đầu tư thực. |
 | `snapshot` | BCTC có sẵn; CSV thật của nhóm; snapshot World Bank nếu đã tải. Thiếu mục thì báo `partial`, không tạo số lấp chỗ trống. |
-| `live` | Adapter nguồn ngoài + BCTC snapshot. Cần xác nhận nguồn, đơn vị và khóa khi nhà cung cấp yêu cầu. Lỗi nguồn được ghi vào chất lượng báo cáo. |
+| `live` | Giá KBS tự động, World Bank, tin nguồn, tự tải/cache các filing được đối chiếu; LLM/Jev tự gọi theo cấu hình. Số legacy chưa verified bị chặn khỏi tỷ số/định giá thực. Nguồn lỗi trả báo cáo partial có bằng chứng. |
 
 Định dạng CSV có mẫu trong `examples/` và contract. `report.json` giữ toàn bộ bảng ngành; PDF hiển thị bảng rút gọn và chỉ rõ nơi lấy đầy đủ. `manifest.json` lưu hash PDF/JSON và thông tin nguồn.
 
-Không bật dịch vụ ra mạng khi chưa có `VNRESEARCH_API_KEY`. Tác vụ có token riêng; thư mục `var/`, file upload và `.env` không được commit. Cần bổ sung tài khoản người dùng và phân quyền phù hợp trước triển khai rộng.
+Không bật dịch vụ ra mạng khi chưa có key truy cập. Dùng `VNRESEARCH_USER_TOKENS_JSON` để cấp token riêng từng thành viên; shared key chỉ là một principal. Tác vụ/upload có owner, hash và hạn dùng; queue SQLite có giới hạn, idempotency và recovery. Worker dở dang không tự lặp lời gọi AI không rõ kết quả. Chỉ một process dùng mỗi data directory. `/api/health/ready` tách khỏi liveness. `var/`, upload và `.env` không được commit.
 
 ## Cây repo
 

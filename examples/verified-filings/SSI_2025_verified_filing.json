@@ -1,0 +1,198 @@
+{
+  "ticker": "SSI",
+  "fiscal_year": 2025,
+  "period_start": "2025-01-01",
+  "period_end": "2025-12-31",
+  "period_type": "annual",
+  "published_at": null,
+  "published_on": "2026-03-27",
+  "publication_precision": "day",
+  "consolidation": "consolidated",
+  "report_url": "https://www.ssi.com.vn/upload/files/IR/20260327_SSI_Bao_cao_tai_chinh_hop_nhat_nam_2025_da_kiem_toan.pdf",
+  "original_sha256": "406da3dfc1130da4c47b4e08c81c7ab1fd82a8e0bbe225af08b6fcb62cb91625",
+  "verification_status": "verified",
+  "verification_note": "Only the listed facts were manually read and visually checked against the original scanned issuer PDF. PDF pages are 1-based and include the disclosure cover; printed statement page is PDF page minus four. Current-year column was used. Income-statement prior-year columns are explicitly restated; the inspected balance and cash-flow comparative headers do not themselves assert restatement. This does not certify every unlisted fact in the filing, and does not repair or redate legacy upstream rows.",
+  "publication_evidence": {
+    "page": 2,
+    "cover_page": 1,
+    "type": "issuer_explicit_website_publication_statement",
+    "snippet": "Thông tin này đã được công bố trên trang thông tin điện tử của Công ty vào ngày 27/3/2026 tại đường dẫn www.ssi.com.vn.",
+    "date_only": true,
+    "note": "Disclosure letter explicitly states website publication on 27/3/2026 and covers audited 2025 separate and consolidated statements. No publication time of day is claimed."
+  },
+  "facts": [
+    {
+      "key": "total_assets",
+      "value": 94049979396183,
+      "unit": "VND",
+      "page": 11,
+      "label": "TỔNG CỘNG TÀI SẢN",
+      "raw_value": "94.049.979.396.183",
+      "scale": 1,
+      "sign_convention": "canonical",
+      "item_code": "270"
+    },
+    {
+      "key": "total_liabilities",
+      "value": 61983660935421,
+      "unit": "VND",
+      "page": 12,
+      "label": "NỢ PHẢI TRẢ",
+      "raw_value": "61.983.660.935.421",
+      "scale": 1,
+      "sign_convention": "canonical",
+      "item_code": "300"
+    },
+    {
+      "key": "equity",
+      "value": 32066318460762,
+      "unit": "VND",
+      "page": 12,
+      "label": "VỐN CHỦ SỞ HỮU",
+      "raw_value": "32.066.318.460.762",
+      "scale": 1,
+      "sign_convention": "canonical",
+      "item_code": "400"
+    },
+    {
+      "key": "noncontrolling_interest",
+      "value": 130184844710,
+      "unit": "VND",
+      "page": 12,
+      "label": "Lợi ích cổ đông không kiểm soát",
+      "raw_value": "130.184.844.710",
+      "scale": 1,
+      "sign_convention": "canonical",
+      "item_code": "418"
+    },
+    {
+      "key": "revenue",
+      "value": 12930736690184,
+      "unit": "VND",
+      "page": 16,
+      "label": "Cộng doanh thu hoạt động",
+      "raw_value": "12.930.736.690.184",
+      "scale": 1,
+      "sign_convention": "canonical",
+      "item_code": "20"
+    },
+    {
+      "key": "net_income",
+      "value": 4106880733899,
+      "unit": "VND",
+      "page": 17,
+      "label": "LỢI NHUẬN KẾ TOÁN SAU THUẾ TNDN",
+      "raw_value": "4.106.880.733.899",
+      "scale": 1,
+      "sign_convention": "canonical",
+      "item_code": "200"
+    },
+    {
+      "key": "net_income_parent",
+      "value": 4106090416749,
+      "unit": "VND",
+      "page": 17,
+      "label": "Lợi nhuận sau thuế phân bổ cho chủ sở hữu",
+      "raw_value": "4.106.090.416.749",
+      "scale": 1,
+      "sign_convention": "canonical",
+      "item_code": "201"
+    },
+    {
+      "key": "eps",
+      "value": 2053,
+      "unit": "VND/share",
+      "page": 18,
+      "label": "Lãi cơ bản trên mỗi cổ phiếu (VND/1 cổ phiếu)",
+      "raw_value": "2.053",
+      "scale": 1,
+      "sign_convention": "canonical",
+      "item_code": "501"
+    },
+    {
+      "key": "diluted_eps",
+      "value": 1939,
+      "unit": "VND/share",
+      "page": 18,
+      "label": "Thu nhập pha loãng trên cổ phiếu (VND/1 cổ phiếu)",
+      "raw_value": "1.939",
+      "scale": 1,
+      "sign_convention": "canonical",
+      "item_code": "502"
+    },
+    {
+      "key": "cfo",
+      "value": -10425608767324,
+      "unit": "VND",
+      "page": 19,
+      "label": "Lưu chuyển tiền thuần sử dụng vào hoạt động kinh doanh",
+      "raw_value": "(10.425.608.767.324)",
+      "scale": 1,
+      "sign_convention": "canonical",
+      "item_code": "60"
+    },
+    {
+      "key": "capex",
+      "value": 148182381457,
+      "unit": "VND",
+      "page": 20,
+      "label": "Tiền chi để mua sắm, xây dựng tài sản cố định, bất động sản đầu tư và các tài sản khác",
+      "raw_value": "(148.182.381.457)",
+      "scale": 1,
+      "sign_convention": "canonical",
+      "item_code": "61"
+    }
+  ],
+  "verification_context": {
+    "original_local_path": "SSI_2025_audited_consolidated.pdf",
+    "page_count": 102,
+    "document_format": "scanned_pdf_no_text_layer",
+    "extraction_method": "manual_visual_transcription_of_rendered_original_pages",
+    "is_ocr_output": false,
+    "statement_scope_proof_pages": [
+      11,
+      12,
+      16,
+      17,
+      18,
+      19,
+      20
+    ],
+    "printed_statement_pages": {
+      "11": 7,
+      "12": 8,
+      "16": 12,
+      "17": 13,
+      "18": 14,
+      "19": 15,
+      "20": 16
+    },
+    "column_used": "Năm nay / Số cuối năm",
+    "unit_proof": "Each relevant statement page labels Đơn vị tính: VND; EPS lines separately label VND/1 cổ phiếu.",
+    "capex_note": "Canonical CAPEX is positive expenditure; the original cash-flow line is signed as an outflow and also includes investment property and other assets, as its exact label states."
+  },
+  "reconciliation": [
+    {
+      "finding": "Legacy SSI 2025 EPS 2835023120364 equals legacy owner income, but original current-year basic EPS is 2053. Diluted EPS 1939 is a separate original row and is not used to infer basic EPS.",
+      "page": 18
+    },
+    {
+      "finding": "Original current-year consolidated net income is 4106880733899 and attributable-owner net income is 4106090416749. Original restated prior-year values are 2845109032672 and 2704221369052 respectively. Legacy 2835023120364 is not identified as either current-year or restated prior-year value; no automatic year shift is justified.",
+      "page": 17
+    },
+    {
+      "finding": "Assets equal total liabilities plus equity exactly using the listed original statement values.",
+      "pages": [
+        11,
+        12
+      ]
+    },
+    {
+      "finding": "Original CFO is negative, rather than zero or missing. CAPEX is separately present and its signed raw outflow is preserved.",
+      "pages": [
+        19,
+        20
+      ]
+    }
+  ]
+}

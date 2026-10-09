@@ -1,17 +1,49 @@
+from collections import OrderedDict
+from copy import deepcopy
+import hashlib
 import json
-import os
 import re
+from threading import RLock
 import time
 
 from pydantic import Field
 import requests
 
 from vnresearch.domain.models import Report, StrictModel
+from vnresearch.platform.providers import effective_provider_config
 
 
-import hashlib
+_AI_CACHE: OrderedDict[str, tuple[float, dict]] = OrderedDict()
+_CACHE_LOCK = RLock()
+_CACHE_MAX_ENTRIES = 128
+_CACHE_TTL_SECONDS = 300
+_PROMPT_VERSION = "tv5-evidence-summary-v2"
 
-_AI_CACHE: dict[str, dict] = {}
+
+def _cached(key: str) -> dict | None:
+    with _CACHE_LOCK:
+        item = _AI_CACHE.get(key)
+        if item is None:
+            return None
+        stored_at, value = item
+        if time.monotonic() - stored_at >= _CACHE_TTL_SECONDS:
+            del _AI_CACHE[key]
+            return None
+        _AI_CACHE.move_to_end(key)
+        result = deepcopy(value)
+    result["cache_hit"] = True
+    result["original_latency_seconds"] = result["latency_seconds"]
+    result["latency_seconds"] = 0.0
+    result["note"] += " Phản hồi từ bộ nhớ đệm cùng bằng chứng và cấu hình."
+    return result
+
+
+def _remember(key: str, value: dict):
+    with _CACHE_LOCK:
+        _AI_CACHE[key] = (time.monotonic(), deepcopy(value))
+        _AI_CACHE.move_to_end(key)
+        while len(_AI_CACHE) > _CACHE_MAX_ENTRIES:
+            _AI_CACHE.popitem(last=False)
 
 
 class Claim(StrictModel):
@@ -24,27 +56,29 @@ class AIOutput(StrictModel):
 
 
 def synthesize(report: Report) -> dict:
-    from vnresearch.platform.environment import load_environment
-    load_environment()
-    key = os.getenv("LLM_API_KEY") or os.getenv("VNRESEARCH_AI_API_KEY")
-    model = os.getenv("LLM_MODEL") or os.getenv("VNRESEARCH_AI_MODEL")
-    base = (os.getenv("LLM_BASE_URL") or os.getenv("VNRESEARCH_AI_BASE_URL") or "https://api.openai.com/v1").rstrip("/")
+    try:
+        config = effective_provider_config("llm")
+    except ValueError:
+        return {"status": "error", "claims": [], "note": "Cấu hình LLM không hợp lệ; kiểm tra URL và model trong cấu hình backend."}
+    key, model, base = config.api_key, config.model, config.base_url
     if not key:
         return {"status": "unavailable", "claims": [], "note": "Chưa cấu hình LLM_API_KEY; các tính toán vẫn chạy độc lập."}
-    if not base.startswith("https://"):
-        return {"status": "error", "claims": [], "note": "Endpoint AI phải dùng HTTPS."}
     evidence = {"ticker": report.ticker, "mode": report.request.mode.value, "sector": report.sector_name,
+                "request": report.request.model_dump(mode="json"),
                 "financial": [year.model_dump(mode="json") for year in report.financial_years[-2:]],
                 "sections": {k: {"summary": v.summary, "rows": v.rows[:8], "source_ids": v.source_ids} for k, v in report.sections.items()},
                 "issues": [issue.model_dump() for issue in report.issues],
-                "source_ids": [source.id for source in report.sources]}
-
-    # Kiểm tra cache bằng chứng để tránh chi phí gọi lặp
-    evidence_hash = hashlib.sha256(json.dumps(evidence, sort_keys=True).encode("utf-8")).hexdigest()
-    cache_key = f"{base}:{model}:{evidence_hash}"
-    if cache_key in _AI_CACHE:
-        cached = dict(_AI_CACHE[cache_key])
-        cached["note"] += " (Phản hồi từ bộ nhớ đệm bằng chứng)."
+                "source_ids": [source.id for source in report.sources],
+                "sources": [{"id": source.id, "sha256": source.sha256, "url": source.url,
+                              "verification_status": source.verification_status, "dataset_version": source.dataset_version,
+                              "published_on": source.published_on.isoformat() if source.published_on else None}
+                             for source in report.sources]}
+    evidence_hash = hashlib.sha256(json.dumps(evidence, sort_keys=True, ensure_ascii=False).encode("utf-8")).hexdigest()
+    identity = {"endpoint": base, "model": model, "evidence": evidence_hash, "prompt_version": _PROMPT_VERSION,
+                "credential_scope": hashlib.sha256(key.encode()).hexdigest()}
+    cache_key = hashlib.sha256(json.dumps(identity, sort_keys=True).encode()).hexdigest()
+    cached = _cached(cache_key)
+    if cached is not None:
         return cached
 
     prompt = (
@@ -60,8 +94,10 @@ def synthesize(report: Report) -> dict:
     started = time.monotonic()
     try:
         if not model or model == "auto":
-            discovered = requests.get(base + "/models", headers={"Authorization": "Bearer " + key}, timeout=(8, 10))
+            discovered = requests.get(base + "/models", headers={"Authorization": "Bearer " + key}, timeout=(8, 10), allow_redirects=False)
             discovered.raise_for_status()
+            if 300 <= discovered.status_code < 400:
+                raise ValueError("Không theo redirect khi gửi khóa LLM")
             candidates = [str(item["id"]) for item in discovered.json().get("data", [])
                           if not any(token in str(item.get("id", "")).lower() for token in ["embedding", "whisper", "tts", "image", "audio", "rerank", "transcribe"])]
             if not candidates:
@@ -71,19 +107,21 @@ def synthesize(report: Report) -> dict:
                                  json={"model": model, "messages": [{"role": "system", "content": prompt},
                                                                       {"role": "user", "content": json.dumps(evidence, ensure_ascii=False)}],
                                        "response_format": {"type": "json_object"},
-                                       "max_completion_tokens": 1200}, timeout=(8, 45))
+                                       "max_completion_tokens": 1200}, timeout=(8, 45), allow_redirects=False)
         response.raise_for_status()
+        if 300 <= response.status_code < 400:
+            raise ValueError("Không theo redirect khi gửi khóa LLM")
         parsed = AIOutput.model_validate_json(response.json()["choices"][0]["message"]["content"])
         known = set(evidence["source_ids"])
-        for claim in parsed.claims:
-            if not set(claim.source_ids).issubset(known):
-                raise ValueError("AI trích mã nguồn không có trong bằng chứng")
-            if re.search(r"\d", claim.text):
-                raise ValueError("AI tự đưa số vào phần diễn giải; đầu ra bị loại")
-        out = {"status": "ok", "model": model, "claims": [c.model_dump() for c in parsed.claims],
+        valid = [claim for claim in parsed.claims if set(claim.source_ids).issubset(known) and not re.search(r"\d", claim.text)]
+        rejected = len(parsed.claims) - len(valid)
+        if not valid:
+            raise ValueError("AI không có nhận xét đáp ứng kiểm tra nguồn và số liệu")
+        out = {"status": "ok", "model": model, "claims": [c.model_dump() for c in valid], "rejected_claims": rejected,
+                "cache_hit": False,
                 "latency_seconds": round(time.monotonic() - started, 3),
-                "note": "Kiểm tra cấu trúc và mã nguồn đã đạt; cần người đọc đối chiếu nội dung nhận xét với nguồn. Không đồng nhất trích dẫn tồn tại với suy luận đúng."}
-        _AI_CACHE[cache_key] = out
+                "note": f"{rejected} nhận xét không đạt kiểm tra nguồn/số đã bị loại. Các nhận xét còn lại có cấu trúc và mã nguồn hợp lệ; cần đối chiếu nội dung với nguồn. Không đồng nhất trích dẫn tồn tại với suy luận đúng."}
+        _remember(cache_key, out)
         return out
     except Exception as exc:
         return {"status": "error", "model": model, "claims": [],

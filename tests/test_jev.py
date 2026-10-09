@@ -15,6 +15,7 @@ def install_response(monkeypatch, payload):
     monkeypatch.setenv("JEV_API_KEY", "jev-unit-test-key")
     monkeypatch.setenv("JEV_BASE_URL", "https://api.typesafe.ai")
     class Response:
+        status_code = 200
         def raise_for_status(self):
             return None
 
