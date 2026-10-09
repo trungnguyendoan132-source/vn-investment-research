@@ -143,6 +143,7 @@ def _normalize_frame(frame: pd.DataFrame, as_of: date) -> tuple[pd.DataFrame, li
     if "period" not in source:
         source["period"] = source["year"]
 
+    source["published_at_raw"] = source["published_at"]
     for column in ("indicator", "label", "unit", "source_url"):
         source[column] = source[column].map(lambda value: "" if pd.isna(value) else str(value).strip())
 
@@ -180,6 +181,25 @@ def _normalize_frame(frame: pd.DataFrame, as_of: date) -> tuple[pd.DataFrame, li
         if pd.isna(value) or not math.isfinite(float(value)):
             reasons.append("Giá trị thiếu, không phải số hoặc không hữu hạn.")
 
+        raw_published_at = row["published_at_raw"]
+        has_published_at = pd.notna(raw_published_at) and bool(str(raw_published_at).strip())
+        published_at = row["published_at"]
+        if has_published_at and pd.isna(published_at):
+            publication_status = "không hợp lệ"
+            quality_rows.append(
+                _quality_row(
+                    indicator or None,
+                    label,
+                    period_text,
+                    "Ngày công bố được cung cấp nhưng không hợp lệ; đã loại mốc ngày này và không coi là ngày bị thiếu.",
+                    unit,
+                )
+            )
+        elif has_published_at:
+            publication_status = "đã cung cấp"
+        else:
+            publication_status = "không được cung cấp"
+
         if period_details is not None:
             period, period_end, inferred_frequency = period_details
             frequency = str(row["frequency"]).strip().lower()
@@ -195,7 +215,6 @@ def _normalize_frame(frame: pd.DataFrame, as_of: date) -> tuple[pd.DataFrame, li
             quality_rows.append(_quality_row(indicator or None, label, period_text, " ".join(reasons), unit))
             continue
 
-        published_at = row["published_at"]
         if pd.notna(published_at):
             published_on = published_at.date()
         else:
@@ -212,6 +231,7 @@ def _normalize_frame(frame: pd.DataFrame, as_of: date) -> tuple[pd.DataFrame, li
                 "source_url": str(row["source_url"]),
                 "retrieved_at": row["retrieved_at"],
                 "published_at": published_at if published_on is not None else None,
+                "publication_status": publication_status,
             }
         )
 
@@ -220,7 +240,7 @@ def _normalize_frame(frame: pd.DataFrame, as_of: date) -> tuple[pd.DataFrame, li
         normalized = pd.DataFrame(
             columns=[
                 "indicator", "label", "period", "period_end", "frequency", "value",
-                "unit", "source_url", "retrieved_at", "published_at",
+                "unit", "source_url", "retrieved_at", "published_at", "publication_status",
             ]
         )
 
@@ -392,6 +412,7 @@ def load_macro(as_of: date, mode: Mode, input_path: Path | None = None):
                     "Số ngày từ cuối kỳ": int(observation_age),
                     "Độ mới": freshness,
                     "Vintage point-in-time": "chưa xác minh" if world_bank else "chưa được xác minh",
+                    "Trạng thái ngày công bố": str(observation["publication_status"]),
                     "published_at": (
                         observation["published_at"].isoformat()
                         if pd.notna(observation["published_at"])

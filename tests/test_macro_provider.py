@@ -114,6 +114,42 @@ def test_live_world_bank_rows_never_claim_point_in_time_vintage(monkeypatch, tmp
     assert sources[0].verification_status == "unverified"
 
 
+def test_invalid_publication_date_is_reported_separately_from_missing_date(monkeypatch, tmp_path):
+    macro_dir = tmp_path / "macro"
+    macro_dir.mkdir()
+    snapshot = macro_dir / "world_bank.csv"
+    rows = [
+        {**_macro_row("NY.GDP.MKTP.KD.ZG", 2020, 2.9, "https://example.org/macro"), "published_at": "not-a-date"},
+        {**_macro_row("FP.CPI.TOTL.ZG", 2020, 3.2, "https://example.org/macro"), "published_at": ""},
+    ]
+    pd.DataFrame(rows).to_csv(snapshot, index=False)
+    monkeypatch.setattr(provider, "WORLD_BANK_CSV", snapshot)
+    monkeypatch.setattr(provider, "ASSETS", tmp_path)
+
+    _, section = provider.load_macro(date(2021, 6, 30), Mode.SNAPSHOT)
+
+    observations = {
+        row["Mã chỉ tiêu"]: row
+        for row in section.rows
+        if row["Loại dòng"] == "Quan sát vĩ mô"
+    }
+    diagnostics = [
+        row for row in section.rows if row["Loại dòng"] == "Chất lượng dữ liệu"
+    ]
+    assert observations["NY.GDP.MKTP.KD.ZG"]["Trạng thái ngày công bố"] == "không hợp lệ"
+    assert observations["NY.GDP.MKTP.KD.ZG"]["published_at"] is None
+    assert observations["FP.CPI.TOTL.ZG"]["Trạng thái ngày công bố"] == "không được cung cấp"
+    assert not any(
+        row["Mã chỉ tiêu"] == "FP.CPI.TOTL.ZG" and "Ngày công bố được cung cấp" in row["Ghi chú"]
+        for row in diagnostics
+    )
+    assert any(
+        row["Mã chỉ tiêu"] == "NY.GDP.MKTP.KD.ZG" and "Ngày công bố được cung cấp nhưng không hợp lệ" in row["Ghi chú"]
+        for row in diagnostics
+    )
+    assert section.status == "partial"
+
+
 def test_unknown_indicator_is_kept_with_visible_definition_warning(monkeypatch, tmp_path):
     macro_dir = tmp_path / "macro"
     macro_dir.mkdir()
