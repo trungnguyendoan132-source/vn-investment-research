@@ -32,6 +32,10 @@ def test_jev_endpoint_normalization():
 
 
 def test_jev_missing_key(monkeypatch, demo_report):
+    monkeypatch.setattr("vnresearch.analysis.jev.load_environment", lambda: None)
+    monkeypatch.setattr("vnresearch.platform.providers.load_environment", lambda: None)
+    monkeypatch.setenv("JEV_BASE_URL", "https://api.typesafe.ai")
+    monkeypatch.setenv("JEV_MODEL", "jev-latest")
     monkeypatch.delenv("JEV_API_KEY", raising=False)
     monkeypatch.delenv("TYPESAFE_API_KEY", raising=False)
     assert evaluate(demo_report)["status"] == "unavailable"

@@ -20,6 +20,10 @@ def configure(monkeypatch):
 
 
 def test_missing_key_is_explicit(monkeypatch, demo_report):
+    monkeypatch.setattr("vnresearch.platform.providers.load_environment", lambda: None)
+    monkeypatch.setenv("LLM_BASE_URL", "https://api.openai.com/v1")
+    monkeypatch.setenv("LLM_MODEL", "auto")
+    monkeypatch.delenv("LLM_API_KEY", raising=False)
     monkeypatch.delenv("VNRESEARCH_AI_API_KEY", raising=False)
     assert synthesize(demo_report)["status"] == "unavailable"
 
