@@ -31,7 +31,7 @@ class AdmissionMiddleware:
                                     headers={"X-Request-ID": request_id})
             await response(scope, receive, response_send)
 
-        sensitive_headers = {b"x-api-key", b"x-job-token", b"idempotency-key", b"content-length"}
+        sensitive_headers = {b"x-api-key", b"x-job-token", b"x-provider-session", b"idempotency-key", b"content-length"}
         seen = set()
         for name, value in scope.get("headers", []):
             name = name.lower()

@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "vn-investment-research"
 version = "0.1.0"
-description = "Khung sản phẩm phân tích vĩ mô, ngành và cơ hội đầu tư cổ phiếu Việt Nam cho nhóm 6 người"
+description = "Hệ thống phân tích cơ hội đầu tư cổ phiếu Việt Nam - Nhóm 4"
 requires-python = ">=3.11"
 readme = "README.md"
 license = {text = "MIT"}
