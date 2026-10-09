@@ -222,5 +222,25 @@
       "result": "no clipped text, overlaps, replacement glyphs, or broken tables observed"
     }
   },
-  "actions_ci": "not_active: available GitHub credential lacks workflow write scope"
+  "actions_ci": "not_active: available GitHub credential lacks workflow write scope",
+  "offline_test_suite": {
+    "tests": 175,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "live_artifacts": {
+    "report.pdf": {
+      "bytes": 41333,
+      "sha256": "397a2817662106620cb2d13dd57e7482763cb59c045f9e002836dfe76c14e590"
+    },
+    "report.json": {
+      "bytes": 88887,
+      "sha256": "48ed91b8620f9f96f461bd67d7edb77b90be13c862118bd340a66fff88fedf0e"
+    },
+    "manifest.json": {
+      "bytes": 13078,
+      "sha256": "33799288634d3de9b93400eca82865335edc4caf1549dbe80ff505de93de0994"
+    }
+  }
 }
