@@ -6,7 +6,7 @@ TV1 quản lý `src/vnresearch/domain/models.py`. Thay contract phải cập nh�
 
 - `POST /api/uploads/{prices|macro|news}`: multipart `file`, CSV UTF-8 tối đa 2 MB; trả `{id,kind,bytes}`.
 - `POST /api/jobs`: JSON `AnalysisRequest`; trả 202 và `{id,token,status}`. 202 chỉ xác nhận xếp tác vụ.
-- `AnalysisRequest.use_ai` và `use_jev` mặc định `false`; bật độc lập cho LLM và Jev. `GET /api/capabilities` trả `llm_configured`, `jev_configured` theo sự hiện diện của key; không trả key và không kiểm tra thông tin xác thực live.
+- `AnalysisRequest` mặc định `live`, `use_ai=true`, `use_jev=true`. Khi chọn Demo, các flag bị bỏ qua trong yêu cầu mặc định tắt để chạy offline; flag được gửi rõ ràng vẫn giữ giá trị người dùng. `GET /api/capabilities` trả trạng thái cấu hình theo sự hiện diện của key; không trả key hoặc tự kiểm tra thông tin xác thực live.
 - `GET /api/jobs/{id}`: header `X-Job-Token`; khi hoàn tất có `report`. Phân biệt `job.status=completed` với `report.status=partial`.
 - `GET /api/jobs/{id}/files/{report.pdf|report.json|manifest.json}`: cùng token; chỉ tải khi tác vụ đã hoàn tất.
 - Nếu cấu hình API key, mọi API nghiệp vụ còn cần `X-API-Key`. Không truyền key AI xuống trình duyệt.
@@ -71,6 +71,7 @@ Không để UI gọi trực tiếp provider hoặc tự tính lại tỷ số. 
 TV1 quản lý `LLM_BASE_URL`, `LLM_API_KEY`, `JEV_BASE_URL`, `JEV_API_KEY`; TV5 quản lý adapter/prompt và đánh giá; TV6 hiển thị trạng thái, nguồn và kết quả review. `LLM_MODEL=auto` khám phá qua `/models` trước khi gọi `/chat/completions`; provider không hỗ trợ phải đặt model cụ thể. Jev mặc định `JEV_MODEL=jev-latest`, endpoint native `/v1/systemone`; không chuyển Jev sang schema Chat Completions.
 
 - `ai`: trạng thái `disabled/unavailable/error/ok`; khi hợp lệ có model, claims `{text,source_ids}`, latency và note. Source IDs hợp lệ chưa chứng minh nội dung claim đúng.
+- Cache AI chỉ lưu đầu ra đã qua kiểm tra, trong bộ nhớ process tối đa 128 mục trong 300 giây. Định danh gồm endpoint, model, request, bằng chứng/phiên bản nguồn, phiên bản prompt và scope credential đã hash; không lưu key thô. Cache trả bản sao độc lập và ghi `cache_hit`, không coi hit là một lời gọi provider mới.
 - `jev`: trạng thái `disabled/unavailable/error/ok`; khi hợp lệ có proposed/applied decision, confidence, probabilities, requires_review_probability, review_required, deterministic_guard, usage, latency và note. Choice giới hạn ở `insufficient_data/needs_review/watchlist/risk_caution`; Noul giữ số thực trong `[0,1]`.
 - Dữ liệu demo, báo cáo `partial` hoặc còn issues chặn việc bỏ qua review; confidence dưới `JEV_MIN_CONFIDENCE=0.85` hoặc Noul từ `0.5` áp dụng `needs_review`. Confidence không phải xác suất lợi nhuận.
 
