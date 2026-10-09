@@ -82,24 +82,29 @@ def analyze(request: AnalysisRequest, input_paths: dict[str, Path] | None = None
         news = []
         sections["news"] = Section(title="Tin tức và bằng chứng", status="unavailable", summary=str(exc))
     progress("valuation", 80)
-    sections["valuation"] = value_company(latest, prices, request.valuation, request.as_of)
+    sections["valuation"] = value_company(latest, prices, request.valuation, request.as_of, is_bank=is_bank)
     opportunities, risks = [], []
     if latest:
         metrics = {metric.key: metric.value for metric in latest.metrics}
         growth = metrics.get("revenue_growth_yoy")
         roe = metrics.get("roe")
         cfo_ratio = metrics.get("cfo_to_income")
+        fcf = metrics.get("fcf")
         if growth is not None and growth > 0:
-            opportunities.append(f"Doanh thu/tổng thu nhập hoạt động tăng {growth:.1%} năm {latest.year}; cần đối chiếu tính bền vững và nguyên nhân tăng trưởng.")
+            opportunities.append(f"Động lực tăng trưởng (Catalyst): Doanh thu/tổng thu nhập hoạt động tăng {growth:.1%} năm {latest.year}; cần đối chiếu tính bền vững và nguyên nhân tăng trưởng.")
         if roe is not None and roe > 0:
-            opportunities.append(f"ROE bình quân đạt {roe:.1%}; dùng bảng ngành cùng năm để đánh giá vị thế tương đối.")
+            opportunities.append(f"Hiệu quả sinh lời: ROE bình quân đạt {roe:.1%}; dùng bảng ngành cùng năm để đánh giá vị thế tương đối.")
+        if fcf is not None and fcf > 0:
+            opportunities.append(f"Chất lượng dòng tiền: Dòng tiền tự do (FCF) dương năm {latest.year}, củng cố năng lực tài chính và khả năng chi trả cổ tức.")
+        opportunities.append(f"Tầm nhìn đầu tư: {request.horizon_months} tháng theo khẩu vị {request.risk_profile}; nhận định phụ thuộc vào việc hiện thực hóa kế hoạch lợi nhuận.")
         threshold = {"conservative": 1.0, "balanced": 0.8, "growth": 0.5}[request.risk_profile]
         if cfo_ratio is not None and cfo_ratio < threshold and latest.facts.get("net_income", 0) > 0:
-            risks.append(f"CFO/LNST = {cfo_ratio:.2f}, dưới ngưỡng sàng lọc {threshold:.2f} của hồ sơ {request.risk_profile}; cần đọc thuyết minh dòng tiền.")
+            risks.append(f"Rủi ro dòng tiền: CFO/LNST = {cfo_ratio:.2f}, dưới ngưỡng sàng lọc {threshold:.2f} của hồ sơ {request.risk_profile}; cần đọc thuyết minh lưu chuyển tiền tệ.")
         if latest.facts.get("net_income") is not None and latest.facts["net_income"] < 0:
             risks.append("Doanh nghiệp báo lỗ trong kỳ gần nhất; P/E có thể không có ý nghĩa.")
     if is_bank:
-        risks.append("Ngân hàng cần kiểm tra NIM trên tài sản sinh lãi bình quân, nợ xấu và bao phủ nợ xấu từ nguồn đúng định nghĩa. Không áp hệ số thanh khoản doanh nghiệp sản xuất cho ngân hàng.")
+        risks.append("Đặc thù ngân hàng: Cần kiểm tra NIM trên tài sản sinh lãi bình quân, tỷ lệ nợ xấu (NPL) và bao phủ nợ xấu từ nguồn đúng định nghĩa. Không áp hệ số thanh khoản doanh nghiệp sản xuất cho ngân hàng.")
+    risks.append("Rủi ro định giá: Bội số thị trường chịu rủi ro biến động lãi suất vĩ mô và thanh khoản chung.")
     missing = [key for key in request.sections if sections[key].status != "ok"]
     for key in missing:
         issues.append(QualityIssue(code="INCOMPLETE_SECTION", component=key, message=sections[key].summary))

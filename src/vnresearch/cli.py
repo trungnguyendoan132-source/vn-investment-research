@@ -10,6 +10,12 @@ from vnresearch.platform.settings import Settings, require_local_bind
 from vnresearch.reports.export import export_report
 
 
+if sys.stdout:
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+if sys.stderr:
+    sys.stderr.reconfigure(encoding="utf-8", errors="replace")
+
+
 def main():
     parser = argparse.ArgumentParser(prog="vnresearch")
     commands = parser.add_subparsers(dest="command", required=True)
