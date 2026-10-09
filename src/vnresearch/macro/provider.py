@@ -131,7 +131,11 @@ def _macro_sources(frame: pd.DataFrame, kind: str, file_hash: str | None = None)
 
 
 def load_macro(as_of: date, mode: Mode, input_path: Path | None = None):
-    path = input_path or ASSETS / "macro" / "vietnam_macro.csv"
+    # 1. Xác định thư mục chứa file provider.py hiện tại
+    CURRENT_DIR = Path(__file__).parent
+    
+    # 2. Đường dẫn mặc định trỏ thẳng vào file vietnam_macro.csv trong thư mục macro
+    path = input_path or (CURRENT_DIR / "vietnam_macro.csv")
     file_hash = None
     
     # Ưu tiên 1: Người dùng truyền đường dẫn file CSV tùy chỉnh
@@ -159,14 +163,66 @@ def load_macro(as_of: date, mode: Mode, input_path: Path | None = None):
             ])
             kind = "synthetic"
         else: 
-            # Live từ World Bank (mặc định chỉ lấy số liệu năm)
+            # Live từ World Bank (mặc định lấy số liệu năm)
             frame, kind = fetch_world_bank(max(2000, as_of.year - 8), as_of.year - 1), "live"
     else:
         return [], Section(title="Tổng quan vĩ mô", status="unavailable", summary="Chưa có snapshot vĩ mô. Cung cấp CSV đã xác minh hoặc bật World Bank live.")
 
-    # Chuẩn hóa dữ liệu (xử lý tần suất tháng/quý/năm, tính ngày cuối kỳ)
+    # Chuẩn hóa dữ liệu
     frame = _normalize_frame(frame, as_of)
     if frame.empty: 
         return [], Section(title="Tổng quan vĩ mô", status="unavailable", summary="Không có quan sát vĩ mô hợp lệ trước hoặc tại ngày chốt.")
     
-    # ... (Giữ nguyên các đoạn code xử lý Source, Section và Policy Events phía sau)
+    sources = _macro_sources(frame, kind, file_hash)
+    source_by_indicator = {str(i): "macro-" + hashlib.sha1(str(i).encode()).hexdigest()[:12] for i in frame["indicator"].unique()}
+    rows = []
+    
+    for indicator, group in frame.groupby("indicator", sort=True):
+        group = group.sort_values("period_end")
+        latest = group.iloc[-1]
+        age = (as_of - latest["period_end"]).days
+        for _, obs in group.tail(8).iterrows():
+            latest_row = obs["period"] == latest["period"]
+            obs_age = (as_of - obs["period_end"]).days
+            rows.append({
+                "Loại dòng": "Quan sát vĩ mô", "Chỉ tiêu": str(obs.get("label", indicator)), "Mã chỉ tiêu": str(indicator),
+                "Kỳ gần nhất": str(obs["period"]), "Tần suất": str(obs["frequency"]), "Giá trị": float(obs["value"]),
+                "Đơn vị": str(obs["unit"]), "Số ngày từ cuối kỳ": int(obs_age),
+                "Độ mới": "cũ — kiểm tra cập nhật" if latest_row and age > 550 else "kỳ lịch sử" if not latest_row else "chưa cảnh báo theo ngưỡng 550 ngày",
+                "published_at": str(obs["published_at"]) if pd.notna(obs["published_at"]) else None,
+                "Loại bằng chứng": "giả lập" if kind == "synthetic" else "quan sát nguồn", 
+                "source_id": source_by_indicator[str(indicator)]
+            })
+
+    # 3. Đọc file policy_events.csv nằm cùng cấp thư mục macro/
+    policy_path = CURRENT_DIR / "policy_events.csv"
+    if policy_path.exists() and policy_path.stat().st_size:
+        policy = pd.read_csv(policy_path, dtype=str).fillna("")
+        required = {"event_date", "title", "authority", "summary", "affected_sectors", "source_url", "retrieved_at"}
+        if not required.issubset(policy.columns): 
+            raise ValueError(f"CSV chính sách thiếu cột: {', '.join(sorted(required-set(policy.columns)))}")
+        
+        policy["event_date"] = pd.to_datetime(policy["event_date"], errors="coerce").dt.date
+        policy["retrieved_at"] = pd.to_datetime(policy["retrieved_at"], errors="coerce", utc=True)
+        if policy["event_date"].isna().any() or policy["retrieved_at"].isna().any() or policy["source_url"].eq("").any():
+            raise ValueError("Mỗi sự kiện chính sách cần ngày, thời điểm truy xuất và URL nguồn hợp lệ")
+            
+        for _, event in policy.loc[policy["event_date"] <= as_of].sort_values("event_date").iterrows():
+            sid = "policy-" + hashlib.sha1((str(event["event_date"])+str(event["title"])).encode()).hexdigest()[:12]
+            sources.append(Source(
+                id=sid, title=str(event["title"]), kind="snapshot", url=str(event["source_url"]),
+                retrieved_at=event["retrieved_at"].to_pydatetime(), period=str(event["event_date"]),
+                sha256=hashlib.sha256(policy_path.read_bytes()).hexdigest(), 
+                note=f"Cơ quan: {event['authority']}; ngành liên quan: {event['affected_sectors']}; độ tin cậy do người nhập gán: {event.get('confidence','')}"
+            ))
+            rows.append({
+                "Loại dòng": "Sự kiện chính sách", "Chỉ tiêu": str(event["title"]), "Kỳ gần nhất": str(event["event_date"]),
+                "Tần suất": "sự kiện", "Giá trị": str(event["summary"]), "Đơn vị": "mô tả định tính",
+                "Số ngày từ cuối kỳ": (as_of-event["event_date"]).days, "Độ mới": "kiểm tra hiệu lực/văn bản sửa đổi",
+                "Ngành liên quan": str(event["affected_sectors"]), "Loại bằng chứng": "sự kiện nguồn", "source_id": sid
+            })
+
+    status = "partial" if any(str(r.get("Độ mới", "")).startswith("cũ") for r in rows) else "ok"
+    summary = ("Dữ liệu demo là GIẢ LẬP, không phải số liệu thực. " if kind == "synthetic" else "Tóm tắt quan sát vĩ mô theo kỳ/đơn vị và nguồn đã lưu. ") + "Các quan hệ với doanh nghiệp là cơ chế/giả thuyết cần kiểm chứng, không suy ra nhân quả từ tương quan."
+    
+    return sources, Section(title="Tổng quan vĩ mô", status=status, rows=rows, source_ids=[s.id for s in sources], summary=summary)
