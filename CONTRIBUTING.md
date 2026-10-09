@@ -21,7 +21,7 @@ Không commit `.env`, API key, dữ liệu người dùng trong `var/` hay nhậ
 
 ## Cấp quyền GitHub
 
-Repo được tạo riêng tư. Chủ repo mời tài khoản GitHub của 5 thành viên còn lại qua Settings → Collaborators. Các nhánh TV1–TV6 là nơi nhận việc; chúng không tự cấp quyền truy cập. Tên người và quyền cần được chủ repo gắn theo danh sách nhóm thực tế.
+Repo công khai: cả nhóm có thể mở link, clone hoặc fork ngay. Để cùng push trực tiếp, chủ repo mời tài khoản GitHub của các thành viên qua Settings → Collaborators. Các nhánh TV1–TV6 là nơi nhận việc; nhánh không tự cấp quyền ghi. Khi chưa được mời, thành viên fork và gửi pull request về repo chung.
 
 ## Bật CI cho repo
 

@@ -5,50 +5,50 @@
     {
       "upstream_path": "src/arminer/core/dictionary.py",
       "local_path": "src/vnresearch/_vendor/dictionary.py",
-      "upstream_sha256": "2355566e124574290b6acb7af55e709544590681aaff97ca13d49c46dff7b115",
-      "local_sha256": "2355566e124574290b6acb7af55e709544590681aaff97ca13d49c46dff7b115",
+      "upstream_sha256": "30f27278a67810d0cf2f8728e2e0776943fb29ac63f4a5874410c296b83a2acf",
+      "local_sha256": "30f27278a67810d0cf2f8728e2e0776943fb29ac63f4a5874410c296b83a2acf",
       "modified": false
     },
     {
       "upstream_path": "src/arminer/mining/matcher.py",
       "local_path": "src/vnresearch/_vendor/matcher.py",
-      "upstream_sha256": "c121948cc9dc9ed5b685e8cf60a4a0c459d81924c3547a797cc63080dcb9be38",
-      "local_sha256": "cc1c046f6196efcee80c494ca1ab9ea58f93d579cd49c613c32a007498fda668",
+      "upstream_sha256": "ec856158a25010c8d1997ab9a39830565846aefd9fccd4480dd300e4cd6064ed",
+      "local_sha256": "8a21c98d919c986675033a125999f5ea1608eaae5fa911ff419c69b04f602246",
       "modified": true
     },
     {
       "upstream_path": "src/arminer/mining/snippet_extractor.py",
       "local_path": "src/vnresearch/_vendor/snippet_extractor.py",
-      "upstream_sha256": "ccfde7debd74bcdc0a6de3244c460a714a89558ca643094db339e0cbb4ec3fa8",
-      "local_sha256": "ccfde7debd74bcdc0a6de3244c460a714a89558ca643094db339e0cbb4ec3fa8",
+      "upstream_sha256": "c95030e704980476b8a7f55806a076b6595edf7bae56d5607ff06ddfb76810f5",
+      "local_sha256": "c95030e704980476b8a7f55806a076b6595edf7bae56d5607ff06ddfb76810f5",
       "modified": false
     },
     {
       "upstream_path": "src/arminer/data/news_scraper.py",
       "local_path": "src/vnresearch/_vendor/news_scraper.py",
-      "upstream_sha256": "2302a7e6ace7071560079f52dc9a1b677951193b323ec78bc8be07449143b623",
-      "local_sha256": "dff58c410d5e0cbc059852d78f6809c38efbcfd79d5de5d319dafc6b323322e7",
+      "upstream_sha256": "2a6ec85962772b15de2cc4b7800d020c78818eb0c0b32729fbd9caa78cbf1188",
+      "local_sha256": "fc89024679b864a5241c62b250b05796b4e8af511cd74cabab154641f83b00aa",
       "modified": true
     },
     {
       "upstream_path": "src/arminer/data/bctn_validator.py",
       "local_path": "src/vnresearch/_vendor/bctn_validator.py",
-      "upstream_sha256": "d3cfd563d1a440c90fe2e83030e17cae0394391e1a552d13d7f6d0b23a49d8e1",
-      "local_sha256": "d3cfd563d1a440c90fe2e83030e17cae0394391e1a552d13d7f6d0b23a49d8e1",
+      "upstream_sha256": "53848507a6fd51a6c75cf5664161bb76b504855954f313a864d8d3a0047d6de3",
+      "local_sha256": "53848507a6fd51a6c75cf5664161bb76b504855954f313a864d8d3a0047d6de3",
       "modified": false
     },
     {
       "upstream_path": "src/arminer/data/fixtures/company_websites.json",
       "local_path": "src/vnresearch/assets/company_websites.json",
-      "upstream_sha256": "49c62fb8a13ef6f0a73e1af938fddfd8af8e3c94a893874e7fd301aaa49199de",
-      "local_sha256": "49c62fb8a13ef6f0a73e1af938fddfd8af8e3c94a893874e7fd301aaa49199de",
+      "upstream_sha256": "a0bf1747f1c530ffb1819e7b0671d7bddc5cb75e539b911eec7229a36a451045",
+      "local_sha256": "a0bf1747f1c530ffb1819e7b0671d7bddc5cb75e539b911eec7229a36a451045",
       "modified": false
     },
     {
       "upstream_path": "danh_sach_doanh_nghiep_niem_yet.csv",
       "local_path": "src/vnresearch/assets/companies.csv",
-      "upstream_sha256": "42caf8123b5073a0dc730f9047df02cb8a3f7912dd5ed9a12cc6fdbdc7b118fd",
-      "local_sha256": "42caf8123b5073a0dc730f9047df02cb8a3f7912dd5ed9a12cc6fdbdc7b118fd",
+      "upstream_sha256": "e6e0b4859d5f0d37fbd48fe4e492f9cfee84d2290cfeda85d25fc175dc51913f",
+      "local_sha256": "e6e0b4859d5f0d37fbd48fe4e492f9cfee84d2290cfeda85d25fc175dc51913f",
       "modified": false
     },
     {
@@ -96,29 +96,29 @@
     {
       "upstream_path": "src/arminer/templates/esg_dictionary.yaml",
       "local_path": "src/vnresearch/assets/esg_dictionary.yaml",
-      "upstream_sha256": "8edc67ef87ab9c47cb9af5b5a6fc3b21f18cf977539b2f2394c405a3d3c72b6e",
-      "local_sha256": "8edc67ef87ab9c47cb9af5b5a6fc3b21f18cf977539b2f2394c405a3d3c72b6e",
+      "upstream_sha256": "e74fb6306141786f4c679579340a327c0e817103954f8967f908ad4f41387c64",
+      "local_sha256": "e74fb6306141786f4c679579340a327c0e817103954f8967f908ad4f41387c64",
       "modified": false
     },
     {
       "upstream_path": "src/arminer/templates/fintech_dictionary.yaml",
       "local_path": "src/vnresearch/assets/fintech_dictionary.yaml",
-      "upstream_sha256": "5494e5114372cb8b7509992f01d8c6c84d8e00577b17e452ec1c317bcac4a173",
-      "local_sha256": "5494e5114372cb8b7509992f01d8c6c84d8e00577b17e452ec1c317bcac4a173",
+      "upstream_sha256": "08f8894d7e4f340a7188a9179f170db38128d5da5cf831aaef40def65d6eb214",
+      "local_sha256": "08f8894d7e4f340a7188a9179f170db38128d5da5cf831aaef40def65d6eb214",
       "modified": false
     },
     {
       "upstream_path": "src/arminer/templates/blockchain_dictionary.yaml",
       "local_path": "src/vnresearch/assets/blockchain_dictionary.yaml",
-      "upstream_sha256": "e83d23c0f8072abd5465b521a141f01d54c94b6fc0906bcbd21393f201f493cb",
-      "local_sha256": "e83d23c0f8072abd5465b521a141f01d54c94b6fc0906bcbd21393f201f493cb",
+      "upstream_sha256": "914d1ae9a1996a958650f896f722de67bad0ee8ceb0faad07c2e605d50d02f07",
+      "local_sha256": "914d1ae9a1996a958650f896f722de67bad0ee8ceb0faad07c2e605d50d02f07",
       "modified": false
     },
     {
       "upstream_path": "LICENSE",
       "local_path": "third_party/vn-annual-report-miner-LICENSE",
-      "upstream_sha256": "fb4f8ee5b0f0809d2697394d6a3329854a6cf2a4838d73b2716bb1f7b09442ed",
-      "local_sha256": "fb4f8ee5b0f0809d2697394d6a3329854a6cf2a4838d73b2716bb1f7b09442ed",
+      "upstream_sha256": "961011e32c536fd05916f274efcd20e1add9da0e3b7f3d898f888165129d2b2d",
+      "local_sha256": "961011e32c536fd05916f274efcd20e1add9da0e3b7f3d898f888165129d2b2d",
       "modified": false
     }
   ],
@@ -133,5 +133,6 @@
     "news_scraper.py": "Portable asset paths; reject unknown years under year filter; TLS certificate validation always enabled.",
     "matcher.py": "Imports use vnresearch._vendor instead of arminer; no upstream environment bootstrap.",
     "financial_engine": "Reimplemented curated ratios with exact mappings, adjacent-year YoY, no missing-value zero filling, and distinct EBIT/EBITDA."
-  }
+  },
+  "hash_basis": "Upstream Git blob bytes; local delivery bytes. Tracked text is normalized to LF via .gitattributes."
 }
