@@ -4,7 +4,7 @@
 
 **Luồng tự động có kiểm tra chất lượng.** Ở chế độ `live`, ứng dụng tự lấy các nguồn đã tích hợp; LLM/Jev chỉ chạy khi được bật và cấu hình. Ở `snapshot` dùng dữ liệu lưu/CSV; `demo` kiểm tra xuất báo cáo offline. Nguồn lỗi hoặc thiếu bằng chứng được thể hiện trong báo cáo `partial`, không được xem là xác nhận số liệu đúng. Phạm vi nghiệm thu còn lại nằm trong [ma trận yêu cầu](docs/REQUIREMENTS.md).
 
-**Bản kiểm chứng TV1/TV2:** [nền tảng](docs/TV1_IMPLEMENTATION.md), [dữ liệu](docs/TV2_IMPLEMENTATION.md), [audit và kế hoạch](docs/TV1_TV2_AUDIT_PLAN.md). Dữ liệu đã đối chiếu có 51 quan sát trong 7 envelope: FPT/SSI/VCB năm 2025, các số so sánh 2024, và SSI bán niên 2026. Phạm vi này không phải xác nhận mọi số trên thị trường đều đúng.
+**Bằng chứng kiểm chứng hiện có:** [nền tảng](docs/TV1_IMPLEMENTATION.md), [dữ liệu](docs/TV2_IMPLEMENTATION.md), [audit](docs/TV1_TV2_AUDIT_PLAN.md). Đã đối chiếu 51 quan sát trong 7 envelope cho FPT/SSI/VCB và các kỳ so sánh. Đây là phạm vi hữu hạn, không phải xác nhận mọi mã/thời kỳ đều đúng.
 
 ## Chạy lần đầu trên Windows
 
@@ -51,7 +51,7 @@ try {
 
 Linux/macOS dùng `.venv/bin/python`.
 
-## Đã có trong sườn
+## Tính năng sản phẩm
 
 - Web tiếng Việt: chọn mã, ngày chốt, giai đoạn, hồ sơ rủi ro, nội dung PDF, CSV bổ sung và bật API AI.
 - BCTC sẵn có: **6 tệp Parquet / 1.921.197 dòng upstream**, kỳ lớn nhất 2025; danh mục doanh nghiệp và phân ngành ICB. Số dòng không chứng minh độ phủ hay độ chính xác từng doanh nghiệp.
@@ -65,20 +65,18 @@ Linux/macOS dùng `.venv/bin/python`.
 - Tác vụ có UUID, token truy cập riêng, SQLite lưu tiến độ; khởi động lại đánh dấu tác vụ dở dang. Không nhận đường dẫn file máy chủ qua API.
 - Mẫu CI Windows/Linux sẵn ở `docs/ci/github-actions.yml`, test hồi quy, contract dữ liệu và quy trình ghép nhánh. Workflow GitHub Actions chưa được bật/chạy.
 
-## Phân công 6 thành viên
+## Kiến trúc sản phẩm
 
-Chưa có tên/GitHub username nên dùng TV1–TV6. Trưởng nhóm điền tên thật theo vai trò này. Mỗi người nhận một nhánh riêng, không đẩy thẳng vào `main`.
+| Thành phần | Vai trò |
+|---|---|
+| `api/`, `platform/`, `domain/` | API, hàng đợi job, quyền tải file, cấu hình và contract chung |
+| `data/`, `assets/` | BCTC, danh mục doanh nghiệp, filing và giá/giao dịch |
+| `macro/`, `sector/` | Chỉ tiêu vĩ mô và đối chiếu ngành theo kỳ |
+| `intelligence/`, `_vendor/` | Tin, PDF tài chính và bằng chứng theo nguồn/trang |
+| `analysis/` | Công thức, kịch bản, LLM và Jev có guard |
+| `reports/`, `static/` | Giao diện, PDF, JSON và manifest |
 
-| Thành viên | Phần sở hữu | Việc phải hoàn thiện | Nhánh |
-|---|---|---|---|
-| **TV1** | `api/`, `platform/`, `domain/`, CI | Tích hợp hệ thống, API contract, quản lý tác vụ, quyền truy cập, chuẩn dữ liệu và review ghép nhánh | `member01-platform` |
-| **TV2** | `data/`, `assets/bctc/`, `assets/companies.csv` | Giá/giao dịch thật; BCTC mới; chuẩn đơn vị; corporate actions; đối chiếu báo cáo gốc và truy vết nguồn | `member02-market-financial-data` |
-| **TV3** | `macro/`, `sector/`, `assets/macro/` | Vĩ mô cập nhật, lãi suất/tỷ giá; động lực ngành; peer group cùng kỳ; giải thích có bằng chứng | `member03-macro-sector` |
-| **TV4** | `intelligence/`, `_vendor/`, từ điển | Tin doanh nghiệp, BCTN/BCTC và báo cáo CTCK; OCR, trích dẫn theo trang/ngày, xác thực doanh nghiệp và chống trùng | `member04-news-documents` |
-| **TV5** | `analysis/` | Tỷ số, định giá theo ngành, kịch bản, rủi ro, bộ tổng hợp API AI và kiểm chứng lập luận | `member05-analysis-ai` |
-| **TV6** | `static/`, `reports/`, demo/QA | Trải nghiệm người dùng, biểu đồ, nội dung PDF, kiểm thử luồng người dùng và hồ sơ bàn giao | `member06-ui-pdf-qa` |
-
-**Đọc tài liệu nhận việc:** [TV1](docs/team/01-platform.md), [TV2](docs/team/02-data.md), [TV3](docs/team/03-macro-sector.md), [TV4](docs/team/04-intelligence.md), [TV5](docs/team/05-analysis-ai.md), [TV6](docs/team/06-ui-pdf.md).
+API contract: [docs/contracts](docs/contracts/README.md). Cấu hình LLM/Jev: [docs/AI_INTEGRATION.md].
 
 ## Kế thừa có chọn lọc
 
@@ -95,21 +93,15 @@ Nguồn: [Tumiqa/vn-annual-report-miner](https://github.com/Tumiqa/vn-annual-rep
 
 Chi tiết từng tệp, hash và phần bị loại ở [manifest kế thừa](third_party/upstream_manifest.json). Giữ thông tin tác giả và giấy phép upstream trong `third_party/`.
 
-## Phần phải thêm/hoàn thiện để đạt đề bài
+## Giới hạn nghiệm thu còn mở
 
-Các việc dưới đây là **backlog bắt buộc trước nghiệm thu bài nộp**, đã gán cho 6 thành viên; không coi sườn hiện tại là sản phẩm đã nghiệm thu.
+- Số tài chính đã đối chiếu có phạm vi hữu hạn; danh mục hiện tại chưa chứng minh độ phủ mọi mã, mã nhỏ hoặc doanh nghiệp sản xuất.
+- World Bank trả chuỗi năm sửa đổi mới nhất; chưa có bằng chứng vintage lịch sử tại từng ngày chốt. Cơ sở điều chỉnh giá KBS chưa xác minh.
+- Nguồn tin live và OCR cần đối chiếu trên mẫu tài liệu thật; heuristic ticker/prompt-like chỉ là bộ lọc, không phải xác thực tuyệt đối.
+- Test provider/UI hiện không thay cho kiểm tra key/model thật, review claim → nguồn và duyệt kết quả Jev trên nhiều ngành.
+- GitHub Actions có workflow mẫu nhưng chưa có lần chạy CI được ghi nhận. PDF demo offline không thay thế nghiệm thu live đa mã/ngành và luồng trình duyệt.
 
-1. **Dữ liệu thật và chính xác (TV2 + TV4):** chốt nguồn giá được sử dụng, cập nhật BCTC, kiểm tra đơn vị, điều chỉnh chia tách/cổ tức, phân biệt hợp nhất/riêng lẻ và lưu ngày công bố. Đối chiếu số liệu chính với báo cáo phát hành của doanh nghiệp.
-2. **Vĩ mô (TV3):** bổ sung chuỗi tháng/quý, lãi suất, tỷ giá và chính sách phù hợp; trình bày thời kỳ và cơ chế ảnh hưởng tới ngành. World Bank theo năm là một nguồn đầu vào, không đại diện đầy đủ bối cảnh hiện tại.
-3. **Ngành (TV3 + TV5):** peer group có lý do lựa chọn, động lực/chu kỳ ngành và chỉ tiêu riêng; không so trực tiếp tỷ số ngân hàng với sản xuất.
-4. **Cơ hội đầu tư (TV5):** định giá theo mô hình phù hợp từng ngành, bội số có căn cứ, kịch bản tăng/giảm, độ nhạy, catalyst và rủi ro. Nhận định phải gắn với bằng chứng, giả định và thời hạn.
-5. **Tin và tài liệu (TV4):** cập nhật nguồn hoạt động, kiểm tra đúng doanh nghiệp/ngày, đọc báo cáo CTCK khi nguồn được sử dụng, OCR trang scan và trích đúng trang. Tin không rõ ngày không được gán vào kỳ phân tích.
-6. **LLM + Jev (TV5 + TV1):** cấu hình riêng URL/key/model của hai dịch vụ, kiểm tra trên đa mã/đa ngành, giới hạn chi phí, đánh giá hỗ trợ của nguồn cho từng lập luận và quyết định review, prompt injection và lỗi nhà cung cấp. Test mô phỏng không chứng minh chất lượng model thật.
-7. **PDF và vận hành (TV6 + TV1):** báo cáo theo nhu cầu có đủ vĩ mô → ngành → doanh nghiệp → cơ hội/rủi ro, biểu đồ đúng đơn vị, nguồn dẫn và ngày chốt. Kiểm tra PDF thực, luồng tải file, đồng thời nhiều tác vụ và phục hồi sau dừng tiến trình.
-
-Ma trận đầy đủ và điều kiện đạt: [REQUIREMENTS](docs/REQUIREMENTS.md). Giao diện dữ liệu chung: [CONTRACTS](docs/contracts/README.md). Quy trình làm chung: [CONTRIBUTING](CONTRIBUTING.md).
-
-**Bật CI (TV1):** sao chép `docs/ci/github-actions.yml` thành `.github/workflows/ci.yml`, commit và push bằng thông tin xác thực có quyền `workflow`. Bản bàn giao chỉ chứa mẫu; chỉ ghi CI đạt sau khi xem kết quả workflow thật. Các thành viên vẫn chạy pytest/ruff trên máy mình trước PR.
+Ma trận yêu cầu và điều kiện đạt: [docs/REQUIREMENTS.md](docs/REQUIREMENTS.md). CI mẫu: [docs/ci/github-actions.yml](docs/ci/github-actions.yml).
 
 ## Kết nối LLM và Jev trong giao diện
 
@@ -138,28 +130,28 @@ HTTP chỉ được dùng cho loopback; provider ngoài máy cần HTTPS. Không
 
 Định dạng CSV có mẫu trong `examples/` và contract. `report.json` giữ toàn bộ bảng ngành; PDF hiển thị bảng rút gọn và chỉ rõ nơi lấy đầy đủ. `manifest.json` lưu hash PDF/JSON và thông tin nguồn.
 
-Không bật dịch vụ ra mạng khi chưa có key truy cập. Dùng `VNRESEARCH_USER_TOKENS_JSON` để cấp token riêng từng thành viên; shared key chỉ là một principal. Tác vụ/upload có owner, hash và hạn dùng; queue SQLite có giới hạn, idempotency và recovery. Worker dở dang không tự lặp lời gọi AI không rõ kết quả. Chỉ một process dùng mỗi data directory. `/api/health/ready` tách khỏi liveness. `var/`, upload và `.env` không được commit.
+Không bật dịch vụ ra mạng khi chưa có key truy cập. Dùng `VNRESEARCH_USER_TOKENS_JSON` để cấp token riêng từng người dùng; shared key chỉ là một principal. Tác vụ/upload có owner, hash và hạn dùng; queue SQLite có giới hạn, idempotency và recovery. Worker dở dang không tự lặp lời gọi AI không rõ kết quả. Chỉ một process dùng mỗi data directory. `/api/health/ready` tách khỏi liveness. `var/`, upload và `.env` không được commit.
 
 ## Cây repo
 
 ```text
 src/vnresearch/
-  api/            Web API và tạo tác vụ                      TV1
-  platform/       cấu hình, SQLite, file kết quả             TV1
-  domain/         schema chung, validation                   TV1 + review cả nhóm
-  data/           BCTC, danh mục công ty, giá và giao dịch    TV2
-  macro/          nguồn và phân tích vĩ mô                   TV3
-  sector/         so sánh doanh nghiệp trong ngành           TV3
-  intelligence/   tin tức, tài liệu và trích bằng chứng       TV4
-  _vendor/        mã kế thừa có ghi nhận nguồn                TV4
-  analysis/       tài chính, định giá, AI, pipeline           TV5
-  reports/        PDF, JSON, manifest                        TV6
-  static/         giao diện Web                              TV6
+  api/            API và tạo tác vụ
+  platform/       cấu hình, SQLite, file kết quả
+  domain/         schema chung và validation
+  data/           BCTC, danh mục công ty, giá và giao dịch
+  macro/          nguồn và phân tích vĩ mô
+  sector/         so sánh doanh nghiệp trong ngành
+  intelligence/   tin tức, tài liệu và trích bằng chứng
+  _vendor/        mã kế thừa có ghi nhận nguồn
+  analysis/       tài chính, định giá, AI và pipeline
+  reports/        PDF, JSON, manifest
+  static/         giao diện Web
   assets/         BCTC, danh mục, từ điển, font
 tests/            hồi quy, contract, API, AI, PDF
-docs/team/        6 gói công việc, bàn giao và nghiệm thu
+docs/team/        ghi chú vận hành và kiểm tra từng mô-đun
 docs/contracts/   giao diện module và định dạng dữ liệu
-docs/ci/          mẫu GitHub Actions để TV1 bật
+docs/ci/          mẫu GitHub Actions
 third_party/      giấy phép và manifest kế thừa
 .github/          mẫu pull request
 ```
