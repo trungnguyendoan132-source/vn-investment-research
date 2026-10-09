@@ -22,3 +22,14 @@ Không commit `.env`, API key, dữ liệu người dùng trong `var/` hay nhậ
 ## Cấp quyền GitHub
 
 Repo được tạo riêng tư. Chủ repo mời tài khoản GitHub của 5 thành viên còn lại qua Settings → Collaborators. Các nhánh TV1–TV6 là nơi nhận việc; chúng không tự cấp quyền truy cập. Tên người và quyền cần được chủ repo gắn theo danh sách nhóm thực tế.
+
+## Bật CI cho repo
+
+Mẫu Windows/Linux đã chuẩn bị trong `docs/ci/github-actions.yml`; bản bàn giao chưa bật/chạy workflow GitHub Actions. TV1 dùng thông tin xác thực có quyền `workflow` để đưa mẫu vào vị trí hoạt động:
+
+```powershell
+New-Item -ItemType Directory -Force .github/workflows
+Copy-Item docs/ci/github-actions.yml .github/workflows/ci.yml
+```
+
+TV1 commit/push thay đổi trên nhánh cá nhân và mở PR, xem kết quả trong tab Actions trước khi ghi CI đạt. Quyền `repo` của token hiện tại chưa đủ để tạo/cập nhật workflow; mẫu nằm trong `docs/ci/` để repo vẫn được bàn giao. Mọi thành viên tiếp tục chạy `pytest -q` và `ruff check src tests` trên máy trước PR.

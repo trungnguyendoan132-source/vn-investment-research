@@ -1,0 +1,1201 @@
+{
+  "schema_version": "1.0.0",
+  "ticker": "FPT",
+  "company_name": "Công ty Cổ phần FPT",
+  "sector_name": "Công nghệ Thông tin",
+  "request": {
+    "ticker": "FPT",
+    "as_of": "2026-10-09",
+    "start_year": 2022,
+    "end_year": 2025,
+    "mode": "demo",
+    "risk_profile": "balanced",
+    "horizon_months": 12,
+    "sections": [
+      "macro",
+      "sector",
+      "financial",
+      "market",
+      "news",
+      "valuation"
+    ],
+    "news_limit": 5,
+    "use_ai": false,
+    "use_jev": false,
+    "datasets": {
+      "prices": null,
+      "macro": null,
+      "news": null
+    },
+    "valuation": {
+      "target_pe": 20.0,
+      "target_pb": null,
+      "shares_outstanding": null,
+      "shares_source": null
+    }
+  },
+  "generated_at": "2026-10-09T06:44:21.167766Z",
+  "status": "complete",
+  "decision": "MINH HỌA - KHÔNG DÙNG ĐỂ QUYẾT ĐỊNH ĐẦU TƯ",
+  "financial_years": [
+    {
+      "year": 2022,
+      "facts": {
+        "total_assets": 51650403735130.0,
+        "current_assets": 30937711076141.0,
+        "current_liabilities": 24521161696202.0,
+        "total_liabilities": 26294279047318.0,
+        "equity": 25356124687812.0,
+        "equity_parent": 21046468414614.0,
+        "noncontrolling_interest": 4309656273198.0,
+        "revenue": 44009527680911.0,
+        "net_income": 6491343454469.0,
+        "net_income_parent": 5310108591408.0,
+        "ebt": 7662282959880.0,
+        "interest_expense": 645725556308.0,
+        "ebit": 6794557295869.0,
+        "ebitda": 8627621794997.0,
+        "depreciation": 1833064499128.0,
+        "cfo": 5053831756700.0,
+        "capex": 3215243200871.0,
+        "eps": 3847.0
+      },
+      "metrics": [
+        {
+          "key": "roa",
+          "label": "ROA trên tài sản bình quân",
+          "value": 0.12323579411153912,
+          "unit": "ratio",
+          "formula": "LNST / ((Tài sản T + Tài sản T-1) / 2)",
+          "source_ids": [
+            "bctc-balance_sheet-HSX",
+            "bctc-cash_flow-HSX",
+            "bctc-income_statement-HSX"
+          ],
+          "note": ""
+        },
+        {
+          "key": "roe",
+          "label": "ROE trên vốn chủ bình quân",
+          "value": 0.27756138880547265,
+          "unit": "ratio",
+          "formula": "LNST / ((VCSH T + VCSH T-1) / 2)",
+          "source_ids": [
+            "bctc-balance_sheet-HSX",
+            "bctc-cash_flow-HSX",
+            "bctc-income_statement-HSX"
+          ],
+          "note": ""
+        },
+        {
+          "key": "liabilities_to_assets",
+          "label": "Nợ phải trả / Tài sản",
+          "value": 0.5090817717932756,
+          "unit": "ratio",
+          "formula": "Tổng nợ phải trả / Tổng tài sản; không đồng nhất với nợ vay",
+          "source_ids": [
+            "bctc-balance_sheet-HSX",
+            "bctc-cash_flow-HSX",
+            "bctc-income_statement-HSX"
+          ],
+          "note": ""
+        },
+        {
+          "key": "net_margin",
+          "label": "Biên lợi nhuận sau thuế",
+          "value": 0.1474985939756995,
+          "unit": "ratio",
+          "formula": "LNST / Doanh thu thuần; ngân hàng dùng tổng thu nhập hoạt động",
+          "source_ids": [
+            "bctc-balance_sheet-HSX",
+            "bctc-cash_flow-HSX",
+            "bctc-income_statement-HSX"
+          ],
+          "note": ""
+        },
+        {
+          "key": "current_ratio",
+          "label": "Thanh toán hiện hành",
+          "value": 1.2616739557217975,
+          "unit": "ratio",
+          "formula": "Tài sản ngắn hạn / Nợ ngắn hạn",
+          "source_ids": [
+            "bctc-balance_sheet-HSX",
+            "bctc-cash_flow-HSX",
+            "bctc-income_statement-HSX"
+          ],
+          "note": ""
+        },
+        {
+          "key": "cfo_to_income",
+          "label": "CFO / LNST",
+          "value": 0.7785494315850231,
+          "unit": "ratio",
+          "formula": "CFO / LNST",
+          "source_ids": [
+            "bctc-balance_sheet-HSX",
+            "bctc-cash_flow-HSX",
+            "bctc-income_statement-HSX"
+          ],
+          "note": ""
+        },
+        {
+          "key": "ebitda_margin",
+          "label": "Biên EBITDA",
+          "value": 0.196039863403015,
+          "unit": "ratio",
+          "formula": "EBITDA / Doanh thu; chỉ có số khi EBITDA hoặc EBIT và khấu hao đủ dữ liệu",
+          "source_ids": [
+            "bctc-balance_sheet-HSX",
+            "bctc-cash_flow-HSX",
+            "bctc-income_statement-HSX"
+          ],
+          "note": ""
+        },
+        {
+          "key": "fcf",
+          "label": "Dòng tiền tự do",
+          "value": 1838588555829.0,
+          "unit": "VND",
+          "formula": "CFO - CAPEX; thiếu CAPEX thì thiếu FCF",
+          "source_ids": [
+            "bctc-balance_sheet-HSX",
+            "bctc-cash_flow-HSX",
+            "bctc-income_statement-HSX"
+          ],
+          "note": ""
+        },
+        {
+          "key": "revenue_growth_yoy",
+          "label": "Tăng trưởng doanh thu YoY",
+          "value": 0.23423741868397754,
+          "unit": "ratio",
+          "formula": "(revenue T - revenue T-1) / |revenue T-1|; T-1 phải liền kề",
+          "source_ids": [
+            "bctc-balance_sheet-HSX",
+            "bctc-cash_flow-HSX",
+            "bctc-income_statement-HSX"
+          ],
+          "note": ""
+        },
+        {
+          "key": "net_income_growth_yoy",
+          "label": "Tăng trưởng LNST YoY",
+          "value": 0.21349375062858228,
+          "unit": "ratio",
+          "formula": "(net_income T - net_income T-1) / |net_income T-1|; T-1 phải liền kề",
+          "source_ids": [
+            "bctc-balance_sheet-HSX",
+            "bctc-cash_flow-HSX",
+            "bctc-income_statement-HSX"
+          ],
+          "note": ""
+        }
+      ],
+      "source_ids": [
+        "bctc-balance_sheet-HSX",
+        "bctc-cash_flow-HSX",
+        "bctc-income_statement-HSX"
+      ]
+    },
+    {
+      "year": 2023,
+      "facts": {
+        "total_assets": 60282827532899.0,
+        "current_assets": 36705751751876.0,
+        "current_liabilities": 29651673556227.0,
+        "total_liabilities": 30349816316666.0,
+        "equity": 29933011216233.0,
+        "equity_parent": 24974156360546.0,
+        "noncontrolling_interest": 4958854855687.0,
+        "revenue": 52617900827385.0,
+        "net_income": 7788049739616.0,
+        "net_income_parent": 6465190432622.0,
+        "ebt": 9203006098570.0,
+        "interest_expense": 832648611261.0,
+        "ebit": 8451627899363.0,
+        "ebitda": 10738142058051.0,
+        "depreciation": 2286514158688.0,
+        "cfo": 9517095698405.0,
+        "capex": 3978252082224.0,
+        "eps": 4661.0
+      },
+      "metrics": [
+        {
+          "key": "roa",
+          "label": "ROA trên tài sản bình quân",
+          "value": 0.13915527411099526,
+          "unit": "ratio",
+          "formula": "LNST / ((Tài sản T + Tài sản T-1) / 2)",
+          "source_ids": [
+            "bctc-balance_sheet-HSX",
+            "bctc-cash_flow-HSX",
+            "bctc-income_statement-HSX"
+          ],
+          "note": ""
+        },
+        {
+          "key": "roe",
+          "label": "ROE trên vốn chủ bình quân",
+          "value": 0.2817207978483245,
+          "unit": "ratio",
+          "formula": "LNST / ((VCSH T + VCSH T-1) / 2)",
+          "source_ids": [
+            "bctc-balance_sheet-HSX",
+            "bctc-cash_flow-HSX",
+            "bctc-income_statement-HSX"
+          ],
+          "note": ""
+        },
+        {
+          "key": "liabilities_to_assets",
+          "label": "Nợ phải trả / Tài sản",
+          "value": 0.5034570798807134,
+          "unit": "ratio",
+          "formula": "Tổng nợ phải trả / Tổng tài sản; không đồng nhất với nợ vay",
+          "source_ids": [
+            "bctc-balance_sheet-HSX",
+            "bctc-cash_flow-HSX",
+            "bctc-income_statement-HSX"
+          ],
+          "note": ""
+        },
+        {
+          "key": "net_margin",
+          "label": "Biên lợi nhuận sau thuế",
+          "value": 0.1480114108916087,
+          "unit": "ratio",
+          "formula": "LNST / Doanh thu thuần; ngân hàng dùng tổng thu nhập hoạt động",
+          "source_ids": [
+            "bctc-balance_sheet-HSX",
+            "bctc-cash_flow-HSX",
+            "bctc-income_statement-HSX"
+          ],
+          "note": ""
+        },
+        {
+          "key": "current_ratio",
+          "label": "Thanh toán hiện hành",
+          "value": 1.237898147039583,
+          "unit": "ratio",
+          "formula": "Tài sản ngắn hạn / Nợ ngắn hạn",
+          "source_ids": [
+            "bctc-balance_sheet-HSX",
+            "bctc-cash_flow-HSX",
+            "bctc-income_statement-HSX"
+          ],
+          "note": ""
+        },
+        {
+          "key": "cfo_to_income",
+          "label": "CFO / LNST",
+          "value": 1.2220127010737676,
+          "unit": "ratio",
+          "formula": "CFO / LNST",
+          "source_ids": [
+            "bctc-balance_sheet-HSX",
+            "bctc-cash_flow-HSX",
+            "bctc-income_statement-HSX"
+          ],
+          "note": ""
+        },
+        {
+          "key": "ebitda_margin",
+          "label": "Biên EBITDA",
+          "value": 0.2040777356983107,
+          "unit": "ratio",
+          "formula": "EBITDA / Doanh thu; chỉ có số khi EBITDA hoặc EBIT và khấu hao đủ dữ liệu",
+          "source_ids": [
+            "bctc-balance_sheet-HSX",
+            "bctc-cash_flow-HSX",
+            "bctc-income_statement-HSX"
+          ],
+          "note": ""
+        },
+        {
+          "key": "fcf",
+          "label": "Dòng tiền tự do",
+          "value": 5538843616181.0,
+          "unit": "VND",
+          "formula": "CFO - CAPEX; thiếu CAPEX thì thiếu FCF",
+          "source_ids": [
+            "bctc-balance_sheet-HSX",
+            "bctc-cash_flow-HSX",
+            "bctc-income_statement-HSX"
+          ],
+          "note": ""
+        },
+        {
+          "key": "revenue_growth_yoy",
+          "label": "Tăng trưởng doanh thu YoY",
+          "value": 0.19560248882670594,
+          "unit": "ratio",
+          "formula": "(revenue T - revenue T-1) / |revenue T-1|; T-1 phải liền kề",
+          "source_ids": [
+            "bctc-balance_sheet-HSX",
+            "bctc-cash_flow-HSX",
+            "bctc-income_statement-HSX"
+          ],
+          "note": ""
+        },
+        {
+          "key": "net_income_growth_yoy",
+          "label": "Tăng trưởng LNST YoY",
+          "value": 0.19975930933900526,
+          "unit": "ratio",
+          "formula": "(net_income T - net_income T-1) / |net_income T-1|; T-1 phải liền kề",
+          "source_ids": [
+            "bctc-balance_sheet-HSX",
+            "bctc-cash_flow-HSX",
+            "bctc-income_statement-HSX"
+          ],
+          "note": ""
+        }
+      ],
+      "source_ids": [
+        "bctc-balance_sheet-HSX",
+        "bctc-cash_flow-HSX",
+        "bctc-income_statement-HSX"
+      ]
+    },
+    {
+      "year": 2024,
+      "facts": {
+        "total_assets": 71999995678620.0,
+        "current_assets": 45535942846453.0,
+        "current_liabilities": 34836184067740.0,
+        "total_liabilities": 36272455573820.0,
+        "equity": 35727540104800.0,
+        "equity_parent": 29794230483796.0,
+        "noncontrolling_interest": 5933309621004.0,
+        "revenue": 62848794351367.0,
+        "net_income": 9427422530444.0,
+        "net_income_parent": 7856767812178.0,
+        "ebt": 11069666417819.0,
+        "interest_expense": 551639361786.0,
+        "ebit": 10508347783359.0,
+        "ebitda": 13043646259024.0,
+        "depreciation": 2535298475665.0,
+        "cfo": 11703777188868.0,
+        "capex": 3275312325702.0,
+        "eps": 4292.0
+      },
+      "metrics": [
+        {
+          "key": "roa",
+          "label": "ROA trên tài sản bình quân",
+          "value": 0.142534341217826,
+          "unit": "ratio",
+          "formula": "LNST / ((Tài sản T + Tài sản T-1) / 2)",
+          "source_ids": [
+            "bctc-balance_sheet-HSX",
+            "bctc-cash_flow-HSX",
+            "bctc-income_statement-HSX"
+          ],
+          "note": ""
+        },
+        {
+          "key": "roe",
+          "label": "ROE trên vốn chủ bình quân",
+          "value": 0.2871563622532094,
+          "unit": "ratio",
+          "formula": "LNST / ((VCSH T + VCSH T-1) / 2)",
+          "source_ids": [
+            "bctc-balance_sheet-HSX",
+            "bctc-cash_flow-HSX",
+            "bctc-income_statement-HSX"
+          ],
+          "note": ""
+        },
+        {
+          "key": "liabilities_to_assets",
+          "label": "Nợ phải trả / Tài sản",
+          "value": 0.5037841354286484,
+          "unit": "ratio",
+          "formula": "Tổng nợ phải trả / Tổng tài sản; không đồng nhất với nợ vay",
+          "source_ids": [
+            "bctc-balance_sheet-HSX",
+            "bctc-cash_flow-HSX",
+            "bctc-income_statement-HSX"
+          ],
+          "note": ""
+        },
+        {
+          "key": "net_margin",
+          "label": "Biên lợi nhuận sau thuế",
+          "value": 0.1500016448643131,
+          "unit": "ratio",
+          "formula": "LNST / Doanh thu thuần; ngân hàng dùng tổng thu nhập hoạt động",
+          "source_ids": [
+            "bctc-balance_sheet-HSX",
+            "bctc-cash_flow-HSX",
+            "bctc-income_statement-HSX"
+          ],
+          "note": ""
+        },
+        {
+          "key": "current_ratio",
+          "label": "Thanh toán hiện hành",
+          "value": 1.3071449719609645,
+          "unit": "ratio",
+          "formula": "Tài sản ngắn hạn / Nợ ngắn hạn",
+          "source_ids": [
+            "bctc-balance_sheet-HSX",
+            "bctc-cash_flow-HSX",
+            "bctc-income_statement-HSX"
+          ],
+          "note": ""
+        },
+        {
+          "key": "cfo_to_income",
+          "label": "CFO / LNST",
+          "value": 1.2414609773851721,
+          "unit": "ratio",
+          "formula": "CFO / LNST",
+          "source_ids": [
+            "bctc-balance_sheet-HSX",
+            "bctc-cash_flow-HSX",
+            "bctc-income_statement-HSX"
+          ],
+          "note": ""
+        },
+        {
+          "key": "ebitda_margin",
+          "label": "Biên EBITDA",
+          "value": 0.2075401190053265,
+          "unit": "ratio",
+          "formula": "EBITDA / Doanh thu; chỉ có số khi EBITDA hoặc EBIT và khấu hao đủ dữ liệu",
+          "source_ids": [
+            "bctc-balance_sheet-HSX",
+            "bctc-cash_flow-HSX",
+            "bctc-income_statement-HSX"
+          ],
+          "note": ""
+        },
+        {
+          "key": "fcf",
+          "label": "Dòng tiền tự do",
+          "value": 8428464863166.0,
+          "unit": "VND",
+          "formula": "CFO - CAPEX; thiếu CAPEX thì thiếu FCF",
+          "source_ids": [
+            "bctc-balance_sheet-HSX",
+            "bctc-cash_flow-HSX",
+            "bctc-income_statement-HSX"
+          ],
+          "note": ""
+        },
+        {
+          "key": "revenue_growth_yoy",
+          "label": "Tăng trưởng doanh thu YoY",
+          "value": 0.19443750820742223,
+          "unit": "ratio",
+          "formula": "(revenue T - revenue T-1) / |revenue T-1|; T-1 phải liền kề",
+          "source_ids": [
+            "bctc-balance_sheet-HSX",
+            "bctc-cash_flow-HSX",
+            "bctc-income_statement-HSX"
+          ],
+          "note": ""
+        },
+        {
+          "key": "net_income_growth_yoy",
+          "label": "Tăng trưởng LNST YoY",
+          "value": 0.2104985003484109,
+          "unit": "ratio",
+          "formula": "(net_income T - net_income T-1) / |net_income T-1|; T-1 phải liền kề",
+          "source_ids": [
+            "bctc-balance_sheet-HSX",
+            "bctc-cash_flow-HSX",
+            "bctc-income_statement-HSX"
+          ],
+          "note": ""
+        }
+      ],
+      "source_ids": [
+        "bctc-balance_sheet-HSX",
+        "bctc-cash_flow-HSX",
+        "bctc-income_statement-HSX"
+      ]
+    },
+    {
+      "year": 2025,
+      "facts": {
+        "total_assets": 88141991634625.0,
+        "current_assets": 58137438254908.0,
+        "current_liabilities": 41524928721230.0,
+        "total_liabilities": 44393950887086.0,
+        "equity": 43748040747539.0,
+        "equity_parent": 36482943944772.0,
+        "noncontrolling_interest": 7265096802767.0,
+        "revenue": 70112825100710.0,
+        "net_income": 11232339450734.0,
+        "net_income_parent": 9376127629501.0,
+        "ebt": 13043632833797.0,
+        "interest_expense": 809759601156.0,
+        "ebit": 10988543474155.0,
+        "ebitda": 13902721834887.0,
+        "depreciation": 2914178360732.0,
+        "cfo": 10136043915911.0,
+        "capex": 5097919349856.0,
+        "eps": 5216.0
+      },
+      "metrics": [
+        {
+          "key": "roa",
+          "label": "ROA trên tài sản bình quân",
+          "value": 0.14027975597384132,
+          "unit": "ratio",
+          "formula": "LNST / ((Tài sản T + Tài sản T-1) / 2)",
+          "source_ids": [
+            "bctc-balance_sheet-HSX",
+            "bctc-cash_flow-HSX",
+            "bctc-income_statement-HSX"
+          ],
+          "note": ""
+        },
+        {
+          "key": "roe",
+          "label": "ROE trên vốn chủ bình quân",
+          "value": 0.28266139939519364,
+          "unit": "ratio",
+          "formula": "LNST / ((VCSH T + VCSH T-1) / 2)",
+          "source_ids": [
+            "bctc-balance_sheet-HSX",
+            "bctc-cash_flow-HSX",
+            "bctc-income_statement-HSX"
+          ],
+          "note": ""
+        },
+        {
+          "key": "liabilities_to_assets",
+          "label": "Nợ phải trả / Tài sản",
+          "value": 0.5036640319078816,
+          "unit": "ratio",
+          "formula": "Tổng nợ phải trả / Tổng tài sản; không đồng nhất với nợ vay",
+          "source_ids": [
+            "bctc-balance_sheet-HSX",
+            "bctc-cash_flow-HSX",
+            "bctc-income_statement-HSX"
+          ],
+          "note": ""
+        },
+        {
+          "key": "net_margin",
+          "label": "Biên lợi nhuận sau thuế",
+          "value": 0.1602037777624832,
+          "unit": "ratio",
+          "formula": "LNST / Doanh thu thuần; ngân hàng dùng tổng thu nhập hoạt động",
+          "source_ids": [
+            "bctc-balance_sheet-HSX",
+            "bctc-cash_flow-HSX",
+            "bctc-income_statement-HSX"
+          ],
+          "note": ""
+        },
+        {
+          "key": "current_ratio",
+          "label": "Thanh toán hiện hành",
+          "value": 1.4000611210004246,
+          "unit": "ratio",
+          "formula": "Tài sản ngắn hạn / Nợ ngắn hạn",
+          "source_ids": [
+            "bctc-balance_sheet-HSX",
+            "bctc-cash_flow-HSX",
+            "bctc-income_statement-HSX"
+          ],
+          "note": ""
+        },
+        {
+          "key": "cfo_to_income",
+          "label": "CFO / LNST",
+          "value": 0.9023982902554321,
+          "unit": "ratio",
+          "formula": "CFO / LNST",
+          "source_ids": [
+            "bctc-balance_sheet-HSX",
+            "bctc-cash_flow-HSX",
+            "bctc-income_statement-HSX"
+          ],
+          "note": ""
+        },
+        {
+          "key": "ebitda_margin",
+          "label": "Biên EBITDA",
+          "value": 0.19829070950881159,
+          "unit": "ratio",
+          "formula": "EBITDA / Doanh thu; chỉ có số khi EBITDA hoặc EBIT và khấu hao đủ dữ liệu",
+          "source_ids": [
+            "bctc-balance_sheet-HSX",
+            "bctc-cash_flow-HSX",
+            "bctc-income_statement-HSX"
+          ],
+          "note": ""
+        },
+        {
+          "key": "fcf",
+          "label": "Dòng tiền tự do",
+          "value": 5038124566055.0,
+          "unit": "VND",
+          "formula": "CFO - CAPEX; thiếu CAPEX thì thiếu FCF",
+          "source_ids": [
+            "bctc-balance_sheet-HSX",
+            "bctc-cash_flow-HSX",
+            "bctc-income_statement-HSX"
+          ],
+          "note": ""
+        },
+        {
+          "key": "revenue_growth_yoy",
+          "label": "Tăng trưởng doanh thu YoY",
+          "value": 0.11557947649293296,
+          "unit": "ratio",
+          "formula": "(revenue T - revenue T-1) / |revenue T-1|; T-1 phải liền kề",
+          "source_ids": [
+            "bctc-balance_sheet-HSX",
+            "bctc-cash_flow-HSX",
+            "bctc-income_statement-HSX"
+          ],
+          "note": ""
+        },
+        {
+          "key": "net_income_growth_yoy",
+          "label": "Tăng trưởng LNST YoY",
+          "value": 0.1914539116562748,
+          "unit": "ratio",
+          "formula": "(net_income T - net_income T-1) / |net_income T-1|; T-1 phải liền kề",
+          "source_ids": [
+            "bctc-balance_sheet-HSX",
+            "bctc-cash_flow-HSX",
+            "bctc-income_statement-HSX"
+          ],
+          "note": ""
+        }
+      ],
+      "source_ids": [
+        "bctc-balance_sheet-HSX",
+        "bctc-cash_flow-HSX",
+        "bctc-income_statement-HSX"
+      ]
+    }
+  ],
+  "sections": {
+    "macro": {
+      "title": "Tổng quan vĩ mô",
+      "status": "ok",
+      "summary": "Theo dõi tăng trưởng, lạm phát và độ mở thương mại theo năm. Đọc cùng kỳ dữ liệu; các quan hệ với doanh nghiệp là nhận định cần kiểm chứng.",
+      "rows": [
+        {
+          "Chỉ tiêu": "Lạm phát CPI",
+          "Năm": 2025,
+          "Giá trị": 3.5,
+          "Đơn vị": "%/năm"
+        },
+        {
+          "Chỉ tiêu": "Xuất khẩu hàng hóa và dịch vụ / GDP",
+          "Năm": 2025,
+          "Giá trị": 88.0,
+          "Đơn vị": "% GDP"
+        },
+        {
+          "Chỉ tiêu": "Tăng trưởng GDP thực",
+          "Năm": 2025,
+          "Giá trị": 6.2,
+          "Đơn vị": "%/năm"
+        }
+      ],
+      "source_ids": [
+        "macro-FP-CPI-TOTL-ZG",
+        "macro-NE-EXP-GNFS-ZS",
+        "macro-NY-GDP-MKTP-KD-ZG"
+      ]
+    },
+    "sector": {
+      "title": "Phân tích ngành",
+      "status": "ok",
+      "summary": "Công nghệ Thông tin: 16 doanh nghiệp có dữ liệu năm 2025; trung vị tính trên các giá trị có dữ liệu, không gán số thiếu bằng 0. Các chỉ số bình quân cần năm 2024. Tỷ số lưu dạng phần số: 0,1 tương đương 10%.",
+      "rows": [
+        {
+          "Mã": "FPT",
+          "Năm": 2025,
+          "ROE": 0.28266139939519364,
+          "ROA": 0.14027975597384132,
+          "Biên LNST": 0.1602037777624832,
+          "Doanh thu YoY": 0.11557947649293296
+        },
+        {
+          "Mã": "TRUNG VỊ NGÀNH",
+          "Năm": 2025,
+          "ROE": 0.044120117065199776,
+          "ROA": 0.017415381211635515,
+          "Biên LNST": 0.01544813123084658,
+          "Doanh thu YoY": 0.13197916962139838
+        },
+        {
+          "Mã": "CKV",
+          "Năm": 2025,
+          "ROE": 0.039620209246945946,
+          "ROA": 0.016921093435666484,
+          "Biên LNST": 0.011803792651964051,
+          "Doanh thu YoY": -0.7144304220795843
+        },
+        {
+          "Mã": "CMG",
+          "Năm": 2025,
+          "ROE": 0.13160465199515486,
+          "ROA": 0.05612315479169548,
+          "Biên LNST": 0.05472385316881066,
+          "Doanh thu YoY": 0.14837886274986384
+        },
+        {
+          "Mã": "ELC",
+          "Năm": 2025,
+          "ROE": 0.09195424879625234,
+          "ROA": 0.05729873423993313,
+          "Biên LNST": 0.08466241579396662,
+          "Doanh thu YoY": 0.8968252031918461
+        },
+        {
+          "Mã": "ICT",
+          "Năm": 2025,
+          "ROE": 0.048620024883453614,
+          "ROA": 0.020215900041306332,
+          "Biên LNST": 0.015048803751675489,
+          "Doanh thu YoY": 0.343847417724084
+        },
+        {
+          "Mã": "ITD",
+          "Năm": 2025,
+          "ROE": 0.33848480912832274,
+          "ROA": 0.2186758711812538,
+          "Biên LNST": 0.17586031223515194,
+          "Doanh thu YoY": 0.4207346933334705
+        },
+        {
+          "Mã": "KST",
+          "Năm": 2025,
+          "ROE": 0.1398666786961544,
+          "ROA": 0.038616787152106855,
+          "Biên LNST": 0.01584745871001767,
+          "Doanh thu YoY": 0.5597043254227448
+        },
+        {
+          "Mã": "ONE",
+          "Năm": 2025,
+          "ROE": 0.03243994545258311,
+          "ROA": 0.009807092137785762,
+          "Biên LNST": 0.006978443547014574,
+          "Doanh thu YoY": -0.16941033935658384
+        },
+        {
+          "Mã": "POT",
+          "Năm": 2025,
+          "ROE": 0.03558030319889538,
+          "ROA": 0.004184275277668401,
+          "Biên LNST": 0.006203230797080546,
+          "Doanh thu YoY": 0.08607841248258061
+        },
+        {
+          "Mã": "SAM",
+          "Năm": 2025,
+          "ROE": 0.022253876691020212,
+          "ROA": 0.015517477473955096,
+          "Biên LNST": 0.017156590359113332,
+          "Doanh thu YoY": 0.5170028750843825
+        },
+        {
+          "Mã": "SGT",
+          "Năm": 2025,
+          "ROE": 0.14508422020981415,
+          "ROA": 0.04117068115480545,
+          "Biên LNST": 0.17635102144617906,
+          "Doanh thu YoY": 0.006039910662306807
+        },
+        {
+          "Mã": "SMT",
+          "Năm": 2025,
+          "ROE": -0.09516758765152702,
+          "ROA": -0.0444361061181327,
+          "Biên LNST": -0.19500269942485232,
+          "Doanh thu YoY": -0.6838612956525406
+        },
+        {
+          "Mã": "ST8",
+          "Năm": 2025,
+          "ROE": -0.02695049469453822,
+          "ROA": -0.018370361350940115,
+          "Biên LNST": -0.02545820884153436,
+          "Doanh thu YoY": -0.3322596056512375
+        },
+        {
+          "Mã": "UNI",
+          "Năm": 2025,
+          "ROE": -3.344418296219517e-05,
+          "ROA": -1.3698158422812591e-05,
+          "Biên LNST": -0.0022210275555555555,
+          "Doanh thu YoY": 3.21728566484614
+        },
+        {
+          "Mã": "VLA",
+          "Năm": 2025,
+          "ROE": 0.019648801011537015,
+          "ROA": 0.017909668987604547,
+          "Biên LNST": 0.07301311945905675,
+          "Doanh thu YoY": -0.1886323638748355
+        },
+        {
+          "Mã": "VTC",
+          "Năm": 2025,
+          "ROE": 0.04939627202454947,
+          "ROA": 0.009183960131492098,
+          "Biên LNST": 0.0076261344222269345,
+          "Doanh thu YoY": 1.210126128210195
+        }
+      ],
+      "source_ids": [
+        "bctc-balance_sheet-HNX",
+        "bctc-balance_sheet-HSX",
+        "bctc-cash_flow-HNX",
+        "bctc-cash_flow-HSX",
+        "bctc-income_statement-HNX",
+        "bctc-income_statement-HSX"
+      ]
+    },
+    "financial": {
+      "title": "Phân tích doanh nghiệp",
+      "status": "ok",
+      "summary": "BCTC năm 2025, 4 năm có dữ liệu. ROA/ROE dùng số bình quân; công thức tài chính không dùng LLM.",
+      "rows": [
+        {
+          "Chỉ tiêu": "ROA trên tài sản bình quân",
+          "Giá trị": 0.14027975597384132,
+          "Đơn vị": "ratio",
+          "Công thức": "LNST / ((Tài sản T + Tài sản T-1) / 2)"
+        },
+        {
+          "Chỉ tiêu": "ROE trên vốn chủ bình quân",
+          "Giá trị": 0.28266139939519364,
+          "Đơn vị": "ratio",
+          "Công thức": "LNST / ((VCSH T + VCSH T-1) / 2)"
+        },
+        {
+          "Chỉ tiêu": "Nợ phải trả / Tài sản",
+          "Giá trị": 0.5036640319078816,
+          "Đơn vị": "ratio",
+          "Công thức": "Tổng nợ phải trả / Tổng tài sản; không đồng nhất với nợ vay"
+        },
+        {
+          "Chỉ tiêu": "Biên lợi nhuận sau thuế",
+          "Giá trị": 0.1602037777624832,
+          "Đơn vị": "ratio",
+          "Công thức": "LNST / Doanh thu thuần; ngân hàng dùng tổng thu nhập hoạt động"
+        },
+        {
+          "Chỉ tiêu": "Thanh toán hiện hành",
+          "Giá trị": 1.4000611210004246,
+          "Đơn vị": "ratio",
+          "Công thức": "Tài sản ngắn hạn / Nợ ngắn hạn"
+        },
+        {
+          "Chỉ tiêu": "CFO / LNST",
+          "Giá trị": 0.9023982902554321,
+          "Đơn vị": "ratio",
+          "Công thức": "CFO / LNST"
+        },
+        {
+          "Chỉ tiêu": "Biên EBITDA",
+          "Giá trị": 0.19829070950881159,
+          "Đơn vị": "ratio",
+          "Công thức": "EBITDA / Doanh thu; chỉ có số khi EBITDA hoặc EBIT và khấu hao đủ dữ liệu"
+        },
+        {
+          "Chỉ tiêu": "Dòng tiền tự do",
+          "Giá trị": 5038124566055.0,
+          "Đơn vị": "VND",
+          "Công thức": "CFO - CAPEX; thiếu CAPEX thì thiếu FCF"
+        },
+        {
+          "Chỉ tiêu": "Tăng trưởng doanh thu YoY",
+          "Giá trị": 0.11557947649293296,
+          "Đơn vị": "ratio",
+          "Công thức": "(revenue T - revenue T-1) / |revenue T-1|; T-1 phải liền kề"
+        },
+        {
+          "Chỉ tiêu": "Tăng trưởng LNST YoY",
+          "Giá trị": 0.1914539116562748,
+          "Đơn vị": "ratio",
+          "Công thức": "(net_income T - net_income T-1) / |net_income T-1|; T-1 phải liền kề"
+        },
+        {
+          "Chỉ tiêu": "Doanh thu / Tổng thu nhập hoạt động",
+          "Giá trị": 70112825100710.0,
+          "Đơn vị": "VND",
+          "Công thức": "Giá trị BCTC gốc"
+        },
+        {
+          "Chỉ tiêu": "Lợi nhuận sau thuế",
+          "Giá trị": 11232339450734.0,
+          "Đơn vị": "VND",
+          "Công thức": "Giá trị BCTC gốc"
+        },
+        {
+          "Chỉ tiêu": "Tổng tài sản",
+          "Giá trị": 88141991634625.0,
+          "Đơn vị": "VND",
+          "Công thức": "Giá trị BCTC gốc"
+        },
+        {
+          "Chỉ tiêu": "Vốn chủ sở hữu",
+          "Giá trị": 43748040747539.0,
+          "Đơn vị": "VND",
+          "Công thức": "Giá trị BCTC gốc"
+        }
+      ],
+      "source_ids": [
+        "bctc-balance_sheet-HSX",
+        "bctc-cash_flow-HSX",
+        "bctc-income_statement-HSX"
+      ]
+    },
+    "market": {
+      "title": "Giá và giao dịch",
+      "status": "ok",
+      "summary": "109 phiên đến 2026-10-09; giá đã chuẩn hóa VND. Lợi suất chưa điều chỉnh cổ tức/chia tách nếu nguồn không cung cấp giá điều chỉnh.",
+      "rows": [
+        {
+          "Ngày giá": "2026-10-09",
+          "Giá đóng cửa (VND)": 60073.04662090697,
+          "Khối lượng": 719413,
+          "SMA20 (VND)": 58223.51747910046,
+          "Lợi suất 20 phiên": 0.033353699999411734,
+          "Biến động năm hóa": 0.18258973002802495,
+          "Sụt giảm tối đa trong cửa sổ": -0.1146469426836122
+        }
+      ],
+      "source_ids": [
+        "market"
+      ]
+    },
+    "news": {
+      "title": "Tin tức và bằng chứng",
+      "status": "ok",
+      "summary": "1 bài có ngày hợp lệ trong 365 ngày; 0 bài thiếu ngày, quá cũ hoặc sau ngày chốt bị loại.",
+      "rows": [
+        {
+          "Ngày": "2026-10-09",
+          "Tiêu đề": "Minh họa: FPT và kế hoạch công nghệ",
+          "Chủ đề": "growth, risks"
+        }
+      ],
+      "source_ids": [
+        "news-2207fa207a25d3e3"
+      ]
+    },
+    "valuation": {
+      "title": "Định giá và kịch bản",
+      "status": "ok",
+      "summary": "Giá ngày 2026-10-09, BCTC năm 2025. Kịch bản dùng bội số người dùng nhập, không phải giá trị nội tại đã kiểm chứng. Thiếu vốn thuộc cổ đông công ty mẹ hoặc số cổ phiếu có nguồn: không tự dùng vốn toàn tập đoàn để tính BVPS.",
+      "rows": [
+        {
+          "Chỉ tiêu": "Giá đóng cửa (VND)",
+          "Giá trị": 60073.04662090697
+        },
+        {
+          "Chỉ tiêu": "EPS báo cáo năm 2025 (VND/CP)",
+          "Giá trị": 5216.0
+        },
+        {
+          "Chỉ tiêu": "P/E trên EPS năm 2025, không phải TTM",
+          "Giá trị": 11.5170718214929
+        },
+        {
+          "Chỉ tiêu": "BVPS (VND/CP), theo số cổ phiếu có nguồn nhập",
+          "Giá trị": null
+        },
+        {
+          "Chỉ tiêu": "P/B",
+          "Giá trị": null
+        },
+        {
+          "Chỉ tiêu": "Bội số P/E do người dùng giả định",
+          "Giá trị": 20.0
+        },
+        {
+          "Chỉ tiêu": "Giá kịch bản P/E (VND)",
+          "Giá trị": 104320.0
+        },
+        {
+          "Chỉ tiêu": "Chênh lệch kịch bản P/E so với giá hiện tại",
+          "Giá trị": 0.7365525117831122
+        }
+      ],
+      "source_ids": [
+        "bctc-balance_sheet-HSX",
+        "bctc-cash_flow-HSX",
+        "bctc-income_statement-HSX",
+        "market"
+      ]
+    }
+  },
+  "news": [
+    {
+      "title": "Minh họa: FPT và kế hoạch công nghệ",
+      "text": "Đây là văn bản giả lập về FPT. Chuyển đổi số và quản trị rủi ro là các chủ đề dùng để kiểm tra khai phá văn bản. Nội dung này không mô tả sự kiện thật của doanh nghiệp.",
+      "url": "urn:demo:news",
+      "published_at": "2026-10-09",
+      "source_id": "news-2207fa207a25d3e3",
+      "ticker": "FPT",
+      "themes": [
+        "growth",
+        "risks"
+      ],
+      "snippets": [
+        "Đây là văn bản giả lập về FPT. Chuyển đổi số và quản trị rủi ro là các chủ đề dùng để kiểm tra khai phá văn bản. Nội dung này không mô tả sự kiện thật của doanh nghiệp.",
+        "Đây là văn bản giả lập về FPT. Chuyển đổi số và quản trị rủi ro là các chủ đề dùng để kiểm tra khai phá văn bản. Nội dung này không mô tả sự kiện thật của doanh nghiệp."
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "id": "bctc-balance_sheet-HSX",
+      "title": "BCTC đóng gói: balance_sheet/HSX.parquet",
+      "url": "https://github.com/Tumiqa/vn-annual-report-miner/blob/f8cad8d7d4276cd22aee20113fe3214230daf919/src/arminer/data/bctc_data/balance_sheet/HSX.parquet",
+      "kind": "snapshot",
+      "retrieved_at": "2026-10-09T06:44:20.346573Z",
+      "period": null,
+      "sha256": "11614209b73b90dec64a7e749db8ed65b0a40e865cb79a1d6e09187dba0972ba",
+      "note": "Snapshot upstream, tối đa 2025. Thời điểm công bố ban đầu chưa được xác minh; không dùng làm dữ liệu point-in-time cho backtest."
+    },
+    {
+      "id": "bctc-cash_flow-HSX",
+      "title": "BCTC đóng gói: cash_flow/HSX.parquet",
+      "url": "https://github.com/Tumiqa/vn-annual-report-miner/blob/f8cad8d7d4276cd22aee20113fe3214230daf919/src/arminer/data/bctc_data/cash_flow/HSX.parquet",
+      "kind": "snapshot",
+      "retrieved_at": "2026-10-09T06:44:20.428304Z",
+      "period": null,
+      "sha256": "e4420f10ca57170de85c1ad2c2c6991ac64c11a2f326a5cc4a90263308625b16",
+      "note": "Snapshot upstream, tối đa 2025. Thời điểm công bố ban đầu chưa được xác minh; không dùng làm dữ liệu point-in-time cho backtest."
+    },
+    {
+      "id": "bctc-income_statement-HSX",
+      "title": "BCTC đóng gói: income_statement/HSX.parquet",
+      "url": "https://github.com/Tumiqa/vn-annual-report-miner/blob/f8cad8d7d4276cd22aee20113fe3214230daf919/src/arminer/data/bctc_data/income_statement/HSX.parquet",
+      "kind": "snapshot",
+      "retrieved_at": "2026-10-09T06:44:20.479354Z",
+      "period": null,
+      "sha256": "5c9c7061440150930caf84ef74f4390bdb6d70e1eb6bf55153cf2161e625c609",
+      "note": "Snapshot upstream, tối đa 2025. Thời điểm công bố ban đầu chưa được xác minh; không dùng làm dữ liệu point-in-time cho backtest."
+    },
+    {
+      "id": "market",
+      "title": "Giá giả lập có hạt giống cố định",
+      "url": "urn:demo:synthetic-prices",
+      "kind": "synthetic",
+      "retrieved_at": "2026-10-09T06:44:20.108962Z",
+      "period": null,
+      "sha256": null,
+      "note": "Không dùng để quyết định đầu tư"
+    },
+    {
+      "id": "macro-FP-CPI-TOTL-ZG",
+      "title": "Lạm phát CPI",
+      "url": "urn:demo:macro",
+      "kind": "synthetic",
+      "retrieved_at": "2026-10-09T06:44:20.110962Z",
+      "period": "2025",
+      "sha256": null,
+      "note": "Chuỗi năm; không thay thế dữ liệu tháng/quý hay lãi suất điều hành. Vintage công bố lịch sử chưa xác minh."
+    },
+    {
+      "id": "macro-NE-EXP-GNFS-ZS",
+      "title": "Xuất khẩu hàng hóa và dịch vụ / GDP",
+      "url": "urn:demo:macro",
+      "kind": "synthetic",
+      "retrieved_at": "2026-10-09T06:44:20.110962Z",
+      "period": "2025",
+      "sha256": null,
+      "note": "Chuỗi năm; không thay thế dữ liệu tháng/quý hay lãi suất điều hành. Vintage công bố lịch sử chưa xác minh."
+    },
+    {
+      "id": "macro-NY-GDP-MKTP-KD-ZG",
+      "title": "Tăng trưởng GDP thực",
+      "url": "urn:demo:macro",
+      "kind": "synthetic",
+      "retrieved_at": "2026-10-09T06:44:20.110962Z",
+      "period": "2025",
+      "sha256": null,
+      "note": "Chuỗi năm; không thay thế dữ liệu tháng/quý hay lãi suất điều hành. Vintage công bố lịch sử chưa xác minh."
+    },
+    {
+      "id": "bctc-balance_sheet-HNX",
+      "title": "BCTC đóng gói: balance_sheet/HNX.parquet",
+      "url": "https://github.com/Tumiqa/vn-annual-report-miner/blob/f8cad8d7d4276cd22aee20113fe3214230daf919/src/arminer/data/bctc_data/balance_sheet/HNX.parquet",
+      "kind": "snapshot",
+      "retrieved_at": "2026-10-09T06:44:20.199493Z",
+      "period": null,
+      "sha256": "fbf6c8a2d97b134f942383950ff3598fb778a65fd146b963dfe61d76d83906f7",
+      "note": "Snapshot upstream, tối đa 2025. Thời điểm công bố ban đầu chưa được xác minh; không dùng làm dữ liệu point-in-time cho backtest."
+    },
+    {
+      "id": "bctc-cash_flow-HNX",
+      "title": "BCTC đóng gói: cash_flow/HNX.parquet",
+      "url": "https://github.com/Tumiqa/vn-annual-report-miner/blob/f8cad8d7d4276cd22aee20113fe3214230daf919/src/arminer/data/bctc_data/cash_flow/HNX.parquet",
+      "kind": "snapshot",
+      "retrieved_at": "2026-10-09T06:44:20.388304Z",
+      "period": null,
+      "sha256": "044f8140a717bd71cd0e721747eda3a6cbf952860c9276ef559680f429e3cca6",
+      "note": "Snapshot upstream, tối đa 2025. Thời điểm công bố ban đầu chưa được xác minh; không dùng làm dữ liệu point-in-time cho backtest."
+    },
+    {
+      "id": "bctc-income_statement-HNX",
+      "title": "BCTC đóng gói: income_statement/HNX.parquet",
+      "url": "https://github.com/Tumiqa/vn-annual-report-miner/blob/f8cad8d7d4276cd22aee20113fe3214230daf919/src/arminer/data/bctc_data/income_statement/HNX.parquet",
+      "kind": "snapshot",
+      "retrieved_at": "2026-10-09T06:44:20.447302Z",
+      "period": null,
+      "sha256": "5fbb62aac5150fb1b8d63d1384adf1f46fd1eca215ad5fa4748399096aba7341",
+      "note": "Snapshot upstream, tối đa 2025. Thời điểm công bố ban đầu chưa được xác minh; không dùng làm dữ liệu point-in-time cho backtest."
+    },
+    {
+      "id": "news-2207fa207a25d3e3",
+      "title": "Minh họa: FPT và kế hoạch công nghệ",
+      "url": "urn:demo:news",
+      "kind": "synthetic",
+      "retrieved_at": "2026-10-09T06:44:21.165768Z",
+      "period": "2026-10-09",
+      "sha256": null,
+      "note": "Nhận diện chủ đề bằng từ khóa; không suy ra tâm lý tích cực/tiêu cực hay khuyến nghị từ tần suất từ."
+    }
+  ],
+  "issues": [
+    {
+      "code": "SNAPSHOT_PROVENANCE",
+      "message": "BCTC kế thừa là snapshot tối đa 2025; chưa đối chiếu độc lập báo cáo công bố và thời điểm công bố. Không dùng cho backtest point-in-time.",
+      "severity": "warning",
+      "component": "financial"
+    },
+    {
+      "code": "DEMO_DATA",
+      "message": "Giá, tin và vĩ mô ở chế độ demo là giả lập; BCTC vẫn là snapshot kế thừa.",
+      "severity": "info",
+      "component": "report"
+    }
+  ],
+  "opportunities": [
+    "Doanh thu/tổng thu nhập hoạt động tăng 11.6% năm 2025; cần đối chiếu tính bền vững và nguyên nhân tăng trưởng.",
+    "ROE bình quân đạt 28.3%; dùng bảng ngành cùng năm để đánh giá vị thế tương đối."
+  ],
+  "risks": [
+    "Bội số định giá là giả định người dùng, không phải cam kết lợi nhuận.",
+    "Thay đổi vốn, cổ tức, chia tách và báo cáo điều chỉnh có thể ảnh hưởng so sánh; cần kiểm tra nguồn trước khi sử dụng."
+  ],
+  "ai": {
+    "status": "disabled",
+    "claims": [],
+    "note": "AI chỉ bật khi người dùng yêu cầu và cấu hình khóa riêng."
+  },
+  "jev": {
+    "status": "disabled",
+    "note": "Jev chưa được yêu cầu."
+  }
+}

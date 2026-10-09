@@ -6,6 +6,7 @@ TV1 quản lý `src/vnresearch/domain/models.py`. Thay contract phải cập nh�
 
 - `POST /api/uploads/{prices|macro|news}`: multipart `file`, CSV UTF-8 tối đa 2 MB; trả `{id,kind,bytes}`.
 - `POST /api/jobs`: JSON `AnalysisRequest`; trả 202 và `{id,token,status}`. 202 chỉ xác nhận xếp tác vụ.
+- `AnalysisRequest.use_ai` và `use_jev` mặc định `false`; bật độc lập cho LLM và Jev. `GET /api/capabilities` trả `llm_configured`, `jev_configured` theo sự hiện diện của key; không trả key và không kiểm tra thông tin xác thực live.
 - `GET /api/jobs/{id}`: header `X-Job-Token`; khi hoàn tất có `report`. Phân biệt `job.status=completed` với `report.status=partial`.
 - `GET /api/jobs/{id}/files/{report.pdf|report.json|manifest.json}`: cùng token; chỉ tải khi tác vụ đã hoàn tất.
 - Nếu cấu hình API key, mọi API nghiệp vụ còn cần `X-API-Key`. Không truyền key AI xuống trình duyệt.
@@ -30,7 +31,7 @@ Ngày đầy đủ `YYYY-MM-DD` hoặc datetime ISO. Không gán ngày từ mộ
 
 ## Report và nguồn
 
-`Report`: request, ticker, company_name, sector_name, status, decision, financial_years, sections, news, sources, issues, opportunities, risks, ai.
+`Report`: request, ticker, company_name, sector_name, status, decision, financial_years, sections, news, sources, issues, opportunities, risks, ai, jev.
 
 `Source`: id, title, url, kind, retrieved_at, period, sha256, note. `kind` gồm `snapshot/live/synthetic/user_supplied`. Mọi `source_ids` của section/metric/tin phải tồn tại. Việc nguồn tồn tại không tự chứng minh nội dung suy luận đúng; TV5 kiểm chứng lập luận.
 
@@ -41,7 +42,17 @@ Ngày đầy đủ `YYYY-MM-DD` hoặc datetime ISO. Không gán ngày từ mộ
 - TV2: `load_raw(tickers,start,end) -> (DataFrame,list[Source])`; `extract_facts(raw,ticker) -> list[dict]`; `load_prices(...) -> (DataFrame,list[Source],Section)`.
 - TV3: `load_macro(...) -> (list[Source],Section)`; `compare_sector(...) -> (list[Source],Section)`.
 - TV4: `load_news(...) -> (list[NewsArticle],list[Source],Section)`; `inspect_document(...) -> dict` có số trang và hash.
-- TV5: `analyze(AnalysisRequest,input_paths,progress) -> Report`; AI chỉ tổng hợp bằng chứng đã có.
+- TV5: `analyze(AnalysisRequest,input_paths,progress) -> Report`; `synthesize(Report) -> dict` ghi kết quả LLM vào `Report.ai`; `evaluate(Report) -> dict` ghi kết quả Jev vào `Report.jev`. TV2 cấp số liệu, TV3 cấp vĩ mô/ngành, TV4 cấp nguồn; AI chỉ dùng bằng chứng đã có.
 - TV6: `export_report(Report,directory) -> manifest`; tạo đúng PDF/JSON/hash và không gọi nguồn ngoài.
 
 Không để UI gọi trực tiếp provider hoặc tự tính lại tỷ số. Không để prompt tự thay đổi công thức định lượng.
+
+## Contract AI và cấu hình backend
+
+TV1 quản lý `LLM_BASE_URL`, `LLM_API_KEY`, `JEV_BASE_URL`, `JEV_API_KEY`; TV5 quản lý adapter/prompt và đánh giá; TV6 hiển thị trạng thái, nguồn và kết quả review. `LLM_MODEL=auto` khám phá qua `/models` trước khi gọi `/chat/completions`; provider không hỗ trợ phải đặt model cụ thể. Jev mặc định `JEV_MODEL=jev-latest`, endpoint native `/v1/systemone`; không chuyển Jev sang schema Chat Completions.
+
+- `ai`: trạng thái `disabled/unavailable/error/ok`; khi hợp lệ có model, claims `{text,source_ids}`, latency và note. Source IDs hợp lệ chưa chứng minh nội dung claim đúng.
+- `jev`: trạng thái `disabled/unavailable/error/ok`; khi hợp lệ có proposed/applied decision, confidence, probabilities, requires_review_probability, review_required, deterministic_guard, usage, latency và note. Choice giới hạn ở `insufficient_data/needs_review/watchlist/risk_caution`; Noul giữ số thực trong `[0,1]`.
+- Dữ liệu demo, báo cáo `partial` hoặc còn issues chặn việc bỏ qua review; confidence dưới `JEV_MIN_CONFIDENCE=0.85` hoặc Noul từ `0.5` áp dụng `needs_review`. Confidence không phải xác suất lợi nhuận.
+
+Test AI/Jev trong sườn là mock. TV5/TV1 phải lưu bằng chứng kiểm tra với key/model thật và TV6 kiểm tra đầu ra trước đánh dấu nghiệm thu tích hợp live. Xem [API AI](../AI_INTEGRATION.md) và [Jev](../JEV_INTEGRATION.md).

@@ -1,0 +1,128 @@
+{
+  "schema_version": "1.0.0",
+  "ticker": "FPT",
+  "mode": "demo",
+  "status": "complete",
+  "sources": [
+    {
+      "id": "bctc-balance_sheet-HSX",
+      "title": "BCTC đóng gói: balance_sheet/HSX.parquet",
+      "url": "https://github.com/Tumiqa/vn-annual-report-miner/blob/f8cad8d7d4276cd22aee20113fe3214230daf919/src/arminer/data/bctc_data/balance_sheet/HSX.parquet",
+      "kind": "snapshot",
+      "retrieved_at": "2026-10-09T06:44:20.346573Z",
+      "period": null,
+      "sha256": "11614209b73b90dec64a7e749db8ed65b0a40e865cb79a1d6e09187dba0972ba",
+      "note": "Snapshot upstream, tối đa 2025. Thời điểm công bố ban đầu chưa được xác minh; không dùng làm dữ liệu point-in-time cho backtest."
+    },
+    {
+      "id": "bctc-cash_flow-HSX",
+      "title": "BCTC đóng gói: cash_flow/HSX.parquet",
+      "url": "https://github.com/Tumiqa/vn-annual-report-miner/blob/f8cad8d7d4276cd22aee20113fe3214230daf919/src/arminer/data/bctc_data/cash_flow/HSX.parquet",
+      "kind": "snapshot",
+      "retrieved_at": "2026-10-09T06:44:20.428304Z",
+      "period": null,
+      "sha256": "e4420f10ca57170de85c1ad2c2c6991ac64c11a2f326a5cc4a90263308625b16",
+      "note": "Snapshot upstream, tối đa 2025. Thời điểm công bố ban đầu chưa được xác minh; không dùng làm dữ liệu point-in-time cho backtest."
+    },
+    {
+      "id": "bctc-income_statement-HSX",
+      "title": "BCTC đóng gói: income_statement/HSX.parquet",
+      "url": "https://github.com/Tumiqa/vn-annual-report-miner/blob/f8cad8d7d4276cd22aee20113fe3214230daf919/src/arminer/data/bctc_data/income_statement/HSX.parquet",
+      "kind": "snapshot",
+      "retrieved_at": "2026-10-09T06:44:20.479354Z",
+      "period": null,
+      "sha256": "5c9c7061440150930caf84ef74f4390bdb6d70e1eb6bf55153cf2161e625c609",
+      "note": "Snapshot upstream, tối đa 2025. Thời điểm công bố ban đầu chưa được xác minh; không dùng làm dữ liệu point-in-time cho backtest."
+    },
+    {
+      "id": "market",
+      "title": "Giá giả lập có hạt giống cố định",
+      "url": "urn:demo:synthetic-prices",
+      "kind": "synthetic",
+      "retrieved_at": "2026-10-09T06:44:20.108962Z",
+      "period": null,
+      "sha256": null,
+      "note": "Không dùng để quyết định đầu tư"
+    },
+    {
+      "id": "macro-FP-CPI-TOTL-ZG",
+      "title": "Lạm phát CPI",
+      "url": "urn:demo:macro",
+      "kind": "synthetic",
+      "retrieved_at": "2026-10-09T06:44:20.110962Z",
+      "period": "2025",
+      "sha256": null,
+      "note": "Chuỗi năm; không thay thế dữ liệu tháng/quý hay lãi suất điều hành. Vintage công bố lịch sử chưa xác minh."
+    },
+    {
+      "id": "macro-NE-EXP-GNFS-ZS",
+      "title": "Xuất khẩu hàng hóa và dịch vụ / GDP",
+      "url": "urn:demo:macro",
+      "kind": "synthetic",
+      "retrieved_at": "2026-10-09T06:44:20.110962Z",
+      "period": "2025",
+      "sha256": null,
+      "note": "Chuỗi năm; không thay thế dữ liệu tháng/quý hay lãi suất điều hành. Vintage công bố lịch sử chưa xác minh."
+    },
+    {
+      "id": "macro-NY-GDP-MKTP-KD-ZG",
+      "title": "Tăng trưởng GDP thực",
+      "url": "urn:demo:macro",
+      "kind": "synthetic",
+      "retrieved_at": "2026-10-09T06:44:20.110962Z",
+      "period": "2025",
+      "sha256": null,
+      "note": "Chuỗi năm; không thay thế dữ liệu tháng/quý hay lãi suất điều hành. Vintage công bố lịch sử chưa xác minh."
+    },
+    {
+      "id": "bctc-balance_sheet-HNX",
+      "title": "BCTC đóng gói: balance_sheet/HNX.parquet",
+      "url": "https://github.com/Tumiqa/vn-annual-report-miner/blob/f8cad8d7d4276cd22aee20113fe3214230daf919/src/arminer/data/bctc_data/balance_sheet/HNX.parquet",
+      "kind": "snapshot",
+      "retrieved_at": "2026-10-09T06:44:20.199493Z",
+      "period": null,
+      "sha256": "fbf6c8a2d97b134f942383950ff3598fb778a65fd146b963dfe61d76d83906f7",
+      "note": "Snapshot upstream, tối đa 2025. Thời điểm công bố ban đầu chưa được xác minh; không dùng làm dữ liệu point-in-time cho backtest."
+    },
+    {
+      "id": "bctc-cash_flow-HNX",
+      "title": "BCTC đóng gói: cash_flow/HNX.parquet",
+      "url": "https://github.com/Tumiqa/vn-annual-report-miner/blob/f8cad8d7d4276cd22aee20113fe3214230daf919/src/arminer/data/bctc_data/cash_flow/HNX.parquet",
+      "kind": "snapshot",
+      "retrieved_at": "2026-10-09T06:44:20.388304Z",
+      "period": null,
+      "sha256": "044f8140a717bd71cd0e721747eda3a6cbf952860c9276ef559680f429e3cca6",
+      "note": "Snapshot upstream, tối đa 2025. Thời điểm công bố ban đầu chưa được xác minh; không dùng làm dữ liệu point-in-time cho backtest."
+    },
+    {
+      "id": "bctc-income_statement-HNX",
+      "title": "BCTC đóng gói: income_statement/HNX.parquet",
+      "url": "https://github.com/Tumiqa/vn-annual-report-miner/blob/f8cad8d7d4276cd22aee20113fe3214230daf919/src/arminer/data/bctc_data/income_statement/HNX.parquet",
+      "kind": "snapshot",
+      "retrieved_at": "2026-10-09T06:44:20.447302Z",
+      "period": null,
+      "sha256": "5fbb62aac5150fb1b8d63d1384adf1f46fd1eca215ad5fa4748399096aba7341",
+      "note": "Snapshot upstream, tối đa 2025. Thời điểm công bố ban đầu chưa được xác minh; không dùng làm dữ liệu point-in-time cho backtest."
+    },
+    {
+      "id": "news-2207fa207a25d3e3",
+      "title": "Minh họa: FPT và kế hoạch công nghệ",
+      "url": "urn:demo:news",
+      "kind": "synthetic",
+      "retrieved_at": "2026-10-09T06:44:21.165768Z",
+      "period": "2026-10-09",
+      "sha256": null,
+      "note": "Nhận diện chủ đề bằng từ khóa; không suy ra tâm lý tích cực/tiêu cực hay khuyến nghị từ tần suất từ."
+    }
+  ],
+  "files": {
+    "report.json": {
+      "sha256": "bc09cd42361a55d6e1cafb34a20e34c7feaec3548d2bfa6c9bfc2d28edf54575",
+      "bytes": 42737
+    },
+    "report.pdf": {
+      "sha256": "cdc5899c4c82ebe90bd1d85df9dbd7fa8d5503592e7759f25b4471ae49c86374",
+      "bytes": 38399
+    }
+  }
+}

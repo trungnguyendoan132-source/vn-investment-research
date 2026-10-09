@@ -15,6 +15,7 @@
 | PDF theo nhu cầu | Tùy chọn mục, tiếng Việt, biểu đồ, nguồn, JSON/manifest | TV6 | Nội dung bám lựa chọn; PDF đọc được, không mất chữ/tràn bảng, có ngày chốt và nguồn chứng minh kết luận. |
 | Chính xác dữ liệu | Check schema, đơn vị, ngày, null và source IDs | TV2 + TV4 | Báo cáo đối chiếu nguồn thật; lỗi nguồn không thành số 0; cập nhật/điều chỉnh được theo dõi. |
 | Chính xác phân tích | Công thức riêng, test hồi quy, AI bị ràng buộc | TV5 | Kiểm tra số học và định nghĩa; đánh giá AI trên bằng chứng thật; người review xác nhận lập luận được nguồn hỗ trợ. |
+| LLM + Jev API | LLM Chat Completions, model auto; Jev native `/v1/systemone` Choice/Noul, điều kiện review, test mock | TV5 + TV1 | Hai bộ URL/key riêng hoạt động bằng tài khoản nhóm; lưu provider/model, usage/thời gian và claim → nguồn; thử đa mã/đa ngành; Jev không bỏ qua demo/thiếu dữ liệu. Chưa có bằng chứng xác thực live trong sườn. |
 | Vận hành và sáng tạo | Web, tùy chọn nhu cầu, job token, SQLite, PDF có chứng cứ | TV1 + TV6 | Demo người dùng từ đầu đến cuối, nhiều tác vụ không ghi đè, khởi động lại rõ trạng thái, tài liệu vận hành và trải nghiệm hoàn chỉnh. |
 
 ## Bộ nghiệm thu bắt buộc
@@ -24,7 +25,7 @@
 3. Kiểm tra thiếu năm trước, CAPEX, EPS, giá, tin, dữ liệu ngành và lỗi nhà cung cấp. Đầu ra phải phân biệt thiếu dữ liệu với bằng không.
 4. Kiểm tra ngày chốt, dữ liệu công bố sau ngày chốt và corporate actions. Không coi snapshot hiện tại là point-in-time lịch sử.
 5. Chạy luồng Web chọn nhu cầu → xem kết quả → tải PDF/JSON; kiểm tra PDF thật và manifest.
-6. Chạy với AI tắt, thiếu khóa, phản hồi lỗi, JSON sai, nguồn giả và model thật. Ghi rõ kết quả nào là mock, kết quả nào là live.
+6. Chạy LLM/Jev tắt, riêng từng dịch vụ và cùng bật; thiếu khóa, phản hồi lỗi, JSON sai, nguồn giả, model discovery và model thật. Dùng `LLM_BASE_URL`, `LLM_API_KEY`, `JEV_BASE_URL`, `JEV_API_KEY`; mặc định `LLM_MODEL=auto` và Jev `/v1/systemone`. Ghi rõ kết quả nào là mock, kết quả nào là live; không suy tính hợp lệ của key từ trạng thái đã cấu hình.
 7. Mỗi yêu cầu được đánh dấu đạt chỉ khi có hiện vật/bằng chứng tương ứng. Không dùng HTTP 200, test mock hay lời AI tự báo thành công làm nghiệm thu toàn hệ thống.
 
 ## Chốt bài nộp

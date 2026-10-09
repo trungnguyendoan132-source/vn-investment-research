@@ -38,10 +38,10 @@ Linux/macOS: thay đường dẫn Python trong `.venv\Scripts` bằng `.venv/bin
 - Vĩ mô: adapter World Bank theo năm và CSV có nguồn. Ngành: so sánh doanh nghiệp cùng phân ngành, cùng kỳ, dùng trung vị và số lượng dữ liệu thực.
 - Tin và tài liệu: kế thừa bộ thu thập tin, xác nhận doanh nghiệp, khai phá từ khóa và trích đoạn; chỉ nhận bài có ngày hợp lệ. CLI `inspect-pdf` trích bằng chứng theo trang và đánh dấu trang scan cần OCR.
 - Định giá: P/E theo EPS năm, P/B khi có số cổ phiếu lưu hành kèm nguồn; giá kịch bản từ bội số người dùng nhập. Không tự suy số cổ phiếu từ vốn điều lệ.
-- API AI: LLM tương thích Chat Completions + Jev TypeSafe native /v1/systemone; endpoint tương thích Chat Completions, khóa riêng trong môi trường; đầu ra JSON được kiểm tra mã nguồn và chặn số liệu AI tự đưa vào phần diễn giải.
+- API AI: LLM tương thích Chat Completions và Jev TypeSafe native `/v1/systemone`, mỗi dịch vụ dùng URL/key riêng trong môi trường. LLM kiểm tra JSON/source IDs và chặn chữ số trong diễn giải; Jev kiểm tra Choice/Noul rồi áp dụng điều kiện review của ứng dụng.
 - PDF tiếng Việt, biểu đồ doanh thu, danh mục nguồn; JSON đầy đủ và manifest SHA-256.
 - Tác vụ có UUID, token truy cập riêng, SQLite lưu tiến độ; khởi động lại đánh dấu tác vụ dở dang. Không nhận đường dẫn file máy chủ qua API.
-- CI Windows/Linux, test hồi quy, contract dữ liệu và quy trình ghép nhánh.
+- Mẫu CI Windows/Linux sẵn ở `docs/ci/github-actions.yml`, test hồi quy, contract dữ liệu và quy trình ghép nhánh. Workflow GitHub Actions chưa được bật/chạy.
 
 ## Phân công 6 thành viên
 
@@ -82,10 +82,12 @@ Các việc dưới đây là **backlog bắt buộc trước nghiệm thu bài 
 3. **Ngành (TV3 + TV5):** peer group có lý do lựa chọn, động lực/chu kỳ ngành và chỉ tiêu riêng; không so trực tiếp tỷ số ngân hàng với sản xuất.
 4. **Cơ hội đầu tư (TV5):** định giá theo mô hình phù hợp từng ngành, bội số có căn cứ, kịch bản tăng/giảm, độ nhạy, catalyst và rủi ro. Nhận định phải gắn với bằng chứng, giả định và thời hạn.
 5. **Tin và tài liệu (TV4):** cập nhật nguồn hoạt động, kiểm tra đúng doanh nghiệp/ngày, đọc báo cáo CTCK khi nguồn được sử dụng, OCR trang scan và trích đúng trang. Tin không rõ ngày không được gán vào kỳ phân tích.
-6. **AI (TV5 + TV1):** cấu hình nhà cung cấp/model thật, kiểm tra trên đa mã/đa ngành, giới hạn chi phí, đánh giá hỗ trợ của nguồn cho từng lập luận, prompt injection và lỗi nhà cung cấp. Test mô phỏng không chứng minh chất lượng model thật.
+6. **LLM + Jev (TV5 + TV1):** cấu hình riêng URL/key/model của hai dịch vụ, kiểm tra trên đa mã/đa ngành, giới hạn chi phí, đánh giá hỗ trợ của nguồn cho từng lập luận và quyết định review, prompt injection và lỗi nhà cung cấp. Test mô phỏng không chứng minh chất lượng model thật.
 7. **PDF và vận hành (TV6 + TV1):** báo cáo theo nhu cầu có đủ vĩ mô → ngành → doanh nghiệp → cơ hội/rủi ro, biểu đồ đúng đơn vị, nguồn dẫn và ngày chốt. Kiểm tra PDF thực, luồng tải file, đồng thời nhiều tác vụ và phục hồi sau dừng tiến trình.
 
 Ma trận đầy đủ và điều kiện đạt: [REQUIREMENTS](docs/REQUIREMENTS.md). Giao diện dữ liệu chung: [CONTRACTS](docs/contracts/README.md). Quy trình làm chung: [CONTRIBUTING](CONTRIBUTING.md).
+
+**Bật CI (TV1):** sao chép `docs/ci/github-actions.yml` thành `.github/workflows/ci.yml`, commit và push bằng thông tin xác thực có quyền `workflow`. Bản bàn giao chỉ chứa mẫu; chỉ ghi CI đạt sau khi xem kết quả workflow thật. Các thành viên vẫn chạy pytest/ruff trên máy mình trước PR.
 
 ## LLM + Jev - điền cấu hình của nhóm
 
@@ -105,6 +107,8 @@ JEV_API_KEY=
 - LLM không tự tính tỷ số. Jev không được ghi đè kiểm tra dữ liệu thiếu/demo; quyết định có confidence thấp hoặc cần đối chiếu đi vào review. Không có thao tác đặt lệnh giao dịch.
 - Chạy CLI với cả hai: `vnresearch report --ticker FPT --mode snapshot --ai --jev --output var/FPT`.
 - Cả hai có timeout, kiểm tra schema, không tự retry lời gọi tính phí. Test hợp đồng hiện dùng mock; cần cấu hình key/model và kiểm tra nguồn thật trước khi nghiệm thu live.
+
+Các mặc định trong `.env.example`: `LLM_MODEL=auto`, `JEV_MODEL=jev-latest`, `JEV_MIN_CONFIDENCE=0.85`. Việc Web phát hiện key chỉ xác nhận đã điền cấu hình; chưa xác nhận key hợp lệ, model tương thích hoặc API hoạt động. Sườn được bàn giao chưa có kết quả kiểm tra bằng thông tin xác thực live của nhóm.
 
 Chi tiết: [API AI và Jev](docs/AI_INTEGRATION.md), [tích hợp Jev native](docs/JEV_INTEGRATION.md). Nguồn hợp đồng: [OpenAI Chat Completions](https://developers.openai.com/api/reference/resources/chat/subresources/completions/methods/create), [TypeSafe OpenAPI chính thức](https://api.typesafe.ai/openapi.json).
 
@@ -139,6 +143,7 @@ src/vnresearch/
 tests/            hồi quy, contract, API, AI, PDF
 docs/team/        6 gói công việc, bàn giao và nghiệm thu
 docs/contracts/   giao diện module và định dạng dữ liệu
+docs/ci/          mẫu GitHub Actions để TV1 bật
 third_party/      giấy phép và manifest kế thừa
-.github/          CI và mẫu pull request
+.github/          mẫu pull request
 ```
