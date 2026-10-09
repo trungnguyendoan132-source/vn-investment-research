@@ -1,27 +1,285 @@
 <!doctype html>
 <html lang="vi">
-<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>VN Equity Lab</title><link rel="stylesheet" href="/static/style.css"></head>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>VN Equity Lab · Hệ thống Phân tích Cơ hội Đầu tư Cổ phiếu</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
 <body>
-<header><a class="brand" href="/">VN<span>EQUITY</span>LAB</a><span class="tag">Dữ liệu → Bằng chứng → Phân tích</span><a href="/docs" target="_blank" rel="noopener">API Docs ↗</a></header>
+<header>
+  <a class="brand" href="/">VN<span>EQUITY</span>LAB</a>
+  <span class="tag">Vĩ mô → Ngành → Doanh nghiệp → Báo cáo PDF</span>
+  <a href="/docs" target="_blank" rel="noopener">Tài liệu API ↗</a>
+</header>
 <main>
-<section class="hero"><div class="eyebrow">KHÔNG GIAN PHÂN TÍCH CỔ PHIẾU VIỆT NAM</div><h1>Nhìn toàn cảnh.<br><em>Đọc sâu từng cổ phiếu.</em></h1><p>Kết nối vĩ mô, ngành, doanh nghiệp và tin tức trong một báo cáo có nguồn. Chọn nội dung, kiểm tra chất lượng và xuất PDF.</p></section>
-<div class="layout"><aside class="panel"><h2>Tạo báo cáo</h2><form id="analysisForm">
-<label>Mã cổ phiếu<input id="ticker" value="FPT" maxlength="10" required list="companies" autocomplete="off"><datalist id="companies"></datalist></label>
-<label>Nguồn dữ liệu<select id="mode"><option value="live">Tự động lấy nguồn thật và tạo báo cáo</option><option value="snapshot">Nguồn đã lưu + CSV tùy chọn</option><option value="demo">Demo minh họa, chạy offline</option></select></label>
-<label>Ngày chốt<input id="asOf" type="date" required></label>
-<div class="pair"><label>Từ năm<input id="startYear" type="number" value="2021" min="2000" required></label><label>Đến năm<input id="endYear" type="number" value="2025" min="2000" required></label></div>
-<label>Hồ sơ phân tích<select id="risk"><option value="balanced">Cân bằng</option><option value="conservative">Thận trọng</option><option value="growth">Tăng trưởng</option></select></label>
-<label>Tầm nhìn (tháng)<input id="horizon" type="number" value="12" min="1" max="60"></label>
-<label>P/E kịch bản (tùy chọn)<input id="targetPe" type="number" step="0.1" min="0.1" max="100" placeholder="Tự nhập giả định có căn cứ"></label>
-<fieldset><legend>Nội dung báo cáo</legend><div class="checks"><label><input type="checkbox" name="section" value="macro" checked> Vĩ mô</label><label><input type="checkbox" name="section" value="sector" checked> Ngành</label><label><input type="checkbox" name="section" value="financial" checked> Doanh nghiệp</label><label><input type="checkbox" name="section" value="market" checked> Giao dịch</label><label><input type="checkbox" name="section" value="news" checked> Tin tức</label><label><input type="checkbox" name="section" value="valuation" checked> Định giá</label></div></fieldset>
-<details><summary>Nhập CSV có nguồn</summary><label>Giá & khối lượng<input id="pricesFile" type="file" accept=".csv"></label><label>Vĩ mô<input id="macroFile" type="file" accept=".csv"></label><label>Tin doanh nghiệp<input id="newsFile" type="file" accept=".csv"></label><p class="muted">Định dạng cột ở README và docs/contracts. Giới hạn mỗi tệp 2 MB.</p></details>
-<label class="check"><input id="useAi" type="checkbox"> Tổng hợp bằng API AI</label><p class="muted">AI dùng khóa cấu hình trên máy chủ, có thể phát sinh phí. Số liệu luôn do bộ tính riêng xử lý.</p>
-<label class="check"><input id="useJev" type="checkbox"> Jev / TypeSafe AI đánh giá quyết định</label><p class="muted">Jev trả quyết định có cấu trúc và confidence; dữ liệu thiếu vẫn phải qua review.</p>
-<details><summary>Khóa truy cập máy chủ</summary><input id="apiKey" type="password" placeholder="Chỉ cần khi máy chủ yêu cầu API key" autocomplete="off"></details>
-<button id="submit" type="submit">Phân tích & tạo PDF <span>→</span></button><div id="error" class="error" role="alert"></div>
-</form></aside>
-<section id="workspace"><div id="progress" class="panel hidden" aria-live="polite"><div class="progress-top"><strong id="phase">Đang chuẩn bị</strong><span id="percent">0%</span></div><progress id="progressBar" max="100" value="0"></progress></div>
-<div id="welcome" class="panel welcome"><div class="orbit">↗</div><h2>Nhập mã. Hệ thống xử lý phần còn lại.</h2><p>Giá, vĩ mô, tin và filing có nguồn được lấy tự động; LLM/Jev dùng cấu hình backend. Nguồn lỗi hoặc chưa kiểm chứng được ghi rõ trong PDF. Không cần upload CSV để bắt đầu.</p><div class="pill-row"><span>Nguồn tự động</span><span>Bằng chứng theo số</span><span>PDF tiếng Việt</span><span>LLM + Jev</span></div></div>
-<div id="result" class="hidden"><div class="panel result-head"><div><div id="resultMeta" class="eyebrow"></div><h2 id="companyName"></h2><p id="decision"></p></div><div class="downloads"><button data-file="report.pdf">Tải PDF</button><button data-file="report.json" class="secondary">JSON</button><button data-file="manifest.json" class="secondary">Bằng chứng</button></div></div><div id="sections"></div><div class="panel"><h2>Chất lượng & giới hạn</h2><ul id="issues"></ul></div><div class="panel"><h2>Tổng hợp AI</h2><div id="aiResult"></div></div></div>
-</section></div></main><footer>VN Equity Lab · Khung sản phẩm nhóm 6 thành viên · Mỗi kết luận cần có bằng chứng.</footer>
-<script src="/static/app.js" defer></script></body></html>
+  <section class="hero">
+    <div class="eyebrow">HỆ THỐNG PHÂN TÍCH CƠ HỘI ĐẦU TƯ CỔ PHIẾU · NHÓM 4</div>
+    <h1>Nhìn toàn cảnh vĩ mô.<br><em>Định giá sâu từng cổ phiếu.</em></h1>
+    <p>Tổng hợp dữ liệu vĩ mô, ngành, báo cáo tài chính, giao dịch và tin doanh nghiệp theo các nguồn hiện có. Chọn nội dung cần xem và xuất báo cáo PDF, JSON cùng manifest truy vết.</p>
+  </section>
+
+  <div class="layout">
+    <!-- Cột trái: Form điều khiển -->
+    <aside class="panel">
+      <h2>Thiết lập phân tích</h2>
+      <form id="analysisForm">
+        <label>Mã cổ phiếu
+          <input id="ticker" value="FPT" maxlength="10" required list="companies" autocomplete="off" placeholder="Ví dụ: FPT, FMC, VCB, HPG">
+          <datalist id="companies"></datalist>
+        </label>
+
+        <div class="quick-tickers-row">
+          <span class="quick-label">Mã gợi ý:</span>
+          <button type="button" class="ticker-chip" data-ticker="FPT">FPT (CNTT)</button>
+          <button type="button" class="ticker-chip" data-ticker="FMC">FMC (Tôm/TS)</button>
+          <button type="button" class="ticker-chip" data-ticker="VCB">VCB (Ngân hàng)</button>
+          <button type="button" class="ticker-chip" data-ticker="HPG">HPG (Thép)</button>
+          <button type="button" class="ticker-chip" data-ticker="VNM">VNM (Sữa/TD)</button>
+        </div>
+
+        <label>Chế độ dữ liệu
+          <select id="mode">
+            <option value="demo">Demo minh họa, chạy offline (An toàn)</option>
+            <option value="snapshot">Snapshot đã lưu + File CSV tùy chọn</option>
+            <option value="live">Live tự động cào và cập nhật nguồn thật</option>
+          </select>
+        </label>
+
+        <label>Ngày chốt phân tích
+          <input id="asOf" type="date" required>
+        </label>
+
+        <div class="pair">
+          <label>Từ năm
+            <input id="startYear" type="number" value="2022" min="2000" required>
+          </label>
+          <label>Đến năm
+            <input id="endYear" type="number" value="2025" min="2000" required>
+          </label>
+        </div>
+
+        <label>Hồ sơ rủi ro
+          <select id="risk">
+            <option value="balanced">Cân bằng (Balanced)</option>
+            <option value="conservative">Thận trọng (Conservative)</option>
+            <option value="growth">Tăng trưởng (Growth)</option>
+          </select>
+        </label>
+
+        <label>Tầm nhìn đầu tư (tháng)
+          <input id="horizon" type="number" value="12" min="1" max="60">
+        </label>
+
+        <label>P/E kịch bản giả định (tùy chọn)
+          <input id="targetPe" type="number" step="0.1" min="0.1" max="100" placeholder="Ví dụ: 15.0 hoặc 18.5">
+        </label>
+
+        <fieldset>
+          <legend>Nội dung báo cáo theo nhu cầu</legend>
+          <div class="checks">
+            <label><input type="checkbox" name="section" value="macro" checked> Vĩ mô</label>
+            <label><input type="checkbox" name="section" value="sector" checked> Ngành</label>
+            <label><input type="checkbox" name="section" value="financial" checked> Tài chính</label>
+            <label><input type="checkbox" name="section" value="market" checked> Giao dịch</label>
+            <label><input type="checkbox" name="section" value="news" checked> Tin tức</label>
+            <label><input type="checkbox" name="section" value="valuation" checked> Định giá</label>
+          </div>
+        </fieldset>
+
+        <details>
+          <summary>Nhập file CSV bổ sung có nguồn</summary>
+          <label>Dữ liệu giá & khối lượng
+            <input id="pricesFile" type="file" accept=".csv">
+          </label>
+          <label>Dữ liệu vĩ mô bổ sung
+            <input id="macroFile" type="file" accept=".csv">
+          </label>
+          <label>Tin tức doanh nghiệp
+            <input id="newsFile" type="file" accept=".csv">
+          </label>
+          <p class="muted">Định dạng cột xem tại docs/contracts. Giới hạn 2 MB/tệp.</p>
+        </details>
+
+        <section class="provider-settings" aria-labelledby="providerSettingsTitle">
+          <h3 id="providerSettingsTitle">Kết nối LLM và Jev TypeSafe</h3>
+          <p class="muted">LLM tổng hợp luận điểm có mã nguồn. Jev đánh giá hành động nghiên cứu bằng kết quả có cấu trúc và điều kiện review; Jev không đặt lệnh giao dịch.</p>
+          <div class="provider-grid">
+            <fieldset class="provider-card">
+              <legend>LLM · Chat Completions</legend>
+              <label>Base URL
+                <input id="llmBaseUrl" type="url" value="http://localhost:61392/v1" autocomplete="url">
+              </label>
+              <label>Model
+                <input id="llmModel" value="gpt-6-luna" autocomplete="off">
+              </label>
+              <label>API key
+                <input id="llmApiKey" type="password" autocomplete="new-password" spellcheck="false" placeholder="Dán API key LLM">
+              </label>
+            </fieldset>
+            <fieldset class="provider-card">
+              <legend>Jev · TypeSafe SystemOne</legend>
+              <label>Base URL
+                <input id="jevBaseUrl" type="url" value="http://127.0.0.1:8795/v1/systemone" autocomplete="url">
+              </label>
+              <label>Model
+                <input id="jevModel" value="jev-1.13-free" autocomplete="off">
+              </label>
+              <label>API key
+                <input id="jevApiKey" type="password" autocomplete="new-password" spellcheck="false" placeholder="Dán API key Jev">
+              </label>
+            </fieldset>
+          </div>
+          <p class="provider-security">Khóa chỉ được gửi đến backend local và giữ trong RAM theo phiên; không ghi vào report, manifest hay tệp cấu hình. Tải lại trang sẽ cần nhập lại.</p>
+          <button id="saveProviderConfig" type="button" class="secondary">Lưu kết nối vào phiên</button>
+          <p id="providerConfigStatus" class="muted" role="status" aria-live="polite">Chưa nhập khóa ở giao diện. Có thể dùng cấu hình backend đã có.</p>
+        </section>
+
+        <label class="check">
+          <input id="useAi" type="checkbox"> Tổng hợp luận điểm bằng LLM AI
+        </label>
+        <p class="muted">Gọi riêng API LLM khi được chọn; số liệu và tỷ số vẫn do backend tính.</p>
+
+        <label class="check">
+          <input id="useJev" type="checkbox"> Đánh giá quyết định bằng Jev TypeSafe AI
+        </label>
+        <p class="muted">Jev SystemOne trả Choice và Noul; guard của ứng dụng có thể hạ quyết định xuống review khi dữ liệu thiếu/demo.</p>
+
+        <details>
+          <summary>Khóa API máy chủ (nếu có)</summary>
+          <input id="apiKey" type="password" placeholder="Chỉ nhập khi máy chủ yêu cầu khóa" autocomplete="off">
+        </details>
+
+        <button id="submit" type="submit">Phân tích & Tạo Báo cáo PDF <span>→</span></button>
+        <div id="error" class="error" role="alert"></div>
+      </form>
+    </aside>
+
+    <!-- Cột phải: Vùng làm việc / Kết quả -->
+    <section id="workspace">
+      <!-- Tiến độ xử lý -->
+      <div id="progress" class="panel hidden" aria-live="polite">
+        <div class="progress-top">
+          <strong id="phase">Đang chuẩn bị...</strong>
+          <span id="percent">0%</span>
+        </div>
+        <progress id="progressBar" max="100" value="0"></progress>
+      </div>
+
+      <!-- Màn hình chào -->
+      <div id="welcome" class="panel welcome">
+        <div class="orbit">📊</div>
+        <h2>Chọn mã cổ phiếu và bấm "Phân tích".</h2>
+        <p>Hệ thống tự động kích hoạt pipeline: thu thập BCTC, so sánh trung vị ngành ICB, tra cứu vĩ mô World Bank, tính toán tỷ số tài chính và xuất file PDF chuẩn format CTCK.</p>
+        <div class="pill-row">
+          <span>Khung Top-Down</span>
+          <span>BCTC theo dữ liệu có sẵn</span>
+          <span>Báo cáo PDF có nguồn</span>
+          <span>Minh bạch Nguồn dẫn</span>
+          <span>LLM & Jev AI</span>
+        </div>
+      </div>
+
+      <!-- Kết quả báo cáo -->
+      <div id="result" class="hidden">
+        <!-- Header kết quả & Nút tải -->
+        <div class="panel result-head">
+          <div class="result-title-group">
+            <div id="resultMeta" class="eyebrow"></div>
+            <h2 id="companyName"></h2>
+            <p id="decision" class="decision-lead"></p>
+          </div>
+          <div class="downloads">
+            <button data-file="report.pdf" class="btn-download-pdf">📥 Tải Báo cáo PDF</button>
+            <button data-file="report.json" class="secondary">📄 Tải JSON</button>
+            <button data-file="manifest.json" class="secondary">🛡️ Manifest (SHA-256)</button>
+          </div>
+        </div>
+
+        <!-- Thẻ KPI trạng thái & Chất lượng dữ liệu -->
+        <div class="panel kpi-panel">
+          <div class="kpi-grid">
+            <div class="kpi-card">
+              <span class="kpi-label">Trạng thái Tác vụ</span>
+              <span id="kpiJobStatus" class="kpi-badge badge-success">Hoàn tất</span>
+            </div>
+            <div class="kpi-card">
+              <span class="kpi-label">Chất lượng Dữ liệu</span>
+              <span id="kpiDataQuality" class="kpi-badge">Đang xác định</span>
+            </div>
+            <div class="kpi-card">
+              <span class="kpi-label">Chế độ phân tích</span>
+              <span id="kpiMode" class="kpi-badge badge-info">DEMO</span>
+            </div>
+            <div class="kpi-card">
+              <span class="kpi-label">Khuyến nghị sơ bộ</span>
+              <span id="kpiDecisionBadge" class="kpi-badge badge-warning">-</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Biểu đồ phân tích tài chính SVG trực quan -->
+        <div id="chartsPanel" class="panel hidden">
+          <h2>Biểu đồ phân tích trực quan</h2>
+          <div class="charts-grid">
+            <div class="chart-box">
+              <h3>Doanh thu & LNST qua các năm (tỷ VND); giá trị âm nằm dưới mốc 0</h3>
+              <div id="revenueChartSvg" class="chart-container"></div>
+            </div>
+            <div class="chart-box">
+              <h3>So sánh Vị thế với Trung vị Ngành</h3>
+              <div id="sectorBenchmarkSvg" class="chart-container"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Luận điểm cơ hội & rủi ro -->
+        <div class="panel thesis-panel">
+          <div class="thesis-grid">
+            <div class="thesis-col">
+              <h3 class="thesis-title green">✓ Cơ hội đầu tư & Luận điểm</h3>
+              <ul id="opportunitiesList" class="thesis-list"></ul>
+            </div>
+            <div class="thesis-col">
+              <h3 class="thesis-title red">⚠️ Rủi ro & Giả định cần theo dõi</h3>
+              <ul id="risksList" class="thesis-list"></ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- Các phân hệ chi tiết (Vĩ mô, Ngành, Doanh nghiệp, Giao dịch, Tin tức, Định giá) -->
+        <div id="sections"></div>
+
+        <!-- Kiểm tra chất lượng & Giới hạn dữ liệu -->
+        <div class="panel">
+          <h2>Đánh giá chất lượng dữ liệu & Giới hạn kiểm chứng</h2>
+          <ul id="issues"></ul>
+        </div>
+
+        <!-- Tổng hợp AI & Quyết định Jev -->
+        <div class="panel">
+          <h2>Tổng hợp từ AI & Đánh giá Jev TypeSafe</h2>
+          <div id="aiResult"></div>
+        </div>
+      </div>
+    </section>
+  </div>
+</main>
+
+<!-- Modal xem chi tiết nguồn bằng chứng -->
+<div id="sourceModal" class="modal-backdrop hidden">
+  <div class="modal-card">
+    <div class="modal-header">
+      <h3 id="modalSourceTitle">Chi tiết nguồn bằng chứng</h3>
+      <button type="button" id="modalClose" class="modal-close">&times;</button>
+    </div>
+    <div id="modalSourceBody" class="modal-body"></div>
+  </div>
+</div>
+
+<footer>
+  VN Equity Lab · Sản phẩm phân tích cơ hội đầu tư · Nhóm 4 · Nguồn và trạng thái kiểm chứng được hiển thị trong báo cáo.
+</footer>
+<script src="/static/app.js" defer></script>
+</body>
+</html>

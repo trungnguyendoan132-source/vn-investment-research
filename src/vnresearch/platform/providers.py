@@ -1,8 +1,11 @@
 """Provider configuration and transport policy. Callers must disable redirects."""
+from contextlib import contextmanager
+from contextvars import ContextVar
 from dataclasses import dataclass, field
 import ipaddress
 import os
 import socket
+from collections.abc import Iterator, Mapping
 from typing import Literal
 from urllib.parse import urlsplit, urlunsplit
 
@@ -10,6 +13,18 @@ from vnresearch.platform.environment import load_environment
 
 
 ProviderKind = Literal["llm", "jev"]
+ProviderConfigs = Mapping[ProviderKind, "ProviderConfig"]
+_JOB_PROVIDER_CONFIGS: ContextVar[ProviderConfigs | None] = ContextVar("job_provider_configs", default=None)
+
+
+@contextmanager
+def provider_config_context(configs: ProviderConfigs | None) -> Iterator[None]:
+    """Bind one job's provider credentials to the current worker context."""
+    token = _JOB_PROVIDER_CONFIGS.set(dict(configs) if configs is not None else None)
+    try:
+        yield
+    finally:
+        _JOB_PROVIDER_CONFIGS.reset(token)
 
 
 def endpoint_url(base: str, kind: ProviderKind = "llm") -> str:
@@ -69,6 +84,11 @@ class ProviderConfig:
 
 
 def effective_provider_config(kind: ProviderKind = "llm") -> ProviderConfig:
+    if kind not in {"llm", "jev"}:
+        raise ValueError("Unknown provider kind")
+    job_configs = _JOB_PROVIDER_CONFIGS.get()
+    if job_configs is not None and kind in job_configs:
+        return job_configs[kind]
     load_environment()
     if kind == "llm":
         base = os.getenv("LLM_BASE_URL") or os.getenv("VNRESEARCH_AI_BASE_URL") or "https://api.openai.com/v1"

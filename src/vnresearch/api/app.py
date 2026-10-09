@@ -20,7 +20,14 @@ from vnresearch.data.fundamentals import company_universe
 from vnresearch.domain.models import AnalysisRequest, Report
 from vnresearch.platform.jobs import ARTIFACT_NAMES, IdempotencyConflict, JobStore, QueueFullError, StateConflict, UploadError
 from vnresearch.platform.locking import DataDirectoryLock
-from vnresearch.platform.providers import effective_provider_config
+from vnresearch.platform.provider_sessions import (
+    ProviderSessionInput,
+    ProviderSessionStore,
+    provider_configs,
+    provider_status,
+    require_loopback_same_origin,
+)
+from vnresearch.platform.providers import effective_provider_config, provider_config_context
 from vnresearch.platform.runtime import Dispatcher, JobCancelled, progress_callback
 from vnresearch.platform.settings import ASSETS, Settings
 from vnresearch.reports.export import export_report
@@ -88,6 +95,7 @@ def create_app(settings: Settings | None = None):
         store = JobStore(settings.data_dir, max_pending=settings.max_pending)
     finally:
         instance_lock.release()
+    provider_sessions = ProviderSessionStore()
 
     def run_job(job, worker_id, stop_event):
         job_id = job["id"]
@@ -102,7 +110,9 @@ def create_app(settings: Settings | None = None):
                                 "dataset_dir": settings.dataset_dir or settings.data_dir / "financial-snapshots"}
             options = {name: path for name, path in configured_paths.items()
                        if name in parameters or accepts_keywords}
-            report = analyze(request, inputs, progress, **options)
+            selected_provider_configs = provider_sessions.for_job(job_id)
+            with provider_config_context(selected_provider_configs):
+                report = analyze(request, inputs, progress, **options)
             Report.model_validate(report.model_dump(mode="json"))
             progress("report", 95)
             directory = store.job_dir(job_id)
@@ -118,8 +128,10 @@ def create_app(settings: Settings | None = None):
                 (staging / name).replace(directory / name)
             staging.rmdir()
             store.update(job_id, "completed", "completed", 100, worker_id=worker_id, artifact_manifest=metadata)
+            provider_sessions.finish_job(job_id, retryable=False)
         except Exception as exc:
             if isinstance(exc, StateConflict):
+                provider_sessions.finish_job(job_id, retryable=False)
                 return
             if isinstance(exc, JobCancelled):
                 status = "interrupted" if stop_event.is_set() else "failed"
@@ -134,6 +146,7 @@ def create_app(settings: Settings | None = None):
                 store.update(job_id, status, status, 0, message, worker_id=worker_id, error_code=code)
             except StateConflict:
                 pass
+            provider_sessions.finish_job(job_id, retryable=status in {"failed", "interrupted"})
 
     dispatcher = Dispatcher(store, settings.workers, run_job,
                             maintenance=lambda: store.cleanup(settings.retention_days))
@@ -154,6 +167,7 @@ def create_app(settings: Settings | None = None):
 
     app = FastAPI(title="VN Equity Lab", version="0.2.0", lifespan=lifespan)
     app.state.store, app.state.settings = store, settings
+    app.state.provider_sessions = provider_sessions
     app.state.dispatcher, app.state.instance_lock = dispatcher, instance_lock
     app.add_middleware(AdmissionMiddleware, settings=settings)
 
@@ -237,8 +251,49 @@ def create_app(settings: Settings | None = None):
                               frame["Tên Doanh Nghiệp"].str.contains(query, case=False, regex=False)]
         return [{"ticker": row.ticker, "name": row["Tên Doanh Nghiệp"]} for _, row in frame.head(max(1, min(limit, 100))).iterrows()]
 
+    def provider_session_guard(request: Request):
+        try:
+            require_loopback_same_origin(request)
+        except PermissionError:
+            fail(403, "LOCAL_ONLY", "Cấu hình provider chỉ nhận yêu cầu loopback cùng origin")
+
+    @app.post("/api/provider-sessions")
+    def create_provider_session(payload: ProviderSessionInput, request: Request, owner=Depends(api_access)):
+        provider_session_guard(request)
+        try:
+            configs = provider_configs(payload)
+            session_id, ttl = provider_sessions.create(owner, configs)
+        except ValueError:
+            fail(400, "INVALID_PROVIDER_CONFIGURATION", "Cấu hình provider không hợp lệ; kiểm tra URL, model và khóa")
+        return {"id": session_id, **provider_status(configs), "expires_in_seconds": int(ttl)}
+
+    @app.get("/api/provider-sessions/{session_id}")
+    def get_provider_session(session_id: str, request: Request, owner=Depends(api_access)):
+        provider_session_guard(request)
+        try:
+            configs, ttl = provider_sessions.get_with_ttl(owner, session_id)
+        except (KeyError, UnicodeError):
+            fail(404, "PROVIDER_SESSION_NOT_FOUND", "Không tìm thấy cấu hình provider")
+        return {"id": session_id, **provider_status(configs), "expires_in_seconds": ttl}
+
+    @app.delete("/api/provider-sessions/{session_id}")
+    def delete_provider_session(session_id: str, request: Request, owner=Depends(api_access)):
+        provider_session_guard(request)
+        try:
+            provider_sessions.delete(owner, session_id)
+        except (KeyError, UnicodeError):
+            fail(404, "PROVIDER_SESSION_NOT_FOUND", "Không tìm thấy cấu hình provider")
+        return {"status": "deleted"}
+
     @app.get("/api/capabilities")
-    def capabilities(owner=Depends(api_access)):
+    def capabilities(request: Request, x_provider_session: str | None = Header(default=None), owner=Depends(api_access)):
+        if x_provider_session:
+            provider_session_guard(request)
+            try:
+                configs = provider_sessions.get(owner, x_provider_session)
+            except (KeyError, UnicodeError):
+                fail(404, "PROVIDER_SESSION_NOT_FOUND", "Không tìm thấy cấu hình provider")
+            return provider_status(configs)
         result = {}
         for kind in ("llm", "jev"):
             try:
@@ -275,9 +330,28 @@ def create_app(settings: Settings | None = None):
             fail(409 if exc.code == "UPLOAD_IN_USE" else 404, exc.code, str(exc))
         return {"status": "deleted"}
 
-    def accept(request, owner, idempotency_key, parent_job_id=None):
+    def accept(request, owner, idempotency_key, parent_job_id=None, provider_session_id=None):
+        selected_provider_configs = None
+        request_scope = provider_session_id
+        if provider_session_id:
+            try:
+                selected_provider_configs = provider_sessions.get(owner, provider_session_id)
+            except (KeyError, UnicodeError):
+                fail(404, "PROVIDER_SESSION_NOT_FOUND", "Không tìm thấy cấu hình provider")
+        elif parent_job_id:
+            selected_provider_configs = provider_sessions.retry_configs(parent_job_id, owner)
+            if selected_provider_configs is not None:
+                request_scope = "retry:" + parent_job_id
+
+        def bind_provider_configs(job_id):
+            if selected_provider_configs is not None:
+                provider_sessions.bind_job(job_id, owner, selected_provider_configs)
+
         try:
-            job_id, token = store.create(request.model_dump_json(), owner, idempotency_key, parent_job_id=parent_job_id)
+            job_id, token = store.create(
+                request.model_dump_json(), owner, idempotency_key, parent_job_id=parent_job_id,
+                request_scope=request_scope, on_created=bind_provider_configs,
+            )
         except QueueFullError:
             raise HTTPException(status_code=429, detail="Hàng đợi đã đủ; thử lại sau",
                                 headers={"Retry-After": "2", "X-Error-Code": "QUEUE_FULL"}) from None
@@ -291,9 +365,12 @@ def create_app(settings: Settings | None = None):
         return {"id": job_id, "token": token, "status": row["status"]}
 
     @app.post("/api/jobs", status_code=202)
-    def submit(request: AnalysisRequest, owner=Depends(api_access),
+    def submit(request: AnalysisRequest, http_request: Request,
+               x_provider_session: str | None = Header(default=None), owner=Depends(api_access),
                idempotency_key: str | None = Header(default=None)):
-        return accept(request, owner, idempotency_key)
+        if x_provider_session:
+            provider_session_guard(http_request)
+        return accept(request, owner, idempotency_key, provider_session_id=x_provider_session)
 
     @app.get("/api/jobs/{job_id}")
     def job_status(job_id: str, x_job_token: str | None = Header(default=None), owner=Depends(api_access)):
@@ -313,12 +390,16 @@ def create_app(settings: Settings | None = None):
         return store.get(job_id, x_job_token, owner)
 
     @app.post("/api/jobs/{job_id}/retry", status_code=202)
-    def retry_job(job_id: str, x_job_token: str | None = Header(default=None), owner=Depends(api_access),
+    def retry_job(job_id: str, request: Request, x_job_token: str | None = Header(default=None),
+                  x_provider_session: str | None = Header(default=None), owner=Depends(api_access),
                   idempotency_key: str | None = Header(default=None)):
+        if x_provider_session:
+            provider_session_guard(request)
         row = checked_job(job_id, x_job_token, owner)
         if row["status"] not in {"failed", "interrupted"}:
             fail(409, "JOB_NOT_RETRYABLE", "Chỉ chạy lại tác vụ thất bại hoặc bị gián đoạn")
-        return accept(AnalysisRequest.model_validate(row["request"]), owner, idempotency_key, job_id)
+        return accept(AnalysisRequest.model_validate(row["request"]), owner, idempotency_key, job_id,
+                      provider_session_id=x_provider_session)
 
     @app.get("/api/jobs/{job_id}/files/{filename}")
     def download(job_id: str, filename: str, x_job_token: str | None = Header(default=None), owner=Depends(api_access)):

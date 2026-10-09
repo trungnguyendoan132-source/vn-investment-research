@@ -5,11 +5,12 @@ TV1 quản lý `src/vnresearch/domain/models.py`. Thay contract phải cập nh�
 ## API
 
 - `POST /api/uploads/{prices|macro|news}`: multipart `file`, CSV UTF-8 tối đa 2 MB; trả `{id,kind,bytes}`.
+- `POST /api/provider-sessions`: loopback only; nếu request có Origin thì phải cùng-origin. JSON `{providers:{llm?:{base_url,api_key,model},jev?:{base_url,api_key,model}}}`; chỉ gửi provider có key khác rỗng, provider bỏ qua dùng `.env` fallback nếu có. Response `{id,llm_configured,llm_model,llm_configuration_status,jev_configured,jev_model,jev_configuration_status,expires_in_seconds}` không chứa key. Gửi `X-Provider-Session` trên capabilities/jobs; `GET /api/provider-sessions/{id}` trả status/model/TTL, `DELETE` thu hồi. Session RAM TTL 8 giờ/giới hạn 256; job snapshot RAM TTL 8 giờ/giới hạn 512, xóa sau thành công và giữ tạm cho retry.
 - `POST /api/jobs`: JSON `AnalysisRequest`; trả 202 và `{id,token,status}`. 202 chỉ xác nhận xếp tác vụ.
-- `AnalysisRequest` mặc định `live`, `use_ai=true`, `use_jev=true`. Khi chọn Demo, các flag bị bỏ qua trong yêu cầu mặc định tắt để chạy offline; flag được gửi rõ ràng vẫn giữ giá trị người dùng. `GET /api/capabilities` trả trạng thái cấu hình theo sự hiện diện của key; không trả key hoặc tự kiểm tra thông tin xác thực live.
+- `AnalysisRequest` mặc định `mode=live`, `use_ai=true`, `use_jev=true`; với `demo`, hai cờ mặc định `false` nếu không được chỉ định rõ. UI tự chọn provider có cấu hình và khóa hai checkbox ở demo. `GET /api/capabilities` chỉ báo trạng thái/model; không trả key hoặc xác thực provider live.
 - `GET /api/jobs/{id}`: header `X-Job-Token`; khi hoàn tất có `report`. Phân biệt `job.status=completed` với `report.status=partial`.
 - `GET /api/jobs/{id}/files/{report.pdf|report.json|manifest.json}`: cùng token; chỉ tải khi tác vụ đã hoàn tất.
-- Nếu cấu hình API key, mọi API nghiệp vụ còn cần `X-API-Key`. Không truyền key AI xuống trình duyệt.
+- Nếu cấu hình API key, mọi API nghiệp vụ còn cần `X-API-Key`. UI nhận key provider trong ô password để gửi một lần đến session local; backend không trả lại hoặc ghi key đó vào dữ liệu job.
 
 ## Bổ sung TV1 (1.1.0)
 
@@ -28,7 +29,7 @@ TV1 quản lý `src/vnresearch/domain/models.py`. Thay contract phải cập nh�
 
 `FinancialYear` thêm `fact_metadata` và `quality_issues`. Mỗi số cần metadata theo field; output 1.1 không tương thích với reader 1.0 có `extra=forbid`, nên các consumer phải cập nhật cùng bản contract. Reader mới vẫn đọc các report1.0 với defaultunknown. Không mặc định dùng số legacy để ra kết luận thực.
 
-LLM/Jev dùng helper URL chung: HTTPS giữ xác thực TLS; HTTP chỉ localhost được kiểm tra phân giải hoặc IP loopback. Không theo redirect khi gửi key. Explicit model được giữ nguyên; model auto chỉ dùng khi không yêu cầu model cụ thể.
+LLM/Jev dùng helper URL chung: HTTPS giữ xác thực TLS; HTTP chỉ localhost được kiểm tra phân giải hoặc IP loopback. Session endpoint chỉ nhận client loopback; nếu request có Origin thì phải cùng origin. Không theo redirect khi gửi key. Explicit model được giữ nguyên; model auto chỉ dùng khi không yêu cầu model cụ thể. KBS adapter gọi endpoint trực tiếp; `vnstock` chỉ là contract/source reference, không phải runtime dependency.
 
 ## CSV giá
 

@@ -1,5 +1,6 @@
 """SQLite queue, immutable uploads and owner-scoped job capabilities."""
 from contextlib import contextmanager
+from collections.abc import Callable
 from datetime import timedelta
 import base64
 import hashlib
@@ -133,10 +134,15 @@ class JobStore:
         )
 
     def create(self, request_json: str, owner: str = "local", idempotency_key: str | None = None,
-               *, parent_job_id: str | None = None):
+               *, parent_job_id: str | None = None, request_scope: str | None = None,
+               on_created: Callable[[str], None] | None = None):
         request = json.loads(request_json)
-        canonical = json.dumps({"request": request, "parent_job_id": parent_job_id}, sort_keys=True,
-                               ensure_ascii=False, separators=(",", ":"))
+        identity = {"request": request, "parent_job_id": parent_job_id}
+        if request_scope is not None:
+            if not isinstance(request_scope, str) or not request_scope or len(request_scope) > 256:
+                raise ValueError("Request scope is invalid")
+            identity["request_scope_hash"] = hashlib.sha256(request_scope.encode()).hexdigest()
+        canonical = json.dumps(identity, sort_keys=True, ensure_ascii=False, separators=(",", ":"))
         request_hash = hashlib.sha256(canonical.encode()).hexdigest()
         if idempotency_key is not None and (not idempotency_key or len(idempotency_key) > 200 or not idempotency_key.isascii()):
             raise ValueError("Idempotency-Key không hợp lệ")
@@ -168,6 +174,8 @@ class JobStore:
                 if kind in inputs:
                     connection.execute("INSERT INTO job_inputs VALUES(?,?,?)", (job_id, upload_id, kind))
             self._event(connection, job_id, 0, "queued", "queued", 0)
+            if on_created is not None:
+                on_created(job_id)
         return job_id, token
 
     def job_dir(self, job_id: str) -> Path:
