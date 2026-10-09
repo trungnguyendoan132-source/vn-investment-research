@@ -1,0 +1,21 @@
+name: "Bằng chứng phân tích đầu tư"
+description: "Từ khóa để trích đoạn; không phải bộ phân loại khuyến nghị đầu tư"
+categories:
+  growth:
+    description: "Kế hoạch, năng lực và tăng trưởng"
+    keywords:
+      - keyword: "tăng trưởng"
+        language: vi
+      - keyword: "chuyển đổi số"
+        language: vi
+      - keyword: "mở rộng công suất"
+        language: vi
+  risks:
+    description: "Bằng chứng rủi ro cần đọc trong ngữ cảnh"
+    keywords:
+      - keyword: "rủi ro"
+        language: vi
+      - keyword: "nợ quá hạn"
+        language: vi
+      - keyword: "kiểm toán"
+        language: vi

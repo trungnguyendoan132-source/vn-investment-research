@@ -1,0 +1,127 @@
+{
+  "captured_on": "2026-10-09",
+  "upstream_commit": "f8cad8d7d4276cd22aee20113fe3214230daf919",
+  "data": [
+    {
+      "file": "src/arminer/data/bctc_data/balance_sheet/HNX.parquet",
+      "bytes": 1704136,
+      "rows": 525891,
+      "tickers": 307,
+      "min_year": 2009,
+      "max_year": 2025,
+      "items": 311,
+      "columns": [
+        "ticker",
+        "year",
+        "exchange",
+        "statement",
+        "item_code",
+        "item_name",
+        "value",
+        "source_file",
+        "source_sheet"
+      ]
+    },
+    {
+      "file": "src/arminer/data/bctc_data/balance_sheet/HSX.parquet",
+      "bytes": 2977330,
+      "rows": 664505,
+      "tickers": 409,
+      "min_year": 2009,
+      "max_year": 2025,
+      "items": 311,
+      "columns": [
+        "ticker",
+        "year",
+        "exchange",
+        "statement",
+        "item_code",
+        "item_name",
+        "value",
+        "source_file",
+        "source_sheet"
+      ]
+    },
+    {
+      "file": "src/arminer/data/bctc_data/cash_flow/HNX.parquet",
+      "bytes": 863880,
+      "rows": 185447,
+      "tickers": 307,
+      "min_year": 2006,
+      "max_year": 2025,
+      "items": 196,
+      "columns": [
+        "ticker",
+        "year",
+        "exchange",
+        "statement",
+        "item_code",
+        "item_name",
+        "value",
+        "source_file",
+        "source_sheet"
+      ]
+    },
+    {
+      "file": "src/arminer/data/bctc_data/cash_flow/HSX.parquet",
+      "bytes": 1550841,
+      "rows": 246005,
+      "tickers": 409,
+      "min_year": 2008,
+      "max_year": 2025,
+      "items": 196,
+      "columns": [
+        "ticker",
+        "year",
+        "exchange",
+        "statement",
+        "item_code",
+        "item_name",
+        "value",
+        "source_file",
+        "source_sheet"
+      ]
+    },
+    {
+      "file": "src/arminer/data/bctc_data/income_statement/HNX.parquet",
+      "bytes": 788402,
+      "rows": 129527,
+      "tickers": 307,
+      "min_year": 2009,
+      "max_year": 2025,
+      "items": 195,
+      "columns": [
+        "ticker",
+        "year",
+        "exchange",
+        "statement",
+        "item_code",
+        "item_name",
+        "value",
+        "source_file",
+        "source_sheet"
+      ]
+    },
+    {
+      "file": "src/arminer/data/bctc_data/income_statement/HSX.parquet",
+      "bytes": 1299470,
+      "rows": 169822,
+      "tickers": 409,
+      "min_year": 2009,
+      "max_year": 2025,
+      "items": 195,
+      "columns": [
+        "ticker",
+        "year",
+        "exchange",
+        "statement",
+        "item_code",
+        "item_name",
+        "value",
+        "source_file",
+        "source_sheet"
+      ]
+    }
+  ],
+  "validation": "File readability and schema inspected; financial values and original publication dates not independently verified."
+}

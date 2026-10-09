@@ -1,0 +1,46 @@
+[build-system]
+requires = ["setuptools>=75", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "vn-investment-research"
+version = "0.1.0"
+description = "Khung sản phẩm phân tích vĩ mô, ngành và cơ hội đầu tư cổ phiếu Việt Nam cho nhóm 6 người"
+requires-python = ">=3.11"
+readme = "README.md"
+license = {text = "MIT"}
+dependencies = [
+  "fastapi>=0.115,<1", "uvicorn>=0.30,<1", "pydantic>=2.9,<3",
+  "pandas>=2.2,<4", "numpy>=1.26,<3", "pyarrow>=17,<26",
+  "requests>=2.32,<3", "PyYAML>=6,<7", "loguru>=0.7,<1",
+  "python-Levenshtein>=0.26,<1", "beautifulsoup4>=4.12,<5",
+  "trafilatura>=1.12,<3", "PyMuPDF>=1.24,<2", "reportlab>=4.2,<5",
+  "python-multipart>=0.0.12,<1", "tzdata>=2024"
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8,<10", "httpx>=0.27,<1", "ruff>=0.11,<1", "build>=1.2,<2"]
+
+[project.scripts]
+vnresearch = "vnresearch.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+vnresearch = ["static/*", "assets/*.csv", "assets/*.json", "assets/*.yaml", "assets/bctc/*/*.parquet", "assets/fonts/*.ttf", "assets/demo/*", "assets/macro/*"]
+
+[tool.setuptools.data-files]
+"share/vn-investment-research/licenses" = ["LICENSE", "third_party/vn-annual-report-miner-LICENSE", "third_party/DejaVu-LICENSE", "third_party/upstream_manifest.json"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+
+[tool.ruff]
+line-length = 110
+target-version = "py311"
+exclude = ["src/vnresearch/_vendor"]
+
+[tool.ruff.lint]
+select = ["E4", "E7", "E9", "F"]

@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="vi">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>VN Equity Lab</title><link rel="stylesheet" href="/static/style.css"></head>
+<body>
+<header><a class="brand" href="/">VN<span>EQUITY</span>LAB</a><span class="tag">Dữ liệu → Bằng chứng → Phân tích</span><a href="/docs" target="_blank" rel="noopener">API Docs ↗</a></header>
+<main>
+<section class="hero"><div class="eyebrow">KHÔNG GIAN PHÂN TÍCH CỔ PHIẾU VIỆT NAM</div><h1>Nhìn toàn cảnh.<br><em>Đọc sâu từng cổ phiếu.</em></h1><p>Kết nối vĩ mô, ngành, doanh nghiệp và tin tức trong một báo cáo có nguồn. Chọn nội dung, kiểm tra chất lượng và xuất PDF.</p></section>
+<div class="layout"><aside class="panel"><h2>Tạo báo cáo</h2><form id="analysisForm">
+<label>Mã cổ phiếu<input id="ticker" value="FPT" maxlength="10" required list="companies" autocomplete="off"><datalist id="companies"></datalist></label>
+<label>Nguồn dữ liệu<select id="mode"><option value="snapshot">BCTC snapshot + CSV của nhóm</option><option value="demo">Demo minh họa, chạy offline</option><option value="live">Live: cấu hình nguồn bên ngoài</option></select></label>
+<label>Ngày chốt<input id="asOf" type="date" required></label>
+<div class="pair"><label>Từ năm<input id="startYear" type="number" value="2021" min="2000" required></label><label>Đến năm<input id="endYear" type="number" value="2025" min="2000" required></label></div>
+<label>Hồ sơ phân tích<select id="risk"><option value="balanced">Cân bằng</option><option value="conservative">Thận trọng</option><option value="growth">Tăng trưởng</option></select></label>
+<label>Tầm nhìn (tháng)<input id="horizon" type="number" value="12" min="1" max="60"></label>
+<label>P/E kịch bản (tùy chọn)<input id="targetPe" type="number" step="0.1" min="0.1" max="100" placeholder="Tự nhập giả định có căn cứ"></label>
+<fieldset><legend>Nội dung báo cáo</legend><div class="checks"><label><input type="checkbox" name="section" value="macro" checked> Vĩ mô</label><label><input type="checkbox" name="section" value="sector" checked> Ngành</label><label><input type="checkbox" name="section" value="financial" checked> Doanh nghiệp</label><label><input type="checkbox" name="section" value="market" checked> Giao dịch</label><label><input type="checkbox" name="section" value="news" checked> Tin tức</label><label><input type="checkbox" name="section" value="valuation" checked> Định giá</label></div></fieldset>
+<details><summary>Nhập CSV có nguồn</summary><label>Giá & khối lượng<input id="pricesFile" type="file" accept=".csv"></label><label>Vĩ mô<input id="macroFile" type="file" accept=".csv"></label><label>Tin doanh nghiệp<input id="newsFile" type="file" accept=".csv"></label><p class="muted">Định dạng cột ở README và docs/contracts. Giới hạn mỗi tệp 2 MB.</p></details>
+<label class="check"><input id="useAi" type="checkbox"> Tổng hợp bằng API AI</label><p class="muted">AI dùng khóa cấu hình trên máy chủ, có thể phát sinh phí. Số liệu luôn do bộ tính riêng xử lý.</p>
+<label class="check"><input id="useJev" type="checkbox"> Jev / TypeSafe AI đánh giá quyết định</label><p class="muted">Jev trả quyết định có cấu trúc và confidence; dữ liệu thiếu vẫn phải qua review.</p>
+<details><summary>Khóa truy cập máy chủ</summary><input id="apiKey" type="password" placeholder="Chỉ cần khi máy chủ yêu cầu API key" autocomplete="off"></details>
+<button id="submit" type="submit">Phân tích & tạo PDF <span>→</span></button><div id="error" class="error" role="alert"></div>
+</form></aside>
+<section id="workspace"><div id="progress" class="panel hidden" aria-live="polite"><div class="progress-top"><strong id="phase">Đang chuẩn bị</strong><span id="percent">0%</span></div><progress id="progressBar" max="100" value="0"></progress></div>
+<div id="welcome" class="panel welcome"><div class="orbit">↗</div><h2>Bắt đầu từ một mã cổ phiếu</h2><p>Dùng chế độ Demo để kiểm tra toàn bộ luồng ngay. Với dữ liệu thật, các mục thiếu nguồn sẽ hiện rõ và báo cáo vẫn lưu bằng chứng.</p><div class="pill-row"><span>BCTC sẵn có</span><span>Phân ngành ICB</span><span>PDF tiếng Việt</span><span>API AI tùy chọn</span></div></div>
+<div id="result" class="hidden"><div class="panel result-head"><div><div id="resultMeta" class="eyebrow"></div><h2 id="companyName"></h2><p id="decision"></p></div><div class="downloads"><button data-file="report.pdf">Tải PDF</button><button data-file="report.json" class="secondary">JSON</button><button data-file="manifest.json" class="secondary">Bằng chứng</button></div></div><div id="sections"></div><div class="panel"><h2>Chất lượng & giới hạn</h2><ul id="issues"></ul></div><div class="panel"><h2>Tổng hợp AI</h2><div id="aiResult"></div></div></div>
+</section></div></main><footer>VN Equity Lab · Khung sản phẩm nhóm 6 thành viên · Mỗi kết luận cần có bằng chứng.</footer>
+<script src="/static/app.js" defer></script></body></html>

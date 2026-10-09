@@ -1,0 +1,35 @@
+{
+  "official_schema_url": "https://api.typesafe.ai/openapi.json",
+  "official_schema_sha256": "bab48d2e419f2f86758e1445525585b4b638d8c47ff792a22511577ab87696dc",
+  "checked_on": "2026-10-09",
+  "endpoint": "POST /v1/systemone",
+  "authentication": "Authorization: Bearer API_KEY",
+  "request_required": [
+    "state",
+    "model",
+    "questions"
+  ],
+  "questions_used": {
+    "research_action": "choice",
+    "requires_review": "noul"
+  },
+  "response_required": [
+    "model",
+    "answers",
+    "usage"
+  ],
+  "choice_fields": [
+    "type",
+    "choice",
+    "confidence",
+    "probabilities"
+  ],
+  "noul_fields": [
+    "type",
+    "noul"
+  ],
+  "usage_fields": [
+    "input_tokens",
+    "output_tokens"
+  ]
+}
